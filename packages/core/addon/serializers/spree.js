@@ -12,7 +12,7 @@ import DS from 'ember-data';
   });
 
   var hugh = model.create();
-  
+
   hugh.setProperties({
     firstName: "Hugh",
     lastName: "Francis"
@@ -25,8 +25,8 @@ import DS from 'ember-data';
   }
   ```
 
-  @class Spree 
-  @namespace Serializer 
+  @class Spree
+  @namespace Serializer
   @module spree-ember-core/serializers/spree
   @extends DS.ActiveModelSerializer
 */

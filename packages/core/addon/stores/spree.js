@@ -8,7 +8,7 @@ import DS from 'ember-data';
   for Rails Applications that have Spree added, but have regular endpoints that
   don't hit the Spree endpoint.
 
-  @class Spree 
+  @class Spree
   @namespace Store
   @module spree-ember-core/stores/spree
   @uses SpreeEmber.Adapter, SpreeEmber.Serializer, Ember.Evented
@@ -85,15 +85,17 @@ export default DS.Store.extend({
     Ember.assert("You need to pass a slug to the store's findBySlug method", arguments.length >= 2);
 
     var store      = this;
-    type           = this.modelFor(type);
-    var adapter    = this.adapterFor(type);
+    var model      = this.modelFor(type);
+    var adapter    = this.adapterFor(model);
     var serializer = this.serializerFor(type);
 
-    var promise = adapter.find(store, type, slug, null);
+    var promise = adapter.findRecord(store, model, 1, null);
+    // var promise = adapter.query(store, model, {slug: slug}, null);
 
     return promise.then(
       function(adapterPayload) {
-        var payload = serializer.extract(store, type, adapterPayload, slug, 'find');
+        var model = store.modelFor(type);
+        var payload = serializer.extract(store, model, adapterPayload, slug, 'find');
         return store.push(type, payload);
       },
       function(error) {
