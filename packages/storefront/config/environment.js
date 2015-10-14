@@ -2,7 +2,7 @@
 
 module.exports = function(/* environment, appConfig */) {
   return { 
-    "spree": {
+    "yebo": {
       apiHost: "http://localhost:3000",
       namespace: "api/ams",
       mount: "/",

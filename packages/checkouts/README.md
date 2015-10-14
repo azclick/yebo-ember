@@ -1,30 +1,30 @@
-# Spree Ember Checkouts
+# Yebo Ember Checkouts
 
-[![Build Status](https://travis-ci.org/hhff/spree-ember.svg?branch=master)](https://travis-ci.org/hhff/spree-ember)
-[![Join the chat at https://gitter.im/hhff/spree-ember](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hhff/spree-ember?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/azclick/yebo-ember.svg?branch=master)](https://travis-ci.org/azclick/yebo-ember)
+[![Join the chat at https://gitter.im/azclick/yebo-ember](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/azclick/yebo-ember?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Spree Ember Checkouts uses [Ember FSM]()
+Yebo Ember Checkouts uses [Ember FSM]()
 to define a Stateful Checkouts abstraction as a service for writing reactive
-single page checkout flows.  It exclusively uses the [Spree Checkouts API]()
+single page checkout flows.  It exclusively uses the [Yebo Checkouts API]()
 with an Order Serializer to transiton an order to completion, and populate the
 order's `DS.Errors` attribute when server validation fails.
 
-This addon also adds `currentOrder` session support to the central spree service.
+This addon also adds `currentOrder` session support to the central yebo service.
 
-**Note:** This Package is included with `spree-ember-storefront`.  If you're
+**Note:** This Package is included with `yebo-ember-storefront`.  If you're
 using that, there's no need to install this seperately.
 
 It uses:
-* [Spree Ember Core](http://www.spree-ember.com/core/index.html)
+* [Yebo Ember Core](http://www.yebo-ember.com/core/index.html)
 * [Ember FSM](https://github.com/heycarsten/ember-fsm)
 
 ## Installation
 
 ```bash
-ember install spree-ember-checkouts
+ember install yebo-ember-checkouts
 ```
 
-For full Spree Ember documentation, visit [http://www.spree-ember.com/](http://www.spree-ember.com).
+For full Yebo Ember documentation, visit [http://www.yebo-ember.com/](http://www.yebo-ember.com).
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
 
@@ -34,16 +34,16 @@ The `addToCart` function will create an order if one doesn't currently exist,
 and then add a variant to cart.  You can optionally pass in a quantity, too!
 
 ```javascript
-this.spree.get('currentOrder');
+this.yebo.get('currentOrder');
 // => null
 
 var _this = this;
-this.spree.addToCart(variantModel).then(function() {
-  _this.spree.get('currentOrder.state');
+this.yebo.addToCart(variantModel).then(function() {
+  _this.yebo.get('currentOrder.state');
   // => "cart"
 
-  _this.spree.clearCurrentOrder();
-  _this.spree.get('currentOrder');
+  _this.yebo.clearCurrentOrder();
+  _this.yebo.get('currentOrder');
   // => null
 });
 ```
@@ -52,7 +52,7 @@ this.spree.addToCart(variantModel).then(function() {
 
 All order state manipulation is done exclusively through the `transition` 
 function.  Under the hood, it triggers state transitions on the checkouts Finite 
-State Machine, to ensure the frontend state stays in sync with Spree's Order 
+State Machine, to ensure the frontend state stays in sync with Yebo's Order 
 State Machine.
 
 The Checkouts service is designed to allow a reactive style of programming for
@@ -61,7 +61,7 @@ trust that the internals of the State Machine will clear up and reconsolidate
 user edge cases.
 
 ```javascript
-var checkouts = this.spree.get('checkouts');
+var checkouts = this.yebo.get('checkouts');
 
 checkouts.transition().then(
   function() {
@@ -90,13 +90,13 @@ directly.
 
 ## Subscribing to Checkout Events
 
-The Spree Checkouts package also supports a event bus / callback style 
+The Yebo Checkouts package also supports a event bus / callback style 
 architecture.  This is useful for binding events to Google Analytics, and such.
 
 ```javascript
-this.spree.on('didAddToCart', function(lineItem) {
+this.yebo.on('didAddToCart', function(lineItem) {
   alert(lineItem.get('variant.name') + " added to cart!");
 });
 ```
 
-#### **For more information, please see the [spree-ember-checkouts API Documentation.](http://www.spree-ember.com/checkouts/index.html)**
+#### **For more information, please see the [yebo-ember-checkouts API Documentation.](http://www.yebo-ember.com/checkouts/index.html)**

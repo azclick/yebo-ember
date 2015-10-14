@@ -21,7 +21,7 @@ test('sanity check', function(assert) {
   visit('/');
   
   andThen(function() {
-    assert.equal(currentPath(), 'spree.index');
+    assert.equal(currentPath(), 'yebo.index');
   });
 });
 
@@ -29,7 +29,7 @@ test('products index', function(assert) {
   visit('/products');
   
   andThen(function() {
-    assert.equal(currentPath(), 'spree.products.index');
+    assert.equal(currentPath(), 'yebo.products.index');
   });
 });
 
@@ -37,7 +37,7 @@ test('products show', function(assert) {
   visit('/products/ruby-on-rails-baseball-jersey');
   
   andThen(function() {
-    assert.equal(currentPath(), 'spree.products.show');
+    assert.equal(currentPath(), 'yebo.products.show');
   });
 });
 
@@ -45,7 +45,7 @@ test('taxons show', function(assert) {
   visit('/t/categories/bags');
   
   andThen(function() {
-    assert.equal(currentPath(), 'spree.taxons.index');
+    assert.equal(currentPath(), 'yebo.taxons.index');
   });
 });
 

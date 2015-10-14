@@ -20,24 +20,24 @@ module('Acceptance: Walkthrough', {
 
 var createRandomEmail = function() {
   var seed = (new Date()).valueOf().toString();
-  return 'spree-ember-'+seed+'@example.com';
+  return 'yebo-ember-'+seed+'@example.com';
 };
 
 test('checkout walkthough', function(assert) {
   visit('/products/ruby-on-rails-baseball-jersey');
   
   andThen(function() {
-    assert.equal(currentPath(), 'spree.products.show');
+    assert.equal(currentPath(), 'yebo.products.show');
     click('button');  
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.cart');
+    assert.equal(currentPath(), 'yebo.cart');
     click('button');
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.checkout');
+    assert.equal(currentPath(), 'yebo.checkout');
     assert.equal(find('legend:last').text(), 'address');
     
     // Fill in Shipping Address
@@ -83,6 +83,6 @@ test('checkout walkthough', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentPath(), "spree.orders.show");
+    assert.equal(currentPath(), "yebo.orders.show");
   });
 });

@@ -20,17 +20,17 @@ module('Acceptance: Signup', {
 
 test('can signup successfully', function(assert) {
   var seed = (new Date()).valueOf().toString();
-  var email = 'spree-ember-'+seed+'@example.com';
+  var email = 'yebo-ember-'+seed+'@example.com';
 
   visit('/account');
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signin');
+    assert.equal(currentPath(), 'yebo.signin');
     click('a');
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signup');
+    assert.equal(currentPath(), 'yebo.signup');
     fillIn('input[placeholder="Email"]', email);
     fillIn('input[placeholder="Password"]', 'password123');
     fillIn('input[placeholder="Password Confirmation"]', 'password123');
@@ -38,7 +38,7 @@ test('can signup successfully', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.account');
+    assert.equal(currentPath(), 'yebo.account');
     assert.equal(find('input[placeholder="Email"]').val(), email);
   });
 });
@@ -49,12 +49,12 @@ test('can not signup with an invalid email', function(assert) {
   visit('/account');
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signin');
+    assert.equal(currentPath(), 'yebo.signin');
     click('a');
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signup');
+    assert.equal(currentPath(), 'yebo.signup');
     fillIn('input[placeholder="Email"]', 'not-an-email');
     fillIn('input[placeholder="Password"]', 'password123');
     fillIn('input[placeholder="Password Confirmation"]', 'password123');
@@ -62,7 +62,7 @@ test('can not signup with an invalid email', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signup');
+    assert.equal(currentPath(), 'yebo.signup');
   });
 });
 
@@ -73,19 +73,19 @@ test('can not signup without a password', function(assert) {
   visit('/account');
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signin');
+    assert.equal(currentPath(), 'yebo.signin');
     click('a');
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signup');
-    fillIn('input[placeholder="Email"]', 'spree-ember-'+ seed +'@example.com');
+    assert.equal(currentPath(), 'yebo.signup');
+    fillIn('input[placeholder="Email"]', 'yebo-ember-'+ seed +'@example.com');
     fillIn('input[placeholder="Password Confirmation"]', 'password123');
     click('button[type="submit"]');
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signup');
+    assert.equal(currentPath(), 'yebo.signup');
   });
 });
 
@@ -96,18 +96,18 @@ test('can signup without a password confirmation', function(assert) {
   visit('/account');
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signin');
+    assert.equal(currentPath(), 'yebo.signin');
     click('a');
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signup');
-    fillIn('input[placeholder="Email"]', 'spree-ember-'+ seed +'@example.com');
+    assert.equal(currentPath(), 'yebo.signup');
+    fillIn('input[placeholder="Email"]', 'yebo-ember-'+ seed +'@example.com');
     fillIn('input[placeholder="Password"]', 'password123');
     click('button[type="submit"]');
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.account');
+    assert.equal(currentPath(), 'yebo.account');
   });
 });

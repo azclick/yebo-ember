@@ -1,8 +1,8 @@
 {
-  "name": "spree-ember-yuidoc",
+  "name": "yebo-ember-yuidoc",
   "version": "0.0.1",
-  "description": "A Yui Doc theme for Spree Ember.",
-  "repository": "https://github.com/hhff/spree-ember.git",
+  "description": "A Yui Doc theme for Yebo Ember.",
+  "repository": "https://github.com/azclick/yebo-ember.git",
   "keywords": [
     "yuidoc"
   ],

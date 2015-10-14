@@ -2,18 +2,18 @@
 
 module.exports = function(/* environment, appConfig */) {
   return { 
-    "spree": {
+    "yebo": {
       signinPath: 'signin',
       signupPath: 'signup',
       accountPath: 'account'
     },
     "simple-auth": {
-      localStorageKey: 'spree-ember:session',
-      authorizer: 'simple-auth-authorizer:spree',
+      localStorageKey: 'yebo-ember:session',
+      authorizer: 'simple-auth-authorizer:yebo',
       crossOriginWhitelist: ['http://localhost:3000'],
-      authenticationRoute: 'spree.signin',
-      routeAfterAuthentication: "spree.account",
-      routeIfAlreadyAuthenticated: "spree.account"
+      authenticationRoute: 'yebo.signin',
+      routeAfterAuthentication: "yebo.account",
+      routeIfAlreadyAuthenticated: "yebo.account"
     }
   };
 };

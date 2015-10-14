@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import UserRouteActionsMixin from 'spree-ember-auth/mixins/user-route-actions';
+import UserRouteActionsMixin from 'yebo-ember-auth/mixins/user-route-actions';
 import { module, test } from 'qunit';
 
 module('UserRouteActionsMixin');

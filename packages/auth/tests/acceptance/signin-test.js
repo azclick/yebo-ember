@@ -22,14 +22,14 @@ test('cant get to account unless authenticated', function(assert) {
   visit('/account');
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signin');
-    fillIn('input[placeholder="Email"]', 'spree-ember@example.com');
-    fillIn('input[placeholder="Password"]', 'spree123');
+    assert.equal(currentPath(), 'yebo.signin');
+    fillIn('input[placeholder="Email"]', 'yebo-ember@example.com');
+    fillIn('input[placeholder="Password"]', 'yebo123');
     click('button[type="submit"]');
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.account');
+    assert.equal(currentPath(), 'yebo.account');
   });
 });
 
@@ -38,14 +38,14 @@ test('once authenticated, cant get to auth routes', function(assert) {
   visit('/signin');
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signin');
-    fillIn('input[placeholder="Email"]', 'spree-ember@example.com');
-    fillIn('input[placeholder="Password"]', 'spree123');
+    assert.equal(currentPath(), 'yebo.signin');
+    fillIn('input[placeholder="Email"]', 'yebo-ember@example.com');
+    fillIn('input[placeholder="Password"]', 'yebo123');
     click('button[type="submit"]');
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.account');
+    assert.equal(currentPath(), 'yebo.account');
   });
 
   andThen(function() {
@@ -53,7 +53,7 @@ test('once authenticated, cant get to auth routes', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.account');
+    assert.equal(currentPath(), 'yebo.account');
   });
   
   andThen(function() {
@@ -61,6 +61,6 @@ test('once authenticated, cant get to auth routes', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.account');
+    assert.equal(currentPath(), 'yebo.account');
   });
 });

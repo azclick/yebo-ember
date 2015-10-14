@@ -1,7 +1,7 @@
 {
-  "name": "spree-ember-storefront",
+  "name": "yebo-ember-storefront",
   "version": "0.0.1-beta.1",
-  "description": "A fully functional frontend starting point for a Spree Ember Application.",
+  "description": "A fully functional frontend starting point for a Yebo Ember Application.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,7 +11,7 @@
     "build": "ember build",
     "test": "ember try:testall"
   },
-  "repository": "https://github.com/hhff/spree-ember/tree/master/packages/storefront",
+  "repository": "https://github.com/azclick/yebo-ember/tree/master/packages/storefront",
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -39,8 +39,8 @@
   "dependencies": {
     "ember-cli-babel": "^5.0.0",
     "ember-cli-htmlbars": "0.7.6",
-    "spree-ember-core": "0.0.1-beta.1",
-    "spree-ember-checkouts": "0.0.1-beta.1"
+    "yebo-ember-core": "0.0.1-beta.1",
+    "yebo-ember-checkouts": "0.0.1-beta.1"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

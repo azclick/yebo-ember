@@ -26,7 +26,7 @@ export default Ember.Mixin.create({
 
     @example
     ```javascript
-    this.spree.persist({
+    this.yebo.persist({
       "favoriteColor": "red"
     });
     ```
@@ -39,7 +39,7 @@ export default Ember.Mixin.create({
   persist: function(data) {
     var key = this.get('localStorageKey');
     this._setOnHost(data);
-    
+
     // Get existing data.  Don't set it on the host.
     var existingData = this._fetchLocalStorageData();
     var allData = Ember.merge(existingData, data);
@@ -57,11 +57,11 @@ export default Ember.Mixin.create({
 
   /**
     Sets key value pairs on the Host object from Local Storage.  Usually called
-    in intitalizers for Spree Ember addons.
+    in intitalizers for Yebo Ember addons.
 
     @example
     ```javascript
-    this.spree.restore()
+    this.yebo.restore()
     ```
 
     @method restore

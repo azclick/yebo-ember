@@ -1,29 +1,29 @@
-# Spree Ember Auth
+# Yebo Ember Auth
 
-[![Build Status](https://travis-ci.org/hhff/spree-ember.svg?branch=master)](https://travis-ci.org/hhff/spree-ember)
-[![Join the chat at https://gitter.im/hhff/spree-ember](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hhff/spree-ember?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/azclick/yebo-ember.svg?branch=master)](https://travis-ci.org/azclick/yebo-ember)
+[![Join the chat at https://gitter.im/azclick/yebo-ember](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/azclick/yebo-ember?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-The Spree Ember Auth package is a wrapper on 
+The Yebo Ember Auth package is a wrapper on 
 [Ember Simple Auth](https://github.com/simplabs/ember-cli-simple-auth), that 
-provides a custom Spree `Authorizer` and `Authenticator` that work out of the box 
-with the [Spree](http://github.com/spree/spree) rails engine via 
-[Spree AMS](http://github.com/hhff/spree_ams).
+provides a custom Yebo `Authorizer` and `Authenticator` that work out of the box 
+with the [Yebo](http://github.com/yebo/yebo) rails engine via 
+[Yebo AMS](http://github.com/azclick/yebo_ams).
 
 It uses:
-* [Spree Ember Core](http://www.spree-ember.com/core/index.html)
+* [Yebo Ember Core](http://www.yebo-ember.com/core/index.html)
 * [Ember Simple Auth](https://github.com/simplabs/ember-cli-simple-auth)
 
 ## Installation
 
 ```bash
-ember install spree-ember-auth
+ember install yebo-ember-auth
 ```
 
-This will run the `spree-ember-auth` generator, which does a few key things:
+This will run the `yebo-ember-auth` generator, which does a few key things:
 
 * Adds Ember CLI Simple Auth to your host application
-* Installs user related routes at `app/routes/spree/*`
-* Installs user related route templates at `app/templates/spree/*`
+* Installs user related routes at `app/routes/yebo/*`
+* Installs user related route templates at `app/templates/yebo/*`
 * Attempts to install an application route file at `app/routes/application.js`
 
 **Important:** If you opted to not override your application route, or you're
@@ -39,28 +39,28 @@ export default Ember.Route.extend(ApplicationRouteMixin);
 
 It's recommended that you study the [Ember Simple Auth Documentation](http://ember-simple-auth.com/ember-simple-auth-api-docs.html).
 
-For full Spree Ember documentation, visit [http://www.spree-ember.com/](http://www.spree-ember.com).
+For full Yebo Ember documentation, visit [http://www.yebo-ember.com/](http://www.yebo-ember.com).
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
 
 ### Setup
 
-Now you'll need to tell your router about the new Spree Auth routes:
+Now you'll need to tell your router about the new Yebo Auth routes:
 
 ```javascript
 import Ember from 'ember';
 import config from './config/environment';
 
-import spreeRouter from 'spree-ember-storefront/router';
-import spreeAuthRouter from 'spree-ember-auth/router';
+import yeboRouter from 'yebo-ember-storefront/router';
+import yeboAuthRouter from 'yebo-ember-auth/router';
 
 var Router = Ember.Router.extend({
   location: config.locationType
 });
 
 Router.map(function() {
-  spreeRouter(this, config);
-  spreeAuthRouter(this, config);
+  yeboRouter(this, config);
+  yeboAuthRouter(this, config);
 });
 
 export default Router;
@@ -72,32 +72,32 @@ All customization is done through the Ember CLI Environment.  Here's the
 defaults:
 
 ```javascript
-"spree": {
+"yebo": {
   signinPath: 'signin',
   signupPath: 'signup',
   accountPath: 'account'
 },
 
 "simple-auth": {
-  localStorageKey: 'spree-ember:session',
-  authorizer: 'simple-auth-authorizer:spree',
+  localStorageKey: 'yebo-ember:session',
+  authorizer: 'simple-auth-authorizer:yebo',
   crossOriginWhitelist: ['http://localhost:3000'],
-  authenticationRoute: 'spree.signin',
-  routeAfterAuthentication: "spree.account",
-  routeIfAlreadyAuthenticated: "spree.account"
+  authenticationRoute: 'yebo.signin',
+  routeAfterAuthentication: "yebo.account",
+  routeIfAlreadyAuthenticated: "yebo.account"
 }
 ```
 
 ### Overriding the Signin / Signup Component
 
-You can override the appearance and behaviour of the `{{spree-auth}}` component
+You can override the appearance and behaviour of the `{{yebo-auth}}` component
 by running the generator:
 
 ```bash
-ember g spree-ember-auth-component
+ember g yebo-ember-auth-component
 ```
 
-This will install a template file at `app/templates/components/spree-auth` and a
-component file at `app/components/spree-auth`.
+This will install a template file at `app/templates/components/yebo-auth` and a
+component file at `app/components/yebo-auth`.
 
-#### **For more information, please see the [spree-ember-auth API Documentation.](http://www.spree-ember.com/auth/index.html)**
+#### **For more information, please see the [yebo-ember-auth API Documentation.](http://www.yebo-ember.com/auth/index.html)**

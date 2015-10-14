@@ -2,7 +2,7 @@
 'use strict';
 
 module.exports = {
-  name: 'spree-ember-storefront',
+  name: 'yebo-ember-storefront',
 
   included: function(app) {
     this._super.included(app);
@@ -11,14 +11,14 @@ module.exports = {
     // them as dependencies rather than devDependencies, and manually invoke
     // the Addon included hooks as necessary.
     this.addons.forEach(function(addon){
-      if (addon.name.substring(0, 11) === "spree-ember") {
+      if (addon.name.substring(0, 11) === "yebo-ember") {
         addon.included.apply(addon, [app]);
       }
     });
 
     app.import('vendor/register-storefront.js');
 
-    var options = app.options['spree-ember-storefront'] || {};
+    var options = app.options['yebo-ember-storefront'] || {};
 
     if (!options.disableNormalize) {
       app.import('vendor/normalize.css');

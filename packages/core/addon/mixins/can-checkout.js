@@ -3,7 +3,7 @@ import DS from 'ember-data';
 
 /**
   This mixin is used with the order model, to provide it with a
-  `saveToCheckouts` method, for using the Spree Checkouts API Endpoint.
+  `saveToCheckouts` method, for using the Yebo Checkouts API Endpoint.
 
   @class CanCheckout
   @namespace Mixin
@@ -11,7 +11,7 @@ import DS from 'ember-data';
 */
 export default Ember.Mixin.create({
   /**
-    A flag for telling `save` internals downstream to use Spree's Checkouts API
+    A flag for telling `save` internals downstream to use Yebo's Checkouts API
     endpoint, rather than the `orders` endpoint.
 
     @property _useCheckoutsEndpoint
@@ -21,9 +21,9 @@ export default Ember.Mixin.create({
   */
   _useCheckoutsEndpoint: DS.attr('boolean'),
   /**
-    Simply wraps the `DS.Model#save` method to set the boolean flag 
+    Simply wraps the `DS.Model#save` method to set the boolean flag
     `_useCheckoutsEndpoint` for the duration of that promise.  Downstream
-    Serializers and Adapters can call `snapshot.attr('_useCheckoutsEndpoint')` 
+    Serializers and Adapters can call `snapshot.attr('_useCheckoutsEndpoint')`
     and react accordingly.
 
     @method saveToCheckouts
@@ -38,7 +38,7 @@ export default Ember.Mixin.create({
   },
 
   /**
-    A method for automatically removing the `_useCheckoutsFlag` and cleaning up 
+    A method for automatically removing the `_useCheckoutsFlag` and cleaning up
     any hanging payment objects after a `saveToCheckouts` call.
 
     @method _afterCheckoutsSave
@@ -46,7 +46,7 @@ export default Ember.Mixin.create({
   */
   _afterCheckoutsSave: function() {
     this.set('_useCheckoutsEndpoint', false);
-    
+
     // This is a hack because Ember Data doesn't coalesce the new record when the
     // server returns a saved payment.  There's probably something I'm missing
     // here, but basically this checks if there's a payment with an ID, and if

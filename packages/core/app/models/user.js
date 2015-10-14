@@ -16,7 +16,7 @@ export default DS.Model.extend({
   resetPasswordSentAt:  DS.attr('date'),
   resetPasswordToken:   DS.attr('string'),
   signInCount:          DS.attr('number'),
-  spreeApiKey:          DS.attr('string'),
+  yeboApiKey:          DS.attr('string'),
   unlockToken:          DS.attr('string'),
   updatedAt:            DS.attr('date'),
   password:             DS.attr('string', { persistToServer: true }),

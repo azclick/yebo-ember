@@ -60,7 +60,7 @@ module.exports = function(grunt) {
       },
       createCname: {
         command: function() {
-          return 'touch docs/site/CNAME; echo "www.spree-ember.com" > docs/site/CNAME;';
+          return 'touch docs/site/CNAME; echo "www.yebo-ember.com" > docs/site/CNAME;';
         }
       }
     },
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
           callback: function($){
             $('#main-package-name h3').text('Packages');
             packageNames.forEach(function(packageName) {
-              $("#docs-content").append("<a class='small-12 columns panel' href='./"+packageName+"/index.html'><h3>spree-ember-"+packageName+"</h3></a>");
+              $("#docs-content").append("<a class='small-12 columns panel' href='./"+packageName+"/index.html'><h3>yebo-ember-"+packageName+"</h3></a>");
             })
           }
         },
@@ -85,7 +85,7 @@ module.exports = function(grunt) {
           remove: ['section#main'],
           callback: function($){
             $('header').addClass('homepage');
-            $('header .info').append('<iframe src="https://ghbtns.com/github-btn.html?user=hhff&amp;repo=spree-ember&amp;type=star&amp;count=true&amp;size=large" frameborder="0" scrolling="0" width="120px" height="30px" style="margin-top:20px;"></iframe>');
+            $('header .info').append('<iframe src="https://ghbtns.com/github-btn.html?user=azclick&amp;repo=yebo-ember&amp;type=star&amp;count=true&amp;size=large" frameborder="0" scrolling="0" width="120px" height="30px" style="margin-top:20px;"></iframe>');
           }
         },
         src: 'docs/site/index.html'

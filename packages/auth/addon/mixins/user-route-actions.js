@@ -4,7 +4,7 @@ import Ember from 'ember';
   These are grouped together in the case the ambitious developers want to glob this
   behaviour together into a single route, for a highly interactive experience.
 
-  **Important:** The `spree-ember-auth` install generator will attempt to overwrite your application
+  **Important:** The `yebo-ember-auth` install generator will attempt to overwrite your application
   route.  If you opt out of this, or you're defining it in a pod instead, you'll
   need to ensure that you're mixing Simple Auth's Application Route Mixin into your
   application route.
@@ -24,7 +24,7 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   /**
-    Triggered on the `spree` service whenever a user is successfully created 
+    Triggered on the `yebo` service whenever a user is successfully created 
     through the `createAndAuthenticateUser` call.
 
     @event didCreateUser
@@ -32,7 +32,7 @@ export default Ember.Mixin.create({
   */
 
   /**
-    Triggered on the `spree` service whenever the `createAndAuthenticateUser`
+    Triggered on the `yebo` service whenever the `createAndAuthenticateUser`
     call fails to create a new user.
 
     @event userCreateFailed
@@ -40,7 +40,7 @@ export default Ember.Mixin.create({
   */
 
   /**
-    Triggered on the `spree` service whenever the `updateCurrentUser`
+    Triggered on the `yebo` service whenever the `updateCurrentUser`
     call updates the current user successfully.
 
     @event didUpdateCurrentUser
@@ -48,7 +48,7 @@ export default Ember.Mixin.create({
   */
 
   /**
-    Triggered on the `spree` service whenever the `updateCurrentUser`
+    Triggered on the `yebo` service whenever the `updateCurrentUser`
     call updates the current user successfully.
 
     @event currentUserUpdateFailed 
@@ -89,12 +89,12 @@ export default Ember.Mixin.create({
       var _this = this;
 
       authComponent.set('errors', null);
-      return this.get('session').authenticate('simple-auth-authenticator:spree', params).catch(function(serverError) {
+      return this.get('session').authenticate('simple-auth-authenticator:yebo', params).catch(function(serverError) {
         authComponent.set('errors', _this.extractAuthErrors(serverError));
       });
     },
     /**
-      The `createAndAuthenticateUser` method attempts to create a new Spree User,
+      The `createAndAuthenticateUser` method attempts to create a new Yebo User,
       and when successful, triggers the `authenticateUser` action.
       
       @method createAndAuthenticateUser
@@ -107,7 +107,7 @@ export default Ember.Mixin.create({
       var _this   = this;
       
       authComponent.set('errors', null);
-      var newUser = this.spree.store.createRecord('user', { 
+      var newUser = this.yebo.store.createRecord('user', { 
         email: params.identification,
         password: params.password,
         passwordConfirmation: params.passwordConfirmation
@@ -115,19 +115,19 @@ export default Ember.Mixin.create({
       
       return newUser.save().then(
         function(newUser) {
-          _this.spree.trigger('didCreateUser', newUser);
+          _this.yebo.trigger('didCreateUser', newUser);
           return _this.send('authenticateUser', params, authComponent);
         },
         function(serverError) {
-          _this.spree.trigger('userCreateFailed', serverError);
-          _this.spree.trigger('serverError', serverError);
+          _this.yebo.trigger('userCreateFailed', serverError);
+          _this.yebo.trigger('serverError', serverError);
           authComponent.set('errors', _this.extractAuthErrors(serverError));
           return serverError;
         }
       );
     },
     /**
-      The `updateCurrentUser` method attempts to save/update the current Spree user.
+      The `updateCurrentUser` method attempts to save/update the current Yebo user.
       It expects that changes to the `session.currentUser` model have been made
       in place, and doesn't take any arguments.
       
@@ -138,12 +138,12 @@ export default Ember.Mixin.create({
       var _this = this;
       return this.get('session.currentUser').save().then(
         function(currentUser) {
-          _this.spree.trigger('didUpdateCurrentUser', currentUser);
+          _this.yebo.trigger('didUpdateCurrentUser', currentUser);
           return currentUser;
         },
         function(error) {
-          _this.spree.trigger('currentUserUpdateFailed', error);
-          _this.spree.trigger('serverError', error);
+          _this.yebo.trigger('currentUserUpdateFailed', error);
+          _this.yebo.trigger('serverError', error);
           return error;
         }
       );

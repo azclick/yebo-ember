@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 /**
-  Include this mixin into any model that sends nested attributes to the Spree 
+  Include this mixin into any model that sends nested attributes to the Yebo
   server.  Currently this is only for the `order` model.
 
   ```js
@@ -56,7 +56,7 @@ export default Ember.Mixin.create({
   },
 
   /**
-    Massages the strange error response that Spree provides for Credit Card
+    Massages the strange error response that Yebo provides for Credit Card
     errors.
 
     @method _transformCreditCardErrors
@@ -97,7 +97,7 @@ export default Ember.Mixin.create({
     }
 
     return {
-      path: path, 
+      path: path,
       attribute: attribute
     };
   }

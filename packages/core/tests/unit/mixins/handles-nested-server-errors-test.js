@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import HandlesNestedServerErrorsMixin from 'spree-ember-core/mixins/handles-nested-server-errors';
+import HandlesNestedServerErrorsMixin from 'yebo-ember-core/mixins/handles-nested-server-errors';
 import {
   moduleForModel,
   test
@@ -28,7 +28,7 @@ moduleForModel('order', 'Order', {
   ]
 });
 
-test('it handles spree errors', function(assert) {
+test('it handles yebo errors', function(assert) {
   var order = this.subject();
   HandlesNestedServerErrorsMixin.apply(order);
   assert.ok(!!order);

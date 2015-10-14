@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import CanCheckoutMixin from 'spree-ember-core/mixins/can-checkout';
+import CanCheckoutMixin from 'yebo-ember-core/mixins/can-checkout';
 import { module, test } from 'qunit';
 
 module('CanCheckoutMixin');

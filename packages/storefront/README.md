@@ -1,25 +1,25 @@
-# Spree Ember Storefront
+# Yebo Ember Storefront
 
-[![Build Status](https://travis-ci.org/hhff/spree-ember.svg?branch=master)](https://travis-ci.org/hhff/spree-ember)
-[![Join the chat at https://gitter.im/hhff/spree-ember](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hhff/spree-ember?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/azclick/yebo-ember.svg?branch=master)](https://travis-ci.org/azclick/yebo-ember)
+[![Join the chat at https://gitter.im/azclick/yebo-ember](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/azclick/yebo-ember?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-The Spree Ember Storefront is a collection of routes, templates and components
-that work out of the box with the [Spree](http://github.com/spree/spree) rails 
-engine via [Spree AMS](http://github.com/hhff/spree_ams).
+The Yebo Ember Storefront is a collection of routes, templates and components
+that work out of the box with the [Yebo](http://github.com/yebo/yebo) rails 
+engine via [Yebo AMS](http://github.com/azclick/yebo_ams).
 
 It uses:
-* [Spree Ember Core](http://www.spree-ember.com/core/index.html)
-* [Spree Ember Checkouts](http://www.spree-ember/checkouts/index.html)
+* [Yebo Ember Core](http://www.yebo-ember.com/core/index.html)
+* [Yebo Ember Checkouts](http://www.yebo-ember/checkouts/index.html)
 
 ## Installation
 
 ```bash
-ember install spree-ember-storefront
+ember install yebo-ember-storefront
 ```
 
 This will install all of the Storefront templates into your host application.
 
-Now, you'll need to tell Ember's router where to put the standard Spree routes.
+Now, you'll need to tell Ember's router where to put the standard Yebo routes.
 
 In `router.js`:
 
@@ -27,33 +27,33 @@ In `router.js`:
 import Ember from 'ember';
 import config from './config/environment';
 
-// This line imports the Spree Router.
-import spreeRouter from 'spree-ember-storefront/router';
+// This line imports the Yebo Router.
+import yeboRouter from 'yebo-ember-storefront/router';
 
 var Router = Ember.Router.extend({
   location: config.locationType
 });
 
 Router.map(function() {
-  spreeRouter(this, config);
+  yeboRouter(this, config);
 });
 
 export default Router;
 ```
 
-For full Spree Ember documentation, visit [http://www.spree-ember.com/](http://www.spree-ember.com).
+For full Yebo Ember documentation, visit [http://www.yebo-ember.com/](http://www.yebo-ember.com).
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
 
 ## Disable Normalize.css & Zurb Foundation
 
-Spree Ember Storefront includes Normalize & Zurb Foundation into your CSS tree.
+Yebo Ember Storefront includes Normalize & Zurb Foundation into your CSS tree.
 If you'd like to disable them, you can optionally do so in your application's
 `Brocfile.js`.
 
 ```javascript
 var app = new EmberApp({
-  'spree-ember-storefront': {
+  'yebo-ember-storefront': {
     disableNormalize: true,
     disableFoundation: true
   }

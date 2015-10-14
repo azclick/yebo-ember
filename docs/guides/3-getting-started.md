@@ -1,11 +1,11 @@
 # Getting Started
 
-The quickest way to get starting using Spree Ember is to install the
-`spree-ember-storefront` addon into a new Ember CLI application.
+The quickest way to get starting using Yebo Ember is to install the
+`yebo-ember-storefront` addon into a new Ember CLI application.
 
-Under the hood, the `spree-ember-storefront` addon uses:
-- `spree-ember-core`
-- `spree-ember-checkouts`
+Under the hood, the `yebo-ember-storefront` addon uses:
+- `yebo-ember-core`
+- `yebo-ember-checkouts`
 - `Normalize.css`
 - `Zurb Foundation 5.5`
 
@@ -27,37 +27,37 @@ ember server
 Now open up your browser, and navigate to `localhost:4200`, and you you should 
 see the default Ember welcome page!
 
-### Installing Spree Ember
+### Installing Yebo Ember
 ***
 
-The `spree-ember-storefront` package installs it's dependencies automatically,
+The `yebo-ember-storefront` package installs it's dependencies automatically,
 so you can simply use the one line installer:
 
 ```bash
-ember install spree-ember-storefront
+ember install yebo-ember-storefront
 ```
 
 This command will copy all of the storefront route & component templates to your 
 application, for easy customization.
 
-### Importing the Spree Storefront Router
+### Importing the Yebo Storefront Router
 ***
 
-Now, you'll need to tell Ember where to put the Spree routes.
+Now, you'll need to tell Ember where to put the Yebo routes.
 
 In `router.js`:
 
 ```javascript
 import Ember from 'ember';
 import config from './config/environment';
-import spreeRouter from 'spree-ember-storefront/router';
+import yeboRouter from 'yebo-ember-storefront/router';
 
 var Router = Ember.Router.extend({
   location: config.locationType
 });
 
 Router.map(function() {
-  spreeRouter(this, config);
+  yeboRouter(this, config);
 });
 
 export default Router;
@@ -66,11 +66,11 @@ export default Router;
 ### Fire it up! 
 ***
 
-Now start up the `ember server` again, and you should now see the Spree Ember 
+Now start up the `ember server` again, and you should now see the Yebo Ember 
 welcome page at `http://localhost:4200`!  Head to `/products`, and your
-application should load products into your Ember app from your Spree server.
+application should load products into your Ember app from your Yebo server.
 
-**Note:** If you're not seeing any products or data, double check your Spree
+**Note:** If you're not seeing any products or data, double check your Yebo
 server is running on `http://localhost:3000`.
 
-#### **Next, you'll probably want to [customize Spree Ember.](./4-customization.html)**
+#### **Next, you'll probably want to [customize Yebo Ember.](./4-customization.html)**

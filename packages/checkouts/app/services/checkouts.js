@@ -1,16 +1,16 @@
 import Ember from 'ember';
 /**
   The checkouts service is a Stateful global for progressing an Order through 
-  the Spree checkout, via the Checkouts endpoint.  It also serves as the 
+  the Yebo checkout, via the Checkouts endpoint.  It also serves as the 
   "canonical" state for a Checkout frontend, and should be used to progress
   forward and backward through an order's steps.
 
   It's designed to allow a reactive programming style for the checkout 
-  frontend.  The `spree-checkout` component from the Spree Ember Storefronts
+  frontend.  The `yebo-checkout` component from the Yebo Ember Storefronts
   package is an example of this style.
 
   ```javascript
-  var checkouts = this.get('spree.checkouts');
+  var checkouts = this.get('yebo.checkouts');
 
   checkouts.get('currentState');
   // => "address"
@@ -59,19 +59,19 @@ export default Ember.Service.extend(Ember.FSM.Stateful, {
     @default false 
   */
   /**
-    A reference to the Spree Service.
+    A reference to the Yebo Service.
     
-    @property spree 
+    @property yebo 
     @type Ember.Service
   */
-  spree: Ember.inject.service('spree'),
+  yebo: Ember.inject.service('yebo'),
   /**
-    A reference to the Spree Object's `currentOrder`.
+    A reference to the Yebo Object's `currentOrder`.
 
     @property currentOrder
     @type DS.Model
   */
-  currentOrder: Ember.computed.alias('spree.currentOrder'),
+  currentOrder: Ember.computed.alias('yebo.currentOrder'),
   /**
     Used by Ember FSM to name the `initialState`.
 
@@ -209,7 +209,7 @@ export default Ember.Service.extend(Ember.FSM.Stateful, {
   _ensureShipAddressExists: function() {
     var shipAddress = this.get('currentOrder.shipAddress');
     if (!shipAddress) {
-      var newShipAddress = this.get('spree').store.createRecord('address');
+      var newShipAddress = this.get('yebo').store.createRecord('address');
       this.set('currentOrder.shipAddress', newShipAddress);
     }
   },
@@ -221,11 +221,11 @@ export default Ember.Service.extend(Ember.FSM.Stateful, {
     @private
   */
   _ensurePaymentExists: function() {
-    var spree    = this.get('spree');
+    var yebo    = this.get('yebo');
     var payments = this.get('currentOrder.payments');
     if (Ember.isEmpty(payments)) {
-      var payment = spree.store.createRecord('payment');
-      var source  = spree.store.createRecord('source');
+      var payment = yebo.store.createRecord('payment');
+      var source  = yebo.store.createRecord('source');
       payment.set('paymentMethod', this.get('currentOrder.availablePaymentMethods.firstObject'));
       payment.set('source', source);
       payments.pushObject(payment);
@@ -248,7 +248,7 @@ export default Ember.Service.extend(Ember.FSM.Stateful, {
     return this.transition();
   },
   /**
-    Used to save changes to the `currentOrder` to Spree's Checkouts API.  Is only
+    Used to save changes to the `currentOrder` to Yebo's Checkouts API.  Is only
     called by the state machine when advancing to a later state in the flow.
 
     @method _validateOrder 

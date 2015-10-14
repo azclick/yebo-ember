@@ -2,7 +2,7 @@
 'use strict';
 
 module.exports = {
-  name: 'spree-ember-auth',
+  name: 'yebo-ember-auth',
 
   isDevelopingAddon: function() {
     return true;
@@ -11,9 +11,9 @@ module.exports = {
   included: function(app) {
     this._super.included(app);
     
-    /* Here we call included on any nested Spree Ember Dependencies */
+    /* Here we call included on any nested Yebo Ember Dependencies */
     this.addons.forEach(function(addon){
-      if (addon.name.substring(0, 11)  === "spree-ember") {
+      if (addon.name.substring(0, 11)  === "yebo-ember") {
         addon.included.apply(addon, [app]);
       }
     });

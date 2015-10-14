@@ -1,7 +1,7 @@
 {
-  "name": "spree-ember-core",
+  "name": "yebo-ember-core",
   "shortName": "core",
-  "description": "Core data infrastructure for a Spree Ember Application.",
+  "description": "Core data infrastructure for a Yebo Ember Application.",
   "version": "0.0.0",
   "options": {
     "paths": [

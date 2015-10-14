@@ -1,7 +1,7 @@
 {
-  "name": "spree-ember-storefront",
+  "name": "yebo-ember-storefront",
   "shortName": "storefront",
-  "description": "A fully functional frontend starting point for a Spree Ember storefront.",
+  "description": "A fully functional frontend starting point for a Yebo Ember storefront.",
   "version": "0.0.0",
   "options": {
     "paths": [

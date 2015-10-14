@@ -5,14 +5,14 @@ import {
 } from 'qunit';
 import startApp from '../helpers/start-app';
 
-var application, container, spree;
+var application, container, yebo;
 
 module('Acceptance: Checkouts', {
   beforeEach: function() {
     window.localStorage.clear();
     application = startApp();
     container   = application.__container__;
-    spree       = container.lookup('service:spree');
+    yebo       = container.lookup('service:yebo');
   },
 
   afterEach: function() {
@@ -30,12 +30,12 @@ var randomNumberInRange = function (min, max) {
 
 var assembleRandomCart = function(assert) {
   return Ember.run(function() {
-    return spree.store.find('product').then(function(products){
+    return yebo.store.find('product').then(function(products){
       assert.ok(products);
       var product = randomItemFromArray(products);
       var variant = randomItemFromArray(product.get('variantsIncludingMaster'));
       var quantity = randomNumberInRange(1, 10);
-      return spree.addToCart(variant, quantity).then(function(lineItem) {
+      return yebo.addToCart(variant, quantity).then(function(lineItem) {
         assert.ok(lineItem.get('quantity'), quantity);
         return lineItem;
       });
@@ -45,37 +45,37 @@ var assembleRandomCart = function(assert) {
 
 
 test('can add to cart', function(assert) {
-  assert.equal(spree.get('currentOrder'), undefined);
+  assert.equal(yebo.get('currentOrder'), undefined);
  
   return assembleRandomCart(assert).then(function(lineItem){
     assert.ok(lineItem);
 
-    var currentOrder = spree.get('currentOrder');
+    var currentOrder = yebo.get('currentOrder');
     assert.ok(currentOrder);
   });
 });
 
 test('can clear a current order', function(assert) {
-  assert.equal(spree.get('currentOrder'), undefined);
+  assert.equal(yebo.get('currentOrder'), undefined);
   
   return assembleRandomCart(assert).then(function(lineItem){
     assert.ok(lineItem);
-    assert.ok(spree.get('currentOrder'));
-    spree.clearCurrentOrder();
-    assert.equal(spree.get('currentOrder'), undefined);
+    assert.ok(yebo.get('currentOrder'));
+    yebo.clearCurrentOrder();
+    assert.equal(yebo.get('currentOrder'), undefined);
   });
 });
 
 test('persists order info to local storage', function(assert) {
-  assert.equal(spree.get('currentOrder'), undefined);
+  assert.equal(yebo.get('currentOrder'), undefined);
  
   return assembleRandomCart(assert).then(function(lineItem){
     assert.ok(lineItem);
 
-    var currentOrder     = spree.get('currentOrder');
+    var currentOrder     = yebo.get('currentOrder');
     var orderId          = currentOrder.get('id');
     var orderToken       = currentOrder.get('token');
-    var localStorageData = JSON.parse(window.localStorage.getItem('spree-ember'));
+    var localStorageData = JSON.parse(window.localStorage.getItem('yebo-ember'));
 
     assert.ok(localStorageData.orderId, orderId);
     assert.ok(localStorageData.guestToken, orderToken);
@@ -84,12 +84,12 @@ test('persists order info to local storage', function(assert) {
 
 test('can advance order state', function(assert) {
   return Ember.run(function() {
-    assert.equal(spree.get('currentOrder'), undefined);
-    var checkouts = spree.get('checkouts');
+    assert.equal(yebo.get('currentOrder'), undefined);
+    var checkouts = yebo.get('checkouts');
 
     return assembleRandomCart(assert).then(function(lineItem){
       assert.ok(lineItem);
-      var currentOrder = spree.get('currentOrder');
+      var currentOrder = yebo.get('currentOrder');
 
       assert.ok(currentOrder);
       assert.equal(currentOrder.get('state'), 'cart');
@@ -104,13 +104,13 @@ test('can advance order state', function(assert) {
           assert.equal(currentOrder.get('errors.base.firstObject.message'), "Invalid resource. Please fix errors and try again.");
           assert.ok(currentOrder.get('shipAddress.errors.length'));
 
-          return spree.get('countries').then(function(countries) {
+          return yebo.get('countries').then(function(countries) {
             assert.ok(countries);
           
             var USA = countries.findBy('name', 'United States');
             var NY  = USA.get('states').findBy('name', 'New York');
 
-            spree.get('currentOrder.shipAddress').setProperties({
+            yebo.get('currentOrder.shipAddress').setProperties({
               firstname: 'Hugh',
               lastname: 'Francis',
               address1: '123 Street st',
@@ -123,7 +123,7 @@ test('can advance order state', function(assert) {
             });
             
             var seed = (new Date()).valueOf().toString();
-            currentOrder.set('email', 'spree-ember-'+seed+'@example.com');
+            currentOrder.set('email', 'yebo-ember-'+seed+'@example.com');
             
             return checkouts.transition().then(function() {
               assert.equal(currentOrder.get('state'), 'delivery');

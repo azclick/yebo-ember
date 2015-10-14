@@ -1,11 +1,11 @@
 export default function(router, ENV) {
 
-  var mountPath   = ENV["spree"]["mount"];
-  var signinPath  = ENV["spree"]["signinPath"];
-  var signupPath  = ENV["spree"]["signupPath"];
-  var accountPath = ENV["spree"]["accountPath"];
+  var mountPath   = ENV["yebo"]["mount"];
+  var signinPath  = ENV["yebo"]["signinPath"];
+  var signupPath  = ENV["yebo"]["signupPath"];
+  var accountPath = ENV["yebo"]["accountPath"];
   
-  router.resource('spree', { path: mountPath }, function() {
+  router.resource('yebo', { path: mountPath }, function() {
     this.route('signin', { path: signinPath });
     this.route('signup', { path: signupPath });
     this.route('account', { path: accountPath });

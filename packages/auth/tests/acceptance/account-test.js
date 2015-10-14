@@ -20,19 +20,19 @@ module('Acceptance: Account', {
 
 test('can change password correctly', function(assert) {
   var seed = (new Date()).valueOf().toString();
-  var email = 'spree-ember-'+seed+'@example.com';
+  var email = 'yebo-ember-'+seed+'@example.com';
   var newSeed  = (new Date()).valueOf().toString();
-  var newEmail = 'spree-ember-'+seed+'@example.com';
+  var newEmail = 'yebo-ember-'+seed+'@example.com';
 
   visit('/account');
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signin');
+    assert.equal(currentPath(), 'yebo.signin');
     click('a');
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.signup');
+    assert.equal(currentPath(), 'yebo.signup');
     fillIn('input[placeholder="Email"]', email);
     fillIn('input[placeholder="Password"]', 'password123');
     fillIn('input[placeholder="Password Confirmation"]', 'password123');
@@ -40,7 +40,7 @@ test('can change password correctly', function(assert) {
   });
 
   andThen(function() {
-    assert.equal(currentPath(), 'spree.account');
+    assert.equal(currentPath(), 'yebo.account');
     assert.equal(find('input[placeholder="Email"]').val(), email);
     fillIn('input[placeholder="Email"]', newEmail);
     click('button[type="submit"]');

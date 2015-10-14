@@ -1,7 +1,7 @@
 {
-  "name": "spree-ember-checkouts",
+  "name": "yebo-ember-checkouts",
   "shortName": "checkouts",
-  "description": "Checkout functionality for a Spree Ember Application.",
+  "description": "Checkout functionality for a Yebo Ember Application.",
   "version": "0.0.0",
   "options": {
     "paths": [

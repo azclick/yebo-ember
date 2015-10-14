@@ -1,21 +1,21 @@
-# Spree Ember Core
+# Yebo Ember Core
 
-[![Build Status](https://travis-ci.org/hhff/spree-ember.svg?branch=master)](https://travis-ci.org/hhff/spree-ember)
-[![Join the chat at https://gitter.im/hhff/spree-ember](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hhff/spree-ember?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/azclick/yebo-ember.svg?branch=master)](https://travis-ci.org/azclick/yebo-ember)
+[![Join the chat at https://gitter.im/azclick/yebo-ember](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/azclick/yebo-ember?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Spree Ember Core is the core dependency of all other Spree Ember addons.  It
-provides the `spree` service, which has a seperate `store` to the host
+Yebo Ember Core is the core dependency of all other Yebo Ember addons.  It
+provides the `yebo` service, which has a seperate `store` to the host
 application.
 
 This store uses a custom `serializer` and `adapter` that are
-designed to work tightly with the [Spree](http://github.com/spree/spree) rails 
-engine, via [Spree AMS](http://github.com/hhff/spree_ams).
+designed to work tightly with the [Yebo](http://github.com/yebo/yebo) rails 
+engine, via [Yebo AMS](http://github.com/azclick/yebo_ams).
 
 ```bash
-this.spree.store.find("product");
+this.yebo.store.find("product");
 ```
 
-**Note:** This Package is included with `spree-ember-storefront`.  If you're
+**Note:** This Package is included with `yebo-ember-storefront`.  If you're
 using that, there's no need to install this seperately.
 
 This addon also adds the following models to the global namespace:
@@ -48,15 +48,15 @@ storage.
 ## Installation
 
 ```bash
-ember install spree-ember-core
+ember install yebo-ember-core
 ```
 
-For full Spree Ember documentation, visit [http://www.spree-ember.com/](http://www.spree-ember.com).
+For full Yebo Ember documentation, visit [http://www.yebo-ember.com/](http://www.yebo-ember.com).
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
 
-## Spree Ember
+## Yebo Ember
 
 If you're just getting started, it's recommended that you checkout the
-`spree-ember-storefront` addon instead.  It's the quickest way to get up and 
-running with Spree Ember.
+`yebo-ember-storefront` addon instead.  It's the quickest way to get up and 
+running with Yebo Ember.

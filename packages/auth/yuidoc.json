@@ -1,5 +1,5 @@
 {
-  "name": "spree-ember-auth",
+  "name": "yebo-ember-auth",
   "shortName": "auth",
   "description": "The default blueprint for ember-cli addons.",
   "version": "0.0.0",

@@ -1,0 +1,55 @@
+<!-- 
+Please Note: The checkout is intentially built naively.  While it works reliably
+It's unlikely that this is going to be your final checkout template.  
+
+It's structured like this to demonstrate the style of reactive programming that 
+the Stateful Checkout service is designed for.  It's also here to show the 
+apprpriate hooks and data sets available on the Checkouts service.
+-->
+<form {{bind-attr class="yebo.checkouts.currentState"}}>
+  <fieldset>
+    <legend style="text-transform:capitalize;">{{yebo.checkouts.currentState}}</legend>
+    {{#each yebo.currentOrder.errors.base as |error|}}
+      <div class='alert-box warning'>{{error.message}}</div>
+    {{/each}}
+    
+    <!-- Address -->
+    {{#if yebo.checkouts.isInAddress}}
+      {{yebo-input value=yebo.currentOrder.email 
+                    errors=yebo.currentOrder.errors.email
+                    attributeName="Email"}}
+      {{yebo-address address=yebo.currentOrder.shipAddress countries=yebo.countries}}
+    {{/if}}
+
+    <!-- Delivery --> 
+    {{#if yebo.checkouts.isInDelivery}}
+      {{#each shipment in yebo.currentOrder.shipments}}
+        {{yebo-shipment shipment=shipment}}
+      {{/each}}
+    {{/if}}
+
+    <!-- Payment -->
+    {{#if yebo.checkouts.isInPayment}}
+      {{yebo-select content=yebo.currentOrder.availablePaymentMethods
+                    optionLabelPath="content.description" 
+                    selection=yebo.currentOrder.activePayment.paymentMethod
+                    attributeName="Payment Method"}}
+
+      {{#if yebo.currentOrder.activePayment.paymentMethod.isCheck}}
+        <h6>Please mail in a check.</h6>
+      {{else}}
+        {{yebo-source source=yebo.currentOrder.activePayment.source}}
+      {{/if}}
+    {{/if}}
+
+    <!-- Confirm -->
+    {{#if yebo.checkouts.isInConfirm}}
+      {{yebo-order order=yebo.currentOrder isConfirmationPage=true}}
+    {{/if}}
+
+  </fieldset>
+  <button 
+    {{bind-attr class=":expand yebo.checkouts.isLoading:disabled"}}
+    {{action 'transitionCheckoutState'}}>{{if yebo.checkouts.isLoading "Loading" "Continue"}}</button>
+</form>
+

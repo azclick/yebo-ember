@@ -9,9 +9,9 @@ over time.
 
 ## Questions
 
-This is the issue tracker for `spree-ember`. The community uses this site
+This is the issue tracker for `yebo-ember`. The community uses this site
 to collect and track bugs and discussions of new features. If you are
-having difficulties using `spree-ember`, please search the issues, and if you
+having difficulties using `yebo-ember`, please search the issues, and if you
 can't find anything useful, go ahead and open an issue.  Someone will help you
 shortly.
 
@@ -77,7 +77,7 @@ We love pull requests. Here's a quick guide:
    * phantomjs
    * Run bootstrap.rb to ensure each addon is working against itself.
 
-3. Run `bootstrap.rb` from the `spree-ember` root of the project.  This will set
+3. Run `bootstrap.rb` from the `yebo-ember` root of the project.  This will set
    the Addons to run against each other, ensuring that changes you make across
    multiple packages work with each other.
 
@@ -108,9 +108,9 @@ We love pull requests. Here's a quick guide:
    case to us.
 
 We try to be quick about responding to tickets but sometimes we get a bit
-backlogged. If the response is slow, try to find someone on [Spree Ember's
+backlogged. If the response is slow, try to find someone on [Yebo Ember's
 Gitter
-Channel](https://gitter.im/hhff/spree-ember?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) to
+Channel](https://gitter.im/azclick/yebo-ember?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) to
 give the ticket a review.
 
 Some things that will increase the chance that your pull request is accepted,
@@ -151,4 +151,3 @@ updating or writing new documentation:
 * `true`, `false`, `null`, `undefined` (when referring to programming values)
 
 And in case we didn't emphasize it enough: **we love tests!**
-

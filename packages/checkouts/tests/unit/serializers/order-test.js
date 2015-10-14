@@ -8,9 +8,9 @@ moduleFor('serializer:order', {
   // Specify the other units that are required for this test.
   needs: [
     'service:checkouts',
-    'service:spree',
-    'store:spree',
-    'serializer:spree',
+    'service:yebo',
+    'store:yebo',
+    'serializer:yebo',
     'model:order',
     'model:user',
     'model:lineItem',
@@ -40,26 +40,26 @@ test('it serializes correctly on the address state', function(assert) {
   var serializer = this.subject();
   assert.ok(serializer);
   
-  var spreeStore = this.container.lookup('store:spree');
+  var yeboStore = this.container.lookup('store:yebo');
   var checkouts  = this.container.lookup('service:checkouts');
 
   checkouts.set('currentState', 'address');
   
   Ember.run(function() {
 
-    var order = spreeStore.createRecord('order', {
+    var order = yeboStore.createRecord('order', {
       _useCheckoutsEndpoint: true
     });
 
-    var USA = spreeStore.createRecord('country', {
+    var USA = yeboStore.createRecord('country', {
       name: 'United States'
     });
 
-    var NY = spreeStore.createRecord('state', {
+    var NY = yeboStore.createRecord('state', {
       name: 'New York'
     });
 
-    var shipAddress = spreeStore.createRecord('address', {
+    var shipAddress = yeboStore.createRecord('address', {
       firstname: 'Hugh',
       lastname: 'Francis',
       address1: '123 Street st',
@@ -87,25 +87,25 @@ test('it serializes correctly based on order state', function(assert) {
   var serializer = this.subject();
   assert.ok(serializer);
   
-  var spreeStore = this.container.lookup('store:spree');
+  var yeboStore = this.container.lookup('store:yebo');
   var checkouts  = this.container.lookup('service:checkouts');
 
   Ember.run(function() {
 
     checkouts.set('currentState', 'address');
-    var order = spreeStore.createRecord('order', {
+    var order = yeboStore.createRecord('order', {
       _useCheckoutsEndpoint: true
     });
 
-    var USA = spreeStore.createRecord('country', {
+    var USA = yeboStore.createRecord('country', {
       name: 'United States'
     });
 
-    var NY = spreeStore.createRecord('state', {
+    var NY = yeboStore.createRecord('state', {
       name: 'New York'
     });
 
-    var shipAddress = spreeStore.createRecord('address', {
+    var shipAddress = yeboStore.createRecord('address', {
       firstname: 'Hugh',
       lastname: 'Francis',
       address1: '123 Street st',
@@ -138,11 +138,11 @@ test('it serializes correctly based on order state', function(assert) {
 
     checkouts.set('currentState', 'payment');
     
-    var paymentMethod = spreeStore.createRecord('paymentMethod', {
+    var paymentMethod = yeboStore.createRecord('paymentMethod', {
       id: 1
     });
-    var payment = spreeStore.createRecord('payment');
-    var source  = spreeStore.createRecord('source');
+    var payment = yeboStore.createRecord('payment');
+    var source  = yeboStore.createRecord('source');
     payment.set('paymentMethod', paymentMethod);
     payment.set('source', source);
 

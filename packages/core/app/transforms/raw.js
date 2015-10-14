@@ -1,12 +1,12 @@
 import DS from 'ember-data';
 /**
   A simple `DS` transform for accepting raw server output and leaving as is.  Currently
-  the only use case is for accepting Spree's Order Checkout Steps as a raw array of
+  the only use case is for accepting Yebo's Order Checkout Steps as a raw array of
   strings.
 
-  @class Raw 
+  @class Raw
   @namespace Transform
-  @module spree-ember-core/transforms/array
+  @module yebo-ember-core/transforms/array
   @extends DS.Transform
 */
 export default DS.Transform.extend({

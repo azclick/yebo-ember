@@ -2,7 +2,7 @@
 'use strict';
 
 module.exports = {
-  name: 'spree-ember-checkouts',
+  name: 'yebo-ember-checkouts',
 
   included: function(app) {
     this._super.included(app);

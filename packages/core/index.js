@@ -2,7 +2,7 @@
 'use strict';
 
 module.exports = {
-  name: 'spree-ember-core',
+  name: 'yebo-ember-core',
 
   included: function(app) {
     this._super.included(app);

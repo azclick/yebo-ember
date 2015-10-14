@@ -1,6 +1,6 @@
 import DS from 'ember-data';
-import HandlesNestedServerErrors from 'spree-ember-core/mixins/handles-nested-server-errors';
-import CanCheckout from 'spree-ember-core/mixins/can-checkout';
+import HandlesNestedServerErrors from 'yebo-ember-core/mixins/handles-nested-server-errors';
+import CanCheckout from 'yebo-ember-core/mixins/can-checkout';
 
 export default DS.Model.extend(HandlesNestedServerErrors, CanCheckout, {
   // Attribues

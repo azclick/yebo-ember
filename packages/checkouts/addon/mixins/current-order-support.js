@@ -1,12 +1,12 @@
 import Ember from 'ember';
 
 /**
-  Provides Current Order and Checkout Functionality to the Spree service.  This
-  mixin is applied to the Spree service when spree-ember-checkouts initializes,
+  Provides Current Order and Checkout Functionality to the Yebo service.  This
+  mixin is applied to the Yebo service when yebo-ember-checkouts initializes,
   therefore all functionality described here is available like so:
 
   ```javascript
-  this.spree.addToCart(variantModel, 5);
+  this.yebo.addToCart(variantModel, 5);
   ```
 
   @class CurrentOrderSupport
@@ -15,10 +15,10 @@ import Ember from 'ember';
 */
 export default Ember.Mixin.create({
   /**
-    A generic event triggered whenever a Spree Server request fails.
+    A generic event triggered whenever a Yebo Server request fails.
 
     @event serverError
-    @param {Object} error The error object returned from the Spree Server.
+    @param {Object} error The error object returned from the Yebo Server.
   */
 
   /**
@@ -100,8 +100,8 @@ export default Ember.Mixin.create({
   */
 
   /**
-    A method called in the `spree-ember-checkouts` initializer after the
-    `Checkouts` mixin is applied to the Spree service, to initialize functionality
+    A method called in the `yebo-ember-checkouts` initializer after the
+    `Checkouts` mixin is applied to the Yebo service, to initialize functionality
     in this mixin.
 
     @method _restoreCurrentOrder 
@@ -140,8 +140,8 @@ export default Ember.Mixin.create({
 
   /**
     The token used to Authenticate the current user against the current order.  Persisted
-    to local storage via `spree-ember-core/mixins/storable`.  This property is
-    sent to the Spree server via the header `X-Spree-Order-Token`.
+    to local storage via `yebo-ember-core/mixins/storable`.  This property is
+    sent to the Yebo server via the header `X-Yebo-Order-Token`.
 
     @property guestToken
     @type String
@@ -152,8 +152,8 @@ export default Ember.Mixin.create({
 
   /**
     The user's Current Order number, persisted to local storage via
-    `spree-ember-core/mixins/storable`.  This property is sent to the Spree
-    server via the header `X-Spree-Order-Id`.
+    `yebo-ember-core/mixins/storable`.  This property is sent to the Yebo
+    server via the header `X-Yebo-Order-Id`.
 
     @property orderId
     @type String
@@ -183,8 +183,8 @@ export default Ember.Mixin.create({
 
   /**
     Adds a lineItem to the currentOrder. If there is no Current Order,
-    Spree Ember will request a new order from the server, and set it as the
-    Current Order on the Spree service.
+    Yebo Ember will request a new order from the server, and set it as the
+    Current Order on the Yebo service.
 
     @method addToCart
     @param {DS.Model} variant A class of the variant model
@@ -251,13 +251,13 @@ export default Ember.Mixin.create({
 
   /**
     Will attempt to create a new Order for the checkout user, and save the `orderId`
-    and `guestToken` to the Spree service, so that it will persist across page
+    and `guestToken` to the Yebo service, so that it will persist across page
     refreshes.  It will also initiate the state machine for the current order.
 
     @method _createNewOrder
     @private
     @return {Ember.RSVP.Promise} A promise that resolves to the newly created
-    Spree Order.
+    Yebo Order.
   */
   _createNewOrder: function() {
     var _this = this;

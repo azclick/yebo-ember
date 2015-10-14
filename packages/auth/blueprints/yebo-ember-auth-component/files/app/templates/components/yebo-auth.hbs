@@ -1,0 +1,22 @@
+<form {{action 'submit' on='submit'}}>
+  <fieldset>
+    {{#if isSignup}}
+      <legend>Sign Up</legend>
+    {{else}}
+      <legend>Sign In</legend>
+    {{/if}}
+    {{yebo-input value=identification
+                  errors=errors
+                  attributeName="Email"}}
+    {{input placeholder="Password" type="Password" value=password}}
+    {{#if isSignup}}
+      {{input placeholder="Password Confirmation" type="Password" value=passwordConfirmation}}
+    {{/if}}
+    <button type="submit" class="expand">Continue</button>
+    {{#if isSignup}}
+      {{#link-to 'yebo.signin'}}Or sign in here.{{/link-to}}
+    {{else}}
+      {{#link-to 'yebo.signup'}}Or create a new account.{{/link-to}}
+    {{/if}}
+  </fieldset>
+</form>
