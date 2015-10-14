@@ -89,8 +89,7 @@ export default DS.Store.extend({
     var adapter    = this.adapterFor(model);
     var serializer = this.serializerFor(type);
 
-    var promise = adapter.findRecord(store, model, 1, null);
-    // var promise = adapter.query(store, model, {slug: slug}, null);
+    var promise = adapter.findRecord(store, model, slug, null);
 
     return promise.then(
       function(adapterPayload) {
