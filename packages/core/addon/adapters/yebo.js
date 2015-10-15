@@ -77,14 +77,11 @@ export default DS.ActiveModelAdapter.extend({
     @readOnly
     @default {}
   */
-  headers: Ember.computed('yebo.guestToken', 'yebo.orderId', function() {
+  headers: Ember.computed('yebo.guestToken', 'yebo.orderId', 'yebo.sdk:token', function() {
     var guestToken = this.get('yebo.guestToken');
     var orderId = this.get('yebo.orderId');
-    var token = "Token not yet set";
-
-    YeboSDK.Store.auth().then(function(token){
-      token;
-    });
+    var token = this.get('yebo.sdk:token');
+    debugger;
 
     if (guestToken && orderId) {
       return {
