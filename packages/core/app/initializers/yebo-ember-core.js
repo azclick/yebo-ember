@@ -19,6 +19,10 @@ export function initialize(container, application) {
   var YeboService = container.lookup('service:yebo');
   YeboService.set('environment', ENV.environment);
   YeboService.set('config', ENV['yebo'] || {});
+
+  // Config Yebo SDK
+  YeboSDK.Config.set('store:url', ENV['yebo'].apiHost);
+  YeboSDK.Config.set('store:api:version', ENV['yebo'].namespace);
 }
 
 export default {

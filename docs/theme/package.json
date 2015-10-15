@@ -6,6 +6,6 @@
   "keywords": [
     "yuidoc"
   ],
-  "author": "Hugh Francis",
+  "author": ["Hugh Francis", "Yuri Freire"],
   "license": "MIT"
 }

@@ -3,7 +3,7 @@
   "version": "0.0.1-beta.1",
   "description": "An Ember Ecosystem for Yebo Commerce.",
   "repository": "https://github.com/azclick/yebo-ember.git",
-  "author": "Hugh Francis",
+  "author": ["Hugh Francis", "Yuri Freire"],
   "license": "MIT",
   "devDependencies": {
     "grunt": "^0.4.5",

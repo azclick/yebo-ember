@@ -79,17 +79,26 @@ export default DS.ActiveModelAdapter.extend({
   */
   headers: Ember.computed('yebo.guestToken', 'yebo.orderId', function() {
     var guestToken = this.get('yebo.guestToken');
-    var orderId    = this.get('yebo.orderId');
+    var orderId = this.get('yebo.orderId');
+    var token = "Token not yet set";
+
+    YeboSDK.Store.auth().then(function(token){
+      token;
+    });
 
     if (guestToken && orderId) {
       return {
-        "X-Yebo-Order-Token": guestToken,
-        "X-Yebo-Order-Id":    orderId
+        "X-Spree-Order-Token": guestToken,
+        "X-Spree-Order-Id": orderId,
+        "Authorization": ["Bearer", token].join(" ")
       };
     } else {
-      return { };
+      return {
+        "Authorization": ["Bearer", token].join(" ")
+      };
     }
   }),
+
 
   /**
     Overrides the default buildURL call to check for the `_useCheckoutsEndpoint`
