@@ -81,7 +81,6 @@ export default DS.ActiveModelAdapter.extend({
     var guestToken = this.get('yebo.guestToken');
     var orderId = this.get('yebo.orderId');
     var token = this.get('yebo.sdk:token');
-    debugger;
 
     if (guestToken && orderId) {
       return {
