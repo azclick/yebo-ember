@@ -1,15 +1,17 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import ActiveModelAdapter from 'active-model-adapter';
+
 /**
   The Yebo Adapter is responsible for communicating with your Yebo store.  It
   assumes your server has the `yebo_ams` gem installed.
 
   @class Yebo
   @namespace Adapter
-  @extends DS.ActiveModelAdapter
+  @extends ActiveModelAdapter
 */
 
-export default DS.ActiveModelAdapter.extend({
+export default ActiveModelAdapter.extend({
   /**
     The container lookup name for the default Yebo serializer.
 
