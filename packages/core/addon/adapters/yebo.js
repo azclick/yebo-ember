@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import ActiveModelAdapter from 'active-model-adapter';
 
 /**
   The Yebo Adapter is responsible for communicating with your Yebo store.  It
@@ -8,10 +7,10 @@ import ActiveModelAdapter from 'active-model-adapter';
 
   @class Yebo
   @namespace Adapter
-  @extends ActiveModelAdapter
+  @extends DS.ActiveModelAdapter
 */
 
-export default ActiveModelAdapter.extend({
+export default DS.ActiveModelAdapter.extend({
   /**
     The container lookup name for the default Yebo serializer.
 
