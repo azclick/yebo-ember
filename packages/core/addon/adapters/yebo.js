@@ -10,7 +10,7 @@ import DS from 'ember-data';
   @extends DS.ActiveModelSerializer
 */
 
-export default DS.ActiveModelSerializer.extend({
+export default DS.ActiveModelAdapter.extend({
   /**
     The container lookup name for the default Yebo serializer.
 
