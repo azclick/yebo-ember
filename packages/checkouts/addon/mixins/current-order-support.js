@@ -208,6 +208,7 @@ export default Ember.Mixin.create({
 
     return this.get('currentCart').add(variant, quantity).then(function(cart) {
       _this.set("orderNumber", cart.order.number);
+      _this.set("guestToken", cart.order.token);
 
       // Set currentOrder to null to force update of the object
       _this._findOrder(cart.order.number);

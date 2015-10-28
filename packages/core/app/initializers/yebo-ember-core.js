@@ -25,7 +25,8 @@ export function initialize(container, application) {
   YeboSDK.Store.auth().then(function(token){
     YeboService.set('sdk:token', token );
   });
-
+  YeboSDK.Config.set('store:url', ENV.yebo.apiHost)
+  YeboSDK.Config.set('store:api:version', ENV.yebo.namespace)
 }
 
 export default {
