@@ -32,7 +32,7 @@ export default Ember.Mixin.create({
     Triggered whenever a Line Item is created or updated.
 
     @event addToCartFailed
-    @param {Error} error The returned Server Error.  
+    @param {Error} error The returned Server Error.
   */
 
   /**
@@ -48,7 +48,7 @@ export default Ember.Mixin.create({
     @event newOrderCreateFailed
     @param {Object} error The returned Server Error.
   */
-  
+
   /**
     Triggered whenever a new Order is created for the checkout user.
 
@@ -66,30 +66,30 @@ export default Ember.Mixin.create({
     Triggered when the `_saveCurrentOrder` call succeeds.
 
     @event didSaveCurrentOrder
-    @param {Ember.RSVP.Promise} currentOrderPromise A promise that resolves to 
+    @param {Ember.RSVP.Promise} currentOrderPromise A promise that resolves to
     the Current Order
   */
 
   /**
     Triggered when the `_saveCurrentOrder` call fails.
 
-    @event saveCurrentOrderFailed 
-    @param {Error} error The returned Server Error.  
+    @event saveCurrentOrderFailed
+    @param {Error} error The returned Server Error.
   */
 
   /**
     Triggered when the `advanceCurrentOrder` call succeeds.
 
     @event didAdvanceCurrentOrder
-    @param {Ember.RSVP.Promise} currentOrderPromise A promise that resolves to 
+    @param {Ember.RSVP.Promise} currentOrderPromise A promise that resolves to
     the Current Order
   */
 
   /**
     Triggered when the `advanceCurrentOrder` call fails.
 
-    @event advanceCurrentOrderFailed 
-    @param {Error} error The returned Server Error.  
+    @event advanceCurrentOrderFailed
+    @param {Error} error The returned Server Error.
   */
 
   /**
@@ -99,32 +99,34 @@ export default Ember.Mixin.create({
     @param {DS.Model} order The Current Order.
   */
 
+
   /**
     A method called in the `yebo-ember-checkouts` initializer after the
     `Checkouts` mixin is applied to the Yebo service, to initialize functionality
     in this mixin.
 
-    @method _restoreCurrentOrder 
+    @method _restoreCurrentOrder
     @private
     @return {Boolean} Always resolves to `true`.
   */
   _restoreCurrentOrder: function() {
+    if (!this.get('currentCart')) {
+      this.set('currentCart', new YeboSDK.Cart());
+    }
+
     this.restore();
-    var orderId = this.get('orderId');
-    
     var _this = this;
-    
+    var orderNumber = this.get('orderNumber');
+
     return new Ember.RSVP.Promise(function(resolve) {
-      if (orderId) {
-        _this.store.find('order', orderId).then(
-          function(currentOrder) {
+      if (orderNumber) {
+        _this.store.find('order', orderNumber).then(function(currentOrder) {
             _this.set('currentOrder', currentOrder);
             return _this.get('checkouts').transition(currentOrder.get('state'));
-          },
-          function(error) {
+          }, function(error) {
             _this.persist({
               guestToken: null,
-              orderId: null
+              orderNumber: null
             });
             _this.trigger('serverError', error);
             return error;
@@ -155,13 +157,13 @@ export default Ember.Mixin.create({
     `yebo-ember-core/mixins/storable`.  This property is sent to the Yebo
     server via the header `X-Yebo-Order-Id`.
 
-    @property orderId
+    @property orderNumber
     @type String
     @readOnly
     @default null
   */
-  orderId: null,
-  
+  orderNumber: null,
+
   /**
     A reference to the Current Order.  It is only set twice in this code,
     once on Application initialization (in the case it was persisted), and once
@@ -172,6 +174,15 @@ export default Ember.Mixin.create({
     @default null
   */
   currentOrder: null,
+
+  /**
+    A reference to the Current Cart.
+
+    @property currentCart
+    @type { }
+    @default null
+  */
+  currentCart: null,
 
   /**
     A reference to the Stateful Checkouts service.
@@ -192,65 +203,19 @@ export default Ember.Mixin.create({
     @return {Ember.RSVP.Promise} A promise that resolves to the newly saved Line Item.
   */
   addToCart: function(variant, quantity) {
-    var _this        = this;
-    var currentOrder = this.get('currentOrder');
+    var _this = this;
     quantity = quantity || 1;
 
-    if (currentOrder) {
-      return _this._saveLineItem(variant, quantity, currentOrder);
-    } else {
-      return this._createNewOrder().then(
-        function(currentOrder) {
-          return _this._saveLineItem(variant, quantity, currentOrder);
-        },
-        function(error) {
-          return error;
-        }
-      );
-    }
+    return this.get('currentCart').add(variant, quantity).then(function(cart) {
+      _this.set("orderNumber", cart.order.number);
+
+      // Set currentOrder to null to force update of the object
+      _this._findOrder(cart.order.number);
+    });
   },
 
   /**
-    An internal method for saving Line Items.  If it is called for a variant that
-    is already in the current order, it will add to the corresponding Line Item's
-    quantity, otherwise it will create a new Line Item for that variant.
-
-    @method _saveLineItem
-    @private
-    @param {Ember.Object} variant A class of the variant model
-    @param {Integer} quantity A quantity for the `lineItem`
-    @param {Ember.Object} order The corresponding order
-    @return {Ember.RSVP.Promise} A promise that resolves to the newly created or
-    updated `lineItem` object.
-  */
-  _saveLineItem: function(variant, quantity, order) {
-    var _this = this;
-    var lineItem = order.get('lineItems').findBy('variant', variant);
-
-    if (lineItem) {
-      var currentQuantity = lineItem.get('quantity');
-      lineItem.set('quantity', currentQuantity + quantity);
-    } else {
-      lineItem = this.store.createRecord('lineItem', {
-        variant:  variant,
-        quantity: quantity
-      });
-    }
-
-    return lineItem.save().then(
-      function(lineItem) {
-        _this.trigger('didAddToCart', lineItem);
-        return lineItem;
-      },
-      function(error) {
-        _this.trigger('serverError', error);
-        return error;
-      }
-    );
-  },
-
-  /**
-    Will attempt to create a new Order for the checkout user, and save the `orderId`
+    Will attempt to create a new Order for the checkout user, and save the `orderNumber`
     and `guestToken` to the Yebo service, so that it will persist across page
     refreshes.  It will also initiate the state machine for the current order.
 
@@ -259,44 +224,22 @@ export default Ember.Mixin.create({
     @return {Ember.RSVP.Promise} A promise that resolves to the newly created
     Yebo Order.
   */
-  _createNewOrder: function() {
+  _findOrder: function(orderNumber) {
     var _this = this;
-    return this.store.createRecord('order').save().then(
-      function(newOrder) {
-        _this.set('currentOrder', newOrder);
-        _this.persist({
-          guestToken: newOrder.get('guestToken'),
-          orderId:    newOrder.get('id')
-        });
-        _this.trigger('didCreateNewOrder', newOrder);
-        _this.get('checkouts').transition(newOrder.get('state'));
-        return newOrder;
-      },
-      function(error) {
-        _this.trigger('newOrderCreateFailed', error);
-        _this.trigger('serverError', error);
-        return error;
-      }
-    );
-  },
 
-  /**
-    Clears the current order and any reference to it.
-
-    @method clearCurrentOrder
-    @return {Boolean} Always returns `true`.
-  */
-  clearCurrentOrder: function(didComplete) {
-    if (didComplete) {
-      this.trigger('currentOrderDidComplete', this.get('currentOrder'));
-    }
-    this.persist({
-      guestToken: null,
-      orderId: null
+    return this.store.find('order', orderNumber).then(function(newOrder) {
+      _this.set('_currentOrder', newOrder);
+      _this.persist({
+        guestToken: newOrder.get('guestToken'),
+        orderNumber: newOrder.get('id')
+      });
+      _this.trigger('didCreateNewOrder', newOrder);
+      _this.get('checkouts').transition(newOrder.get('state'));
+      return newOrder;
+    }, function(error) {
+      _this.trigger('newOrderCreateFailed', error);
+      _this.trigger('serverError', error);
+      return error;
     });
-    this.set('currentOrder', null);
-    this.get('checkouts').transition();
-    this.trigger('didClearCurrentOrder');
-    return true;
-  }
+  },
 });
