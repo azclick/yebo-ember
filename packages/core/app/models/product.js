@@ -40,19 +40,12 @@ export default DS.Model.extend({
   }),
 
   image: Ember.computed('images.[]', function() {
-    return this.get('images').findBy('position');
+    let img = this.get('images').findBy('position', 1)
+
+    if(img){
+      return img;
+    } else {
+      this.get('images').findBy('position', 0)
+    }
   }),
-
-  masterBrand: Ember.computed('taxons.[]', function() {
-    // var brandTaxonomyPermalink = "marcas";
-    // var brandTaxonomy = this.store
-    //   .findQuery('taxon', { q: { permalink_eq: brandTaxonomyPermalink } });
-    //
-    // return this.get('taxons').findBy('parentId', brandTaxonomy
-    //   .findBy('permalink', 'marcas')
-    //   .get("id"));
-
-    var brandTaxonomy = Ember.Object.create({ id: 2 });
-    return this.get('taxons').findBy('parentId', brandTaxonomy.get("id"));
-  })
 });

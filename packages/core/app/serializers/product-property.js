@@ -1,7 +1,3 @@
-import Ember from 'ember';
-import DS from 'ember-data';
+import YeboSerializer from 'yebo-ember-core/serializers/yebo';
 
-import Yebo from 'yebo-ember-core/serializers/yebo';;
-
-export default Yebo.extend({
-});
+export default YeboSerializer;

@@ -64,7 +64,7 @@ export default DS.Model.extend(HandlesNestedServerErrors, CanCheckout, {
     return this.get('state') === "complete";
   }),
 
-  activePayment: Ember.computed('payments.@each.state', function() {
+  activePayment: Ember.computed('payments.[].state', function() {
     return this.get('payments').reject(function(payment) {
       return payment.get('state') === ("invalid" || "void");
     }).get('lastObject');
