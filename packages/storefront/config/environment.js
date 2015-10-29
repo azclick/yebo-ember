@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = function(/* environment, appConfig */) {
-  return { 
+  return {
     "yebo": {
       apiHost: "http://localhost:3000",
-      namespace: "api/ams",
+      namespace: "api/v2",
       mount: "/",
       productsPath: "products",
       cartPath: "cart",
