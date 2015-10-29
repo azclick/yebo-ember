@@ -11,7 +11,7 @@
     "build": "ember build",
     "test": "ember try:testall"
   },
-  "repository": "https://github.com/azclick/yebo-ember/tree/master/packages/storefront",
+  "repository": "https://github.com/yurifrl/yebo-ember/tree/master/packages/storefront",
   "engines": {
     "node": ">= 0.10.0"
   },

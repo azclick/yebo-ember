@@ -11,7 +11,7 @@
     "build": "ember build",
     "test": "ember test"
   },
-  "repository": "https://github.com/azclick/yebo-ember/tree/master/packages/auth",
+  "repository": "https://github.com/yurifrl/yebo-ember/tree/master/packages/auth",
   "engines": {
     "node": ">= 0.10.0"
   },
