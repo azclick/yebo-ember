@@ -2,21 +2,21 @@ import ENV from '../config/environment';
 import YeboSerializer from 'yebo-ember-core/serializers/yebo';
 import YeboAdapter from 'yebo-ember-core/adapters/yebo';
 
-export function initialize(container, application) {
+export function initialize(instance) {
   /* Register Yebo Utilities with the Container */
-  container.register('serializer:-yebo', YeboSerializer);
-  container.register('adapter:-yebo', YeboAdapter);
+  instance.register('serializer:-yebo', YeboSerializer);
+  instance.register('adapter:-yebo', YeboAdapter);
 
   /* Inject the Yebo Store into the Yebo Service */
-  application.inject('service:yebo', 'store', 'store:yebo');
+  instance.inject('service:yebo', 'store', 'store:yebo');
 
   /* Inject the Yebo Service into Routes & Components */
-  application.inject('route', 'yebo', 'service:yebo');
-  application.inject('controller', 'yebo', 'service:yebo');
-  application.inject('component', 'yebo', 'service:yebo');
+  instance.inject('route', 'yebo', 'service:yebo');
+  instance.inject('controller', 'yebo', 'service:yebo');
+  instance.inject('component', 'yebo', 'service:yebo');
 
   /* Copy Environment and Yebo Configuration to Yebo Service */
-  var YeboService = container.lookup('service:yebo');
+  instance.container.lookup('service:yebo');
   YeboService.set('environment', ENV.environment);
   YeboService.set('config', ENV['yebo'] || {});
 
@@ -27,6 +27,8 @@ export function initialize(container, application) {
   });
   YeboSDK.Config.set('store:url', ENV.yebo.apiHost)
   YeboSDK.Config.set('store:api:version', ENV.yebo.namespace)
+
+  debugger;
 }
 
 export default {

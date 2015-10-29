@@ -1,6 +1,6 @@
 export function initialize(container, application) {
   var YeboAdapter = container.lookup('adapter:-yebo');
-  var Session      = container.lookup('simple-auth-session:main');
+  var Session = container.lookup('simple-auth-session:main');
 
   Session.reopen({
     currentUser: null,

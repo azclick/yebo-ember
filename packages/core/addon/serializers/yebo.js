@@ -30,7 +30,7 @@ import DS from 'ember-data';
   @module yebo-ember-core/serializers/yebo
   @extends DS.ActiveModelSerializer
 */
-export default DS.ActiveModelSerializer.extend({
+export default DS.RESTSerializer.extend({
   /**
     Serializes a record for sending to the Yebo server.  Here, we extend the
     default behaviour of `DS.ActiveModelSerializer#serialize` to ensure that we
