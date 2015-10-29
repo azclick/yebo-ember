@@ -1,0 +1,9 @@
+# App name
+yebo-ember:
+  build: .
+  command: bash
+  volumes:
+    - .:/yebo-ember
+  ports:
+    - "4200:4200"
+    - "49152:49152"
