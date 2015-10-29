@@ -57,7 +57,15 @@ export default DS.Store.extend({
       type = this.modelFor(type);
     }
 
-    return this.lookupSerializer(type.typeKey) || this.lookupSerializer('yebo');
+    var serializer = this.lookupSerializer('yebo');
+    try {
+       serializer = this.lookupSerializer(type.typeKey);
+    }
+    catch (e) {
+      Ember.Logger.info('no serializer for:', type.typeKey);
+    }
+
+    return serializer;
   },
 
   /**

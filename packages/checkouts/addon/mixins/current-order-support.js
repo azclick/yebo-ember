@@ -211,7 +211,7 @@ export default Ember.Mixin.create({
       _this.set("guestToken", cart.order.token);
 
       // Set currentOrder to null to force update of the object
-      _this._findOrder(cart.order.number);
+      return _this._findOrder(cart.order.number);
     });
   },
 
@@ -229,13 +229,13 @@ export default Ember.Mixin.create({
     var _this = this;
 
     return this.store.find('order', orderNumber).then(function(newOrder) {
-      _this.set('_currentOrder', newOrder);
-      _this.persist({
-        guestToken: newOrder.get('guestToken'),
-        orderNumber: newOrder.get('id')
-      });
+      _this.set('currentOrder', newOrder);
+      _this.set("guestToken", newOrder.get('guestToken'));
+      _this.set("orderNumber", newOrder.get('number'));
       _this.trigger('didCreateNewOrder', newOrder);
-      _this.get('checkouts').transition(newOrder.get('state'));
+      if(newOrder.get('state') != "cart"){
+        _this.get('checkouts').transition(newOrder.get('state'));
+      }
       return newOrder;
     }, function(error) {
       _this.trigger('newOrderCreateFailed', error);
