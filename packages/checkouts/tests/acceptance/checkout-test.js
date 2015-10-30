@@ -30,7 +30,7 @@ var randomNumberInRange = function (min, max) {
 
 var assembleRandomCart = function(assert) {
   return Ember.run(function() {
-    return yebo.store.find('product').then(function(products){
+    return yebo.store.findAll('product').then(function(products){
       assert.ok(products);
       var product = randomItemFromArray(products);
       var variant = randomItemFromArray(product.get('variantsIncludingMaster'));
@@ -46,7 +46,7 @@ var assembleRandomCart = function(assert) {
 
 test('can add to cart', function(assert) {
   assert.equal(yebo.get('currentOrder'), undefined);
- 
+
   return assembleRandomCart(assert).then(function(lineItem){
     assert.ok(lineItem);
 
@@ -57,7 +57,7 @@ test('can add to cart', function(assert) {
 
 test('can clear a current order', function(assert) {
   assert.equal(yebo.get('currentOrder'), undefined);
-  
+
   return assembleRandomCart(assert).then(function(lineItem){
     assert.ok(lineItem);
     assert.ok(yebo.get('currentOrder'));
@@ -68,7 +68,7 @@ test('can clear a current order', function(assert) {
 
 test('persists order info to local storage', function(assert) {
   assert.equal(yebo.get('currentOrder'), undefined);
- 
+
   return assembleRandomCart(assert).then(function(lineItem){
     assert.ok(lineItem);
 
@@ -99,14 +99,14 @@ test('can advance order state', function(assert) {
         assert.equal(currentOrder.get('state'), 'address');
         assert.equal(checkouts.get('currentState'), 'address');
         assert.ok(currentOrder.get('shipAddress'));
-        
+
         return checkouts.transition().catch(function() {
           assert.equal(currentOrder.get('errors.base.firstObject.message'), "Invalid resource. Please fix errors and try again.");
           assert.ok(currentOrder.get('shipAddress.errors.length'));
 
           return yebo.get('countries').then(function(countries) {
             assert.ok(countries);
-          
+
             var USA = countries.findBy('name', 'United States');
             var NY  = USA.get('states').findBy('name', 'New York');
 
@@ -118,21 +118,21 @@ test('can advance order state', function(assert) {
               city: 'New York City',
               zipcode: '10002',
               phone: '1231231234',
-              country: USA, 
+              country: USA,
               state: NY
             });
-            
+
             var seed = (new Date()).valueOf().toString();
             currentOrder.set('email', 'yebo-ember-'+seed+'@example.com');
-            
+
             return checkouts.transition().then(function() {
               assert.equal(currentOrder.get('state'), 'delivery');
-              
+
               return checkouts.transition().then(function() {
                 assert.equal(currentOrder.get('state'), 'payment');
                 assert.equal(checkouts.get('currentState'), 'payment');
                 assert.ok(currentOrder.get('activePayment'));
-                
+
                 return checkouts.transition().catch(function() {
                   assert.equal(currentOrder.get('state'), 'payment');
                   assert.equal(checkouts.get('currentState'), 'payment');
@@ -145,7 +145,7 @@ test('can advance order state', function(assert) {
                     name: "Hugh Francis",
                     verificationValue: 123
                   });
-                  
+
                   // TODO - Need to get this to complete.
 
                   //return checkouts.transition().then(function() {
@@ -160,8 +160,8 @@ test('can advance order state', function(assert) {
               });
             });
           });
-        });  
+        });
       });
     });
   });
-});    
+});

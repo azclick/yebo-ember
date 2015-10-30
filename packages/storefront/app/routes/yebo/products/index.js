@@ -19,8 +19,8 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   model: function() {
     return Ember.RSVP.hash({
-      products: this.yebo.store.find('product'),
-      taxonomies: this.yebo.store.find('taxonomy')
+      products: this.yebo.store.findAll('product'),
+      taxonomies: this.yebo.store.findAll('taxonomy')
     });
   }
 });

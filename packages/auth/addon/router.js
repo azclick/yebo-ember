@@ -11,4 +11,3 @@ export default function(router, ENV) {
     this.route('account', { path: accountPath });
   });
 }
-

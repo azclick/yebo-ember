@@ -8,11 +8,11 @@ provides the `yebo` service, which has a seperate `store` to the host
 application.
 
 This store uses a custom `serializer` and `adapter` that are
-designed to work tightly with the [Yebo](http://github.com/yebo/yebo) rails 
+designed to work tightly with the [Yebo](http://github.com/yebo/yebo) rails
 engine, via [Yebo AMS](http://github.com/azclick/yebo_ams).
 
 ```bash
-this.yebo.store.find("product");
+this.yebo.store.findAll("product");
 ```
 
 **Note:** This Package is included with `yebo-ember-storefront`.  If you're
@@ -43,7 +43,7 @@ This addon also adds the following models to the global namespace:
 * Zone
 
 Finally, this addon handles the UI State Persistance using browser local
-storage. 
+storage.
 
 ## Installation
 
@@ -58,5 +58,5 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 ## Yebo Ember
 
 If you're just getting started, it's recommended that you checkout the
-`yebo-ember-storefront` addon instead.  It's the quickest way to get up and 
+`yebo-ember-storefront` addon instead.  It's the quickest way to get up and
 running with Yebo Ember.

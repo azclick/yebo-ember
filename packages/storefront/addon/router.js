@@ -15,7 +15,7 @@ export default function(router, ENV) {
       this.route('index', { path: '/' });
       this.route('show', { path: '/:slug' });
     });
-    
+
     router.route('yebo.taxons', { path: mountPath + '/' + taxonsPath },function() {
       this.route('index', { path: '/*taxon_id' });
     });

@@ -1,12 +1,13 @@
 import CurrentOrderSupportMixin from 'yebo-ember-checkouts/mixins/current-order-support';
 
-export function initialize(container, application) {
-  var YeboService = container.lookup('service:yebo');
+export function initialize(instance) {
+  var YeboService = instance.container.lookup('service:yebo');
   CurrentOrderSupportMixin.apply(YeboService);
 
-  application.deferReadiness();
+  // App.deferReadiness();
   YeboService._restoreCurrentOrder().finally(function() {
-    application.advanceReadiness();
+    // Essa estancia HAHAHAHA
+    App.advanceReadiness();
   });
 }
 

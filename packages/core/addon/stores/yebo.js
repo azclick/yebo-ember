@@ -52,20 +52,10 @@ export default DS.Store.extend({
     @method serializerFor
     @return {Serializer} A serializer.
   */
-  serializerFor: function(type) {
-    if (type !== 'application') {
-      type = this.modelFor(type);
-    }
-
-    var serializer = this.lookupSerializer('yebo');
-    try {
-       serializer = this.lookupSerializer(type.typeKey);
-    }
-    catch (e) {
-      Ember.Logger.info('no serializer for:', type.typeKey);
-    }
-
-    return serializer;
+  serializerFor: function(modelName) {
+    // var fallbacks = ['application', this.adapterFor(modelName).get('defaultSerializer'), '-default'];
+    // return  this.lookupSerializer(modelName, fallbacks);
+    return this.lookupSerializer('yebo');
   },
 
   /**
@@ -92,9 +82,9 @@ export default DS.Store.extend({
     Ember.assert("You need to pass a type to the store's findBySlug method", arguments.length >= 1);
     Ember.assert("You need to pass a slug to the store's findBySlug method", arguments.length >= 2);
 
-    var store      = this;
-    var model      = this.modelFor(type);
-    var adapter    = this.adapterFor(model);
+    var store = this;
+    var model = this.modelFor(type);
+    var adapter = this.adapterFor(model);
     var serializer = this.serializerFor(type);
 
     var promise = adapter.findRecord(store, model, slug, null);

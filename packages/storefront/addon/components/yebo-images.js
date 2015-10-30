@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/yebo-images';
 /**
   A variant aware image browser for the Yebo PDP.
-  
+
   **To Override:** You'll need to run the components generator:
 
   ```bash
@@ -21,7 +21,7 @@ export default Ember.Component.extend({
   layout: layout,
   activeImage: null,
 
-  selectedImage: Ember.computed('activeImage', 'images.@each', function() {
+  selectedImage: Ember.computed('activeImage', 'images.[]', function() {
     var activeImage = this.get('activeImage');
     if (activeImage) {
       return activeImage;

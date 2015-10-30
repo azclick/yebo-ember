@@ -36,7 +36,7 @@ export default Ember.Object.extend(Ember.Evented, Storable, {
     countries saved in the Yebo backend.
   */
   countries: Ember.computed(function() {
-    return this.store.find('country');
+    return this.store.findAll('country');
   }),
 
   /**

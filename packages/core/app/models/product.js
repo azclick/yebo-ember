@@ -18,7 +18,6 @@ export default DS.Model.extend({
   discountPrice: DS.attr('string'),
   rawDiscountPrice: DS.attr('number'),
 
-
   // Installments Attributes
   installments: DS.attr('number'),
   installmentValue: DS.attr('string'),
@@ -39,7 +38,7 @@ export default DS.Model.extend({
     return this.get('variantsIncludingMaster').findBy('isMaster');
   }),
 
-  image: Ember.computed('images.[]', function() {
+  image: Ember.computed('images', function() {
     let img = this.get('images').findBy('position', 1)
 
     if(img){

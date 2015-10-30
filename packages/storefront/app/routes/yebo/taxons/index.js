@@ -19,8 +19,8 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   model: function(params) {
     return Ember.RSVP.hash({
-      products: this.yebo.store.find('product', { taxon_id: params.taxon_id }),
-      taxon: this.yebo.store.find('taxon').then(function(taxons) {
+      products: this.yebo.store.findAll('product', { taxon_id: params.taxon_id }),
+      taxon: this.yebo.store.findAll('taxon').then(function(taxons) {
         return taxons.findBy('permalink', params.taxon_id)
       })
     })
