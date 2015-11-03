@@ -31,7 +31,7 @@ export default DS.Model.extend({
 
   //Computed
   variants: Ember.computed('variantsIncludingMaster', function() {
-    return this.get('variantsIncludingMaster');
+    return this.get('variantsIncludingMaster').rejectBy('isMaster');
   }),
 
   master: Ember.computed('variantsIncludingMaster', function() {
@@ -44,7 +44,7 @@ export default DS.Model.extend({
     if(img){
       return img;
     } else {
-      this.get('images').findBy('position', 0)
+      return this.get('images').findBy('position', 0)
     }
   }),
 });

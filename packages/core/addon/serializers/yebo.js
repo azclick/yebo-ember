@@ -1,8 +1,8 @@
 import Ember from 'ember';
-import DS from 'ember-data';
+import { ActiveModelSerializer } from 'active-model-adapter';
 
 /**
-  The Yebo Serializer is based on the `DS.ActiveModelSerializer`, but implements
+  The Yebo Serializer is based on the `ActiveModelSerializer`, but implements
   a stricter `serialize` method.
 
   ```javascript
@@ -28,12 +28,12 @@ import DS from 'ember-data';
   @class Yebo
   @namespace Serializer
   @module yebo-ember-core/serializers/yebo
-  @extends DS.ActiveModelSerializer
+  @extends ActiveModelSerializer
 */
-export default DS.RESTSerializer.extend({
+export default ActiveModelSerializer.extend({
   /**
     Serializes a record for sending to the Yebo server.  Here, we extend the
-    default behaviour of `DS.ActiveModelSerializer#serialize` to ensure that we
+    default behaviour of `ActiveModelSerializer#serialize` to ensure that we
     only persist attributes & relationships that have `persistToServer: true` in
     the model definition.  We also add the `id` to the payload, as we're often
     sending nested models to the server.

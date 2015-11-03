@@ -92,8 +92,8 @@ export default DS.Store.extend({
     return promise.then(
       function(adapterPayload) {
         var model = store.modelFor(type);
-        var payload = serializer.extract(store, model, adapterPayload, slug, 'find');
-        return store.push(type, payload);
+        var payload = serializer.normalizeResponse(store, model, adapterPayload, slug, 'findRecord');
+        return store.push(payload);
       },
       function(error) {
         throw Error(error);

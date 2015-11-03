@@ -28,12 +28,12 @@ export default Ember.Component.extend({
     var variants  = this.get('product.variants');
 
     if (selection) {
-      return selection; 
+      return selection;
     } else {
       if (variants && variants.get('length')) {
         return variants.get('firstObject');
       } else {
-        return this.get('product.masterVariant');
+        return this.get('product.master');
       }
     }
   }),
