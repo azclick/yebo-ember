@@ -43,9 +43,9 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.3",
     "ember-cli-htmlbars": "0.7.6",
-    "yebo-ember-core": "0.0.1-beta.1",
+    "yebo-ember-core": "0.0.0",
     "ember-cli-simple-auth": "0.8.0-beta.1",
-    "yebo-ember-storefront": "0.0.1-beta.1"
+    "yebo-ember-storefront": "0.0.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
