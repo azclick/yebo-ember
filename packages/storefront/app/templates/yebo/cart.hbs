@@ -1,0 +1,18 @@
+<div class="row">
+  <h1>Cart</h1>
+  <div class="small-12 columns">
+    {{#if yebo.currentOrder.lineItems.length}}
+      {{yebo-lineitems lineItems=yebo.currentOrder.lineItems canRemoveItems=true}}
+      {{yebo-details order=yebo.currentOrder}}
+      {{#link-to 'yebo.products.index'}}
+        <button>Keep Shopping</button>
+      {{/link-to}}
+      <button {{action 'transitionToCheckout'}}>Checkout</button>
+    {{else}}
+      <h1>Your cart is empty.</h1>
+      {{#link-to 'yebo.products.index'}}
+        <button>Keep Shopping</button>
+      {{/link-to}}
+    {{/if}}
+  </div>
+</div>

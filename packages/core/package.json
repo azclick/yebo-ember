@@ -1,7 +1,7 @@
 {
   "name": "yebo-ember-core",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Core data infrastructure for a Yebo Ember Application.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -15,7 +15,7 @@
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": ["Hugh Francis", "Yuri Freire"],
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.1.2",
@@ -31,6 +31,7 @@
     "ember-cli-release": "0.2.3",
     "ember-cli-sri": "^1.0.3",
     "ember-cli-uglify": "^1.2.0",
+    "ember-cli-yuidoc": "0.6.2",
     "ember-data": "1.13.8",
     "ember-disable-proxy-controllers": "^1.0.0",
     "ember-export-application-global": "^1.0.3",

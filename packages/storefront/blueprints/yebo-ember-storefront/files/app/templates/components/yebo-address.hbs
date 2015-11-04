@@ -1,0 +1,49 @@
+{{yebo-input value=address.firstname 
+              errors=address.errors.firstname
+              attributeName="First Name"}}
+
+{{yebo-input value=address.lastname
+              errors=address.errors.lastname
+              attributeName="Last Name"}}
+
+{{yebo-input value=address.address1
+              errors=address.errors.address1
+              attributeName="Street Address"}}
+              
+{{yebo-input value=address.address2 
+              errors=address.errors.address2
+              attributeName="Address (cont.)"}}
+
+{{yebo-input value=address.city
+              errors=address.errors.city
+              attributeName="City"}}
+              
+{{yebo-input value=address.zipcode 
+              errors=address.errors.zipcode
+              attributeName="Zipcode"}}
+              
+{{yebo-select content=countries 
+               optionLabelPath="content.name" 
+               selection=address.country 
+               prompt="Select a Country"
+               errors=address.errors.country
+               attributeName="Country"}}
+
+{{#if address.country.states.length}}
+  {{yebo-select content=address.country.states
+                optionLabelPath="content.name" 
+                selection=address.state
+                prompt="Select a State"
+                errors=address.errors.state
+                attributeName="State"}}
+{{else}}
+  {{#if address.country.statesRequired}}
+    {{yebo-input value=address.stateName
+                  errors=address.errors.stateName
+                  attributeName="State"}}
+  {{/if}}
+{{/if}}
+
+{{yebo-input value=address.phone
+              errors=address.errors.phone
+              attributeName="Phone"}}

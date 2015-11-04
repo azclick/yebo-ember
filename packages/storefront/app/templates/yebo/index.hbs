@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="small-12 columns text-center">
+    <div class='panel callout'>
+      <h1>Welcome to Yebo Ember</h1>
+      <hr />
+      <h6><strong>Note:</strong> You can delete the "Welcome to Ember.js"
+        message in your <code>application.hbs</code> file.</h6>
+      <h6>You can replace it with the <code>yebo-navigation</code> component.</h6>
+    </div>
+
+    <div class="panel text-left">
+      <h4>Yebo Ember Core</h4>
+      <hr />
+      <h6><strong>Yebo API Host:</strong> {{yebo.config.apiHost}}</h6>
+      <h6><strong>Yebo API Namespace:</strong> {{yebo.config.namespace}}</h6>
+    </div>
+
+    <div class="panel text-left">
+      <h4>Yebo Ember Checkouts</h4>
+      <hr />
+      <h6><strong>Checkouts Current State:</strong> {{yebo.checkouts.currentState}}</h6>
+      <h6><strong>Current Order:</strong> {{if yebo.currentOrder yebo.currentOrder 'null'}}</h6>
+    </div>
+
+    <div class="panel text-left">
+      <h4>Yebo Ember Storefront</h4>
+      <hr />
+      <h6><strong>Yebo Ember Mount Path:</strong> {{yebo.config.mount}}</h6>
+      <h6><strong>Products Path:</strong> {{yebo.config.productsPath}}</h6>
+      <h6><strong>Orders Path:</strong> {{yebo.config.ordersPath}}</h6>
+      <h6><strong>Taxons Path:</strong> {{yebo.config.taxonsPath}}</h6>
+      <h6><strong>Cart Path:</strong> {{yebo.config.cartPath}}</h6>
+      <h6><strong>Checkout Path:</strong> {{yebo.config.checkoutPath}}</h6>
+    </div>
+
+    <div class="panel text-left">
+      <h4>Yebo Ember Auth</h4>
+      <hr />
+      {{#if session}}
+        <h6><strong>Current User:</strong> {{if session.currentUser session.currentUser 'null'}}</h6>
+        <h6><strong>Signin Path:</strong> {{yebo.config.signinPath}}</h6>
+        <h6><strong>Signup Path:</strong> {{yebo.config.signupPath}}</h6>
+        <h6><strong>Account Path:</strong> {{yebo.config.accountPath}}</h6>
+      {{else}}
+        <h6>Install this package with <code>ember install yebo-ember-auth</code></h6>
+      {{/if}}
+    </div>
+
+    {{#link-to 'yebo.products.index'}}
+      <button class="expand">Products</button>
+    {{/link-to}}
+  </div>
+</div>
