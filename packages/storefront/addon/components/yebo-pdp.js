@@ -25,16 +25,11 @@ export default Ember.Component.extend({
 
   selectedVariant: Ember.computed('product.variants', function() {
     var selection = this.get('variantSelection');
-    var variants  = this.get('product.variants');
 
-    if (selection) {
+    if (selection && selection.get("images").any()) {
       return selection;
     } else {
-      if (variants && variants.get('length')) {
-        return variants.get('firstObject');
-      } else {
-        return this.get('product.master');
-      }
+      return this.get('product.master');
     }
   }),
 

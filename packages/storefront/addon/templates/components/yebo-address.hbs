@@ -1,57 +1,49 @@
-{{yebo-input value=address.firstname 
+{{yebo-input  value=address.firstname
               errors=address.errors.firstname
-              placeholder="First Name"
               attributeName="First Name"}}
 
-{{yebo-input value=address.lastname
+{{yebo-input  value=address.lastname
               errors=address.errors.lastname
-              placeholder="Last Name"
               attributeName="Last Name"}}
 
-{{yebo-input value=address.address1
+{{yebo-input  value=address.address1
               errors=address.errors.address1
-              placeholder="Address"
               attributeName="Street Address"}}
-              
-{{yebo-input value=address.address2 
+
+{{yebo-input  value=address.address2
               errors=address.errors.address2
-              placeholder="Address (cont.)"
               attributeName="Address (cont.)"}}
 
-{{yebo-input value=address.city
+{{yebo-input  value=address.city
               errors=address.errors.city
-              placeholder="City"
               attributeName="City"}}
-              
-{{yebo-input value=address.zipcode 
+
+{{yebo-input  value=address.zipcode
               errors=address.errors.zipcode
-              placeholder="Zipcode"
               attributeName="Zipcode"}}
-              
-{{yebo-select content=countries 
-               optionLabelPath="content.name" 
-               selection=address.country 
-               prompt="Select a Country"
-               errors=address.errors.country
-               attributeName="Country"}}
+
+{{yebo-select content=countries
+              optionLabelPath="content.name"
+              selection=address.country
+              prompt="Select a Country"
+              errors=address.errors.country
+              attributeName="Country"}}
 
 {{#if address.country.states.length}}
   {{yebo-select content=address.country.states
-                optionLabelPath="content.name" 
+                optionLabelPath="content.name"
                 selection=address.state
                 prompt="Select a State"
                 errors=address.errors.state
                 attributeName="State"}}
 {{else}}
   {{#if address.country.statesRequired}}
-    {{yebo-input value=address.stateName
+    {{yebo-input  value=address.stateName
                   errors=address.errors.stateName
-                  placeholder="State"
                   attributeName="State"}}
   {{/if}}
 {{/if}}
 
-{{yebo-input value=address.phone
+{{yebo-input  value=address.phone
               errors=address.errors.phone
-              placeholder="Phone"
               attributeName="Phone"}}

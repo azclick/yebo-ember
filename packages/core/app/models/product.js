@@ -39,12 +39,7 @@ export default DS.Model.extend({
   }),
 
   image: Ember.computed('images', function() {
-    let img = this.get('images').findBy('position', 1)
-
-    if(img){
-      return img;
-    } else {
-      return this.get('images').findBy('position', 0)
-    }
+    let imgs = this.get('images');
+    return imgs.findBy('position', 1) || imgs.findBy('position', 0);
   }),
 });

@@ -7,11 +7,11 @@
       <th class="text-center" width="100">Total</th>
       {{#if canRemoveItems}}
         <th class="text-center" width="100"></th>
-      {{/if}}  
+      {{/if}}
     </tr>
   </thead>
   <tbody>
-    {{#each lineItem in lineItems}}
+    {{#each lineItems as |lineItem|}}
       <tr>
         <td width="120"><img {{bind-attr src=lineItem.variant.images.firstObject.smallUrl}}></td>
         <td>

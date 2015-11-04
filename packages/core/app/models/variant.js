@@ -23,7 +23,6 @@ export default DS.Model.extend({
   discountPrice: DS.attr('string'),
   rawDiscountPrice: DS.attr('number'),
 
-
   // Installments Attributes
   installments: DS.attr('number'),
   installmentValue: DS.attr('string'),

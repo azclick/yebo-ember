@@ -21,5 +21,3 @@ export default {
   name: 'yebo-ember-core',
   initialize: initialize
 };
-
-// moduleName == "sandbox/initializers/yebo-ember-core" || moduleName ==  "sandbox/instance-initializers/ember-simple-auth"

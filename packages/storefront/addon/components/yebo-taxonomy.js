@@ -23,7 +23,7 @@ export default Ember.Component.extend({
     var taxons = this.get('taxonomy.taxons');
     var parentTaxon = taxons.findBy('parentId', null);
     var childTaxons = taxons.filter(function(taxon){
-      return taxon.get('parentId') === parentTaxon.get('id');
+      return taxon.get('parentId') == parentTaxon.get('id');
     });
     return childTaxons;
   })

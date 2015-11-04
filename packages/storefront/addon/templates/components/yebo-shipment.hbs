@@ -4,11 +4,11 @@
       <h6>Stock Location: {{shipment.stockLocation.name}}, {{shipment.number}}</h6>
       <hr>
     </div>
-    {{#each lineItem in shipment.lineItems}}
+    {{#each shipment.lineItems as |lineItem|}}
       <div class="small-12 columns">
         <div class="row">
           <div class="small-2 columns">
-            <img {{bind-attr src=lineItem.variant.images.firstObject.smallUrl}} >
+            <img src={{lineItem.variant.images.firstObject.smallUrl}} >
           </div>
           <div class="small-6 columns">
             <h6>{{lineItem.variant.name}}</h6>

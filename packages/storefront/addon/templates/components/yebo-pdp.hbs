@@ -17,7 +17,11 @@
       {{#if product.variants.length}}
         <div class="small-12 medium-6 columns left">
           <h3>Variants</h3>
-          {{!view "select" content=product.variants optionLabelPath="content.optionsText" selection=selectedVariant}}
+          <select onchange={{!action "selectVariant" value="target.value"}}>
+            {{#each product.variants as |variant|}}
+              <option value={{selectedVariant}}>{{selectedVariant.name}}</option>
+            {{/each}}
+          </select>
         </div>
       {{/if}}
       <div class="small-12 medium-6  columns left">
