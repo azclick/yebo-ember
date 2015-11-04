@@ -1,6 +1,6 @@
-import DeviseAuthenticator from 'simple-auth-devise/authenticators/devise';
+import DeviseAuthenticator from 'ember-simple-auth/authenticators/devise';
 /**
-  The Yebo Authenticator is responsible for Authenticating users against  your 
+  The Yebo Authenticator is responsible for Authenticating users against  your
   Yebo store.  It assumes your server has the `yebo_ams` gem installed.  The Yebo
   Auth initializer with dynamically create and set the Server Token Endpoint from
   the Yebo Core Adapter.
@@ -19,10 +19,10 @@ export default DeviseAuthenticator.extend({
     @type String
     @readOnly
     @default 'http://localhost:3000/api/ams/users/token'
-  */ 
-  serverTokenEndpoint: 'http://localhost:3000/api/ams/users/token',
+  */
+  serverTokenEndpoint: 'http://localhost:3000/api/v2/users/token',
   /**
-    The Rails Resource that we're authenticating.  When using Yebo's 
+    The Rails Resource that we're authenticating.  When using Yebo's
     `yebo-auth-devise`, this is simply `user`.
 
     @property resourceName
@@ -41,7 +41,7 @@ export default DeviseAuthenticator.extend({
   */
   tokenAttributeName: 'token',
   /**
-    The name of the identification attribute of the user.  By default in Yebo, 
+    The name of the identification attribute of the user.  By default in Yebo,
     this is email.
 
     @property indentificationAttributeName

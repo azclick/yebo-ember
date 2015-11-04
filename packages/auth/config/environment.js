@@ -7,9 +7,9 @@ module.exports = function(/* environment, appConfig */) {
       signupPath: 'signup',
       accountPath: 'account'
     },
-    "simple-auth": {
+    "ember-simple-auth": {
       localStorageKey: 'yebo-ember:session',
-      authorizer: 'simple-auth-authorizer:yebo',
+      authorizer: 'ember-simple-auth-authorizer:yebo',
       crossOriginWhitelist: ['http://localhost:3000'],
       authenticationRoute: 'yebo.signin',
       routeAfterAuthentication: "yebo.account",

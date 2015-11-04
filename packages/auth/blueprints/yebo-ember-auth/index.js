@@ -4,6 +4,6 @@ module.exports = {
   normalizeEntityName: function() {},
 
   afterInstall: function() {
-    return this.addAddonToProject('ember-cli-simple-auth');
+    return this.addAddonToProject('ember-simple-auth');
   }
 };

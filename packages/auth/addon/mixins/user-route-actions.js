@@ -10,7 +10,7 @@ import Ember from 'ember';
   application route.
 
   ```bash
-  import ApplicationRouteMixin from 'simple-auth/mixins/application-route-mixin';
+  import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
   ```
 
   This is essentially a thin wrapper on Ember Simple Auth.  If you'd like to
@@ -24,11 +24,11 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   /**
-    Triggered on the `yebo` service whenever a user is successfully created 
+    Triggered on the `yebo` service whenever a user is successfully created
     through the `createAndAuthenticateUser` call.
 
     @event didCreateUser
-    @param {DS.Model} newUser The newly created user model. 
+    @param {DS.Model} newUser The newly created user model.
   */
 
   /**
@@ -36,7 +36,7 @@ export default Ember.Mixin.create({
     call fails to create a new user.
 
     @event userCreateFailed
-    @param {Error} error The server error. 
+    @param {Error} error The server error.
   */
 
   /**
@@ -44,21 +44,21 @@ export default Ember.Mixin.create({
     call updates the current user successfully.
 
     @event didUpdateCurrentUser
-    @param {DS.Model} currentUser The newly updated Current User. 
+    @param {DS.Model} currentUser The newly updated Current User.
   */
 
   /**
     Triggered on the `yebo` service whenever the `updateCurrentUser`
     call updates the current user successfully.
 
-    @event currentUserUpdateFailed 
-    @param {Error} error The server error. 
+    @event currentUserUpdateFailed
+    @param {Error} error The server error.
   */
   /**
     Extracts errors from failed Authenticate and Create actions, and sets them
     so that the UI can surface them.
 
-    @method extractAuthErrors 
+    @method extractAuthErrors
     @param {Object} serverError A JSON Payload containing server errors.
     @return {Object} A normalized errors object.
   */
@@ -80,7 +80,7 @@ export default Ember.Mixin.create({
       provided by Ember Simple Auth.
 
       @method authenticateUser
-      @param {Object} params A javascript object with identification, password, 
+      @param {Object} params A javascript object with identification, password,
       and password confirmation (optional).
       @return {Ember.RSVP.Promise} A promise that resolves successfully on a
       successful authentication.
@@ -89,30 +89,30 @@ export default Ember.Mixin.create({
       var _this = this;
 
       authComponent.set('errors', null);
-      return this.get('session').authenticate('simple-auth-authenticator:yebo', params).catch(function(serverError) {
+      return this.get('session').authenticate('ember-simple-auth-authenticator:yebo', params).catch(function(serverError) {
         authComponent.set('errors', _this.extractAuthErrors(serverError));
       });
     },
     /**
       The `createAndAuthenticateUser` method attempts to create a new Yebo User,
       and when successful, triggers the `authenticateUser` action.
-      
+
       @method createAndAuthenticateUser
-      @param {Object} params A javascript object with identification, password, 
+      @param {Object} params A javascript object with identification, password,
       and password confirmation (optional).
       @return {Ember.RSVP.Promise} A promise that resolves successfully on a
       successful create then authenticate.
     */
     createAndAuthenticateUser: function(params, authComponent) {
       var _this   = this;
-      
+
       authComponent.set('errors', null);
-      var newUser = this.yebo.store.createRecord('user', { 
+      var newUser = this.yebo.store.createRecord('user', {
         email: params.identification,
         password: params.password,
         passwordConfirmation: params.passwordConfirmation
       });
-      
+
       return newUser.save().then(
         function(newUser) {
           _this.yebo.trigger('didCreateUser', newUser);
@@ -130,8 +130,8 @@ export default Ember.Mixin.create({
       The `updateCurrentUser` method attempts to save/update the current Yebo user.
       It expects that changes to the `session.currentUser` model have been made
       in place, and doesn't take any arguments.
-      
-      @method updateCurrentUser 
+
+      @method updateCurrentUser
       @return {Subclass of DS.Model} The updated `currentUser`.
     */
     updateCurrentUser: function() {
