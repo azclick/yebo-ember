@@ -1,6 +1,6 @@
 export function initialize(instance) {
-  var SpreeAdapter = instance.container.lookup('adapter:-yebo');
-  var Session      = instance.container.lookup('ember-simple-auth-session:main');
+  var SpreeAdapter = instance.lookup('adapter:-yebo');
+  var Session = instance.lookup('session:main');
 
   Session.reopen({
     currentUser: null,
@@ -9,11 +9,10 @@ export function initialize(instance) {
       var userId = this.get('secure.id');
       if (userId) {
         var _this = this;
-        instance.container.lookup('service:yebo').store.find('user', userId).then(
+        instance.lookup('service:yebo').store.find('user', userId).then(
           function(currentUser) {
             _this.set('currentUser', currentUser);
-          },
-          function(error) {
+          }, function(error) {
             _this.invalidate();
           }
         );

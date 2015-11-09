@@ -4,7 +4,7 @@ import YeboAdapter from 'yebo-ember-core/adapters/yebo';
 
 export function initialize(instance) {
   /* Copy Environment and Yebo Configuration to Yebo Service */
-  var YeboService = instance.container.lookup('service:yebo');
+  var YeboService = instance.lookup('service:yebo');
   YeboService.set('environment', ENV.environment);
   YeboService.set('config', ENV['yebo'] || {});
 
@@ -13,6 +13,7 @@ export function initialize(instance) {
   YeboSDK.Store.auth().then(function(token){
     YeboService.set('sdk:token', token );
   });
+
   YeboSDK.Config.set('store:url', ENV.yebo.apiHost);
   YeboSDK.Config.set('store:api:version', ENV.yebo.namespace);
 }

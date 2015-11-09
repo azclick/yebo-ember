@@ -1,7 +1,7 @@
 import CurrentOrderSupportMixin from 'yebo-ember-checkouts/mixins/current-order-support';
 
 export function initialize(instance) {
-  var YeboService = instance.container.lookup('service:yebo');
+  var YeboService = instance.lookup('service:yebo');
   CurrentOrderSupportMixin.apply(YeboService);
 
   // App.deferReadiness();

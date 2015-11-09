@@ -1,9 +1,7 @@
-import SessionService from 'ember-simple-auth/services/session';
 import Authorizer from 'yebo-ember-auth/authorizers/yebo';
 import Authenticator from 'yebo-ember-auth/authenticators/yebo';
 
 export function initialize(app) {
-  app.register('ember-simple-auth-session:main', SessionService);
   app.register('ember-simple-auth-authorizer:yebo', Authorizer);
   app.register('ember-simple-auth-authenticator:yebo', Authenticator);
 }
