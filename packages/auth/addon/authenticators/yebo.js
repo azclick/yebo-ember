@@ -1,53 +1,45 @@
-import DeviseAuthenticator from 'ember-simple-auth/authenticators/devise';
-/**
-  The Yebo Authenticator is responsible for Authenticating users against  your
-  Yebo store.  It assumes your server has the `yebo_ams` gem installed.  The Yebo
-  Auth initializer with dynamically create and set the Server Token Endpoint from
-  the Yebo Core Adapter.
+import Ember from 'ember';
+import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
-  @class Yebo
-  @namespace Authenticator
-  @extends SimpleAuthDevise.Authenticator
-*/
-export default DeviseAuthenticator.extend({
-  /**
-    The endpoint where the Authenticator will attempt to Authenticate Users.  This
-    is set dynamically by the `yebo-ember-auth` initializer, by building a URL
-    from the `yebo-ember-core` adapter.
+export default BaseAuthenticator.extend({
+  tokenEndpoint: 'http://vivreshop.lvh.me/api/v2/users/login',
 
-    @property serverTokenEndpoint
-    @type String
-    @readOnly
-    @default 'http://localhost:3000/api/ams/users/token'
-  */
-  serverTokenEndpoint: 'http://localhost:3000/api/v2/users/token',
-  /**
-    The Rails Resource that we're authenticating.  When using Yebo's
-    `yebo-auth-devise`, this is simply `user`.
+  restore: function(data) {
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      if (!Ember.isEmpty(data.token)) {
+        resolve(data);
+      } else {
+        reject();
+      }
+    });
+  },
 
-    @property resourceName
-    @type String
-    @readOnly
-    @default 'user'
-  */
-  resourceName: 'user',
-  /**
-    The name of the unique key returned by the server on a successful authentication.
+  authenticate: function(options) {
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      Ember.$.ajax({
+        url: this.tokenEndpoint,
+        type: 'POST',
+        data: JSON.stringify({
+          user: options.identification,
+          password: options.password,
+          order_token: options.guestToken,
+        }),
+        contentType: 'application/json;charset=utf-8',
+        dataType: 'json'
+      }).then(function(response) {
+        Ember.run(function() {
+          resolve(response);
+        });
+      }, function(xhr, status, error) {
+        Ember.run(function() {
+          reject(xhr.responseJSON || xhr.responseText);
+        });
+      });
+    });
+  },
 
-    @property tokenAttributeName
-    @type String
-    @readOnly
-    @default 'token'
-  */
-  tokenAttributeName: 'token',
-  /**
-    The name of the identification attribute of the user.  By default in Yebo,
-    this is email.
-
-    @property indentificationAttributeName
-    @type String
-    @readOnly
-    @default 'email'
-  */
-  identificationAttributeName: 'email'
+  invalidate: function() {
+    console.log('invalidate...');
+    return Ember.RSVP.resolve();
+  }
 });

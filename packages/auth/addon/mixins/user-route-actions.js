@@ -117,11 +117,10 @@ export default Ember.Mixin.create({
         function(newUser) {
           _this.yebo.trigger('didCreateUser', newUser);
           return _this.send('authenticateUser', params, authComponent);
-        },
-        function(serverError) {
+        }, function(serverError) {
           _this.yebo.trigger('userCreateFailed', serverError);
           _this.yebo.trigger('serverError', serverError);
-          authComponent.set('errors', _this.extractAuthErrors(serverError));
+          authComponent.set('errors', serverError);
           return serverError;
         }
       );

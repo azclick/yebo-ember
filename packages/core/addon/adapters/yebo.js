@@ -77,10 +77,10 @@ export default ActiveModelAdapter.extend({
     @readOnly
     @default {}
   */
-  headers: Ember.computed('yebo.guestToken', 'yebo.orderId', 'yebo.sdk:token', function() {
+  headers: Ember.computed('yebo.guestToken', 'yebo.orderId', function() {
     var guestToken = this.get('yebo.guestToken');
     var orderId = this.get('yebo.orderId');
-    var token = this.get('yebo.sdk:token');
+    var token = "";
 
     if (guestToken && orderId) {
       return {
