@@ -6,8 +6,8 @@ export default function(router, ENV) {
   var productsPath   = ENV["yebo"]["productsPath"];
   var ordersPath     = ENV["yebo"]["ordersPath"];
   var taxonsPath     = ENV["yebo"]["taxonsPath"];
-  
-  router.resource('yebo', { path: mountPath }, function() {
+
+  router.route('yebo', { resetNamespace: true, path: mountPath }, function () {
     router.route('yebo.cart', { path: mountPath + '/' + cartPath });
     router.route('yebo.checkout', { path: mountPath + '/' + checkoutPath });
 
@@ -25,4 +25,13 @@ export default function(router, ENV) {
       this.route('show', { path: '/:id' });
     });
   });
+
+
+
+
+
+
+
+
+
 }

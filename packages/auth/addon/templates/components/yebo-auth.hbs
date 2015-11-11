@@ -14,8 +14,6 @@
                   placeholder="Password"}}
 
     {{#if isSignup}}
-      {{log errors}}
-      {{log user}}
       {{yebo-input value=passwordConfirmation
                     errors=errors.passwordConfirmation
                     type="password"

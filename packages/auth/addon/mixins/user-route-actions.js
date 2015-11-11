@@ -74,6 +74,7 @@ export default Ember.Mixin.create({
     }
     return errors;
   },
+
   actions: {
     /**
       The `authenticateUser` call simply wraps the `session#authenticate` method
@@ -87,9 +88,10 @@ export default Ember.Mixin.create({
     */
     authenticateUser: function(params, authComponent) {
       var _this = this;
-
+      const config = this.yebo.config
       authComponent.set('errors', null);
-      return this.get('session').authenticate('ember-simple-auth-authenticator:yebo', params).catch(function(serverError) {
+
+      return this.get('session').authenticate('ember-simple-auth-authenticator:yebo', params, config).catch(function(serverError) {
         authComponent.set('errors', _this.extractAuthErrors(serverError));
       });
     },
@@ -113,17 +115,18 @@ export default Ember.Mixin.create({
         passwordConfirmation: params.passwordConfirmation
       });
 
-      return newUser.save().then(
-        function(newUser) {
+      newUser.save().then(function(newUser) {
           _this.yebo.trigger('didCreateUser', newUser);
           return _this.send('authenticateUser', params, authComponent);
-        }, function(serverError) {
-          _this.yebo.trigger('userCreateFailed', serverError);
-          _this.yebo.trigger('serverError', serverError);
-          authComponent.set('errors', serverError);
-          return serverError;
-        }
-      );
+      }).catch(function(serverError) {
+        _this.yebo.trigger('userCreateFailed', serverError);
+        _this.yebo.trigger('serverError', serverError);
+        authComponent.set('errors', authComponent.get("user").get("errors"));
+      });
+
+      authComponent.set('user', newUser);
+
+      return newUser;
     },
     /**
       The `updateCurrentUser` method attempts to save/update the current Yebo user.
