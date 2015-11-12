@@ -174,12 +174,29 @@ export default Ember.Mixin.create({
   currentOrder: null,
 
   /**
+   * Reference to the YeboSDK cart,
+   * this can be used to manage the currentCart.
+   * Actions like add, remove and update line items are related to this
+   * instance
+   *
+   * @property currentCart
+   * @type YeboSDK.Cart
+   * @default null
+   */
+  currentCart: null,
+
+  /**
     A reference to the Stateful Checkouts service.
 
     @property checkouts
     @type Ember.Service
   */
   checkouts: Ember.inject.service('checkouts'),
+
+  /**
+   *
+   */
+  yebo: Ember.inject.service(),
 
   /**
     Adds a lineItem to the currentOrder. If there is no Current Order,
@@ -192,22 +209,108 @@ export default Ember.Mixin.create({
     @return {Ember.RSVP.Promise} A promise that resolves to the newly saved Line Item.
   */
   addToCart: function(variant, quantity) {
-    var _this = this;
-    var currentOrder = this.get('currentOrder');
-    quantity = quantity || 1;
+    // var _this = this;
+    // var currentOrder = this.get('currentOrder');
+    // quantity = quantity || 1;
 
-    if (currentOrder) {
-      return _this._saveLineItem(variant, quantity, currentOrder);
+    // if (currentOrder) {
+    //   return _this._saveLineItem(variant, quantity, currentOrder);
+    // } else {
+      // return this._createNewOrder().then(
+      //   function(currentOrder) {
+      //     return _this._saveLineItem(variant, quantity, currentOrder);
+          // _this.trigger('didAddToCart', lineItem);
+          // _this.trigger('serverError', error);
+          // return lineItem;
+        // },
+        // function(error) {
+        //   return error;
+        // }
+      // );
+    // }
+
+    // Check if the cart is already initialized
+    let cart = this.get('currentCart'),
+        order = this.get('currentOrder');
+
+    // Not initialized!
+    if( cart === null || order === null ) {
+      // Initialize the cart
+      this._initializeCart().then(() => {
+        // Add it!
+        return this._addToCart(variant, quantity);
+      });
     } else {
-      return this._createNewOrder().then(
-        function(currentOrder) {
-          return _this._saveLineItem(variant, quantity, currentOrder);
-        },
-        function(error) {
-          return error;
-        }
-      );
+      // Everything is ready
+        // Add it!
+        return this._addToCart(variant, quantity);
     }
+  },
+
+  /**
+   * This method is used both to create an Order(currentOrder) for the other
+   * sections of the application and the Cart(currentCart) that will be
+   * used in the checkout area.
+   *
+   * @method _initializeCart
+   * @private
+   * in the initialization
+   * @return {Ember.RSVP.Promise} A promise that resolves the cart initialized
+   */
+  _initializeCart() {
+    // Start with the cart
+    let cart = this.get('cart');
+
+    // Not defined
+    // @todo Initialize the cart based on the currentOrder, if its not null
+    if( !cart ) {
+      // Initialize the cart
+      cart = new YeboSDK.Cart();
+
+      // Put it in the instance
+      this.set('currentCart', cart);
+    }
+
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      // Find the cart order
+      cart.order.then((res) => {
+        // Check if the order is real
+        if( res.real ) {
+          // Get the order
+          this.get('yebo').get('store').find('order', res.number).then((order) => {
+            // Set the order
+            this.set('currentOrder', order);
+
+            // Resolve the promise
+            resolve(order);
+          });
+        }
+      }).catch(reject);
+    });
+  },
+
+  /**
+   * The method that really add to the cart
+   * this was create to unify the method,
+   * it does not matter how the currentCart and currentOrder were created.
+   *
+   * @method _addToCart
+   * @private
+   * @param {DS.Model} variant A class of the variant model
+   * @param {Integer} quantity Optional, A quantity for the Line Item.
+   * @return {Ember.RSVP.Promise} A promise that resolves to the newly saved Line Item.
+   */
+  _addToCart(variant, quantity) {
+    // Get the two good guys
+    let cart = this.get('currentCart'),
+        order = this.get('currentOrder');
+
+    // Add the variant to the cart using the SDK method
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      cart.add(variant.get('id'), quantity).then(function() {
+
+      });
+    });
   },
 
   /**
