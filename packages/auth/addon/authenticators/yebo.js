@@ -2,11 +2,11 @@ import Ember from 'ember';
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
 export default BaseAuthenticator.extend({
-  endpoint: 'users/login',
+  serverEndpoint: null,
 
   restore: function(data) {
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      if (!Ember.isEmpty(data.token)) {
+      if (!Ember.isEmpty(data.user.token)) {
         resolve(data);
       } else {
         reject();
@@ -14,12 +14,10 @@ export default BaseAuthenticator.extend({
     });
   },
 
-  authenticate: function(options, config) {
-    const url = this._buildUrl(config);
-
+  authenticate: function(options) {
     return new Ember.RSVP.Promise((resolve, reject) => {
       Ember.$.ajax({
-        url: url,
+        url: this.serverEndpoint,
         type: 'POST',
         data: JSON.stringify({
           user: options.identification,
@@ -43,9 +41,5 @@ export default BaseAuthenticator.extend({
   invalidate: function() {
     console.log('invalidate...');
     return Ember.RSVP.resolve();
-  },
-
-  _buildUrl: function(config){
-    return [config.apiHost, config.namespace, this.endpoint].join('/');
   }
 });

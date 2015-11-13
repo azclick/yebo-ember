@@ -19,7 +19,7 @@
       <h4>Yebo Ember Checkouts</h4>
       <hr />
       <h6><strong>Checkouts Current State:</strong> {{yebo.checkouts.currentState}}</h6>
-      <h6><strong>Current Order:</strong> {{if yebo.currentOrder yebo.currentOrder 'null'}}</h6>
+      <h6><strong>Current Order:</strong> {{if yebo.currentOrder yebo.currentOrder.number 'null'}}</h6>
     </div>
 
     <div class="panel text-left">
@@ -36,8 +36,8 @@
     <div class="panel text-left">
       <h4>Yebo Ember Auth</h4>
       <hr />
-      {{#if session}}
-        <h6><strong>Current User:</strong> {{if session.currentUser session.currentUser 'null'}}</h6>
+      {{#if sessionAccount.user}}
+        <h6><strong>Current User:</strong> {{if sessionAccount sessionAccount.user.email 'null'}}</h6>
         <h6><strong>Signin Path:</strong> {{yebo.config.signinPath}}</h6>
         <h6><strong>Signup Path:</strong> {{yebo.config.signupPath}}</h6>
         <h6><strong>Account Path:</strong> {{yebo.config.accountPath}}</h6>
