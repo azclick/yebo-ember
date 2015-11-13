@@ -242,8 +242,8 @@ export default Ember.Mixin.create({
       });
     } else {
       // Everything is ready
-        // Add it!
-        return this._addToCart(variant, quantity);
+      // Add it!
+      return this._addToCart(variant, quantity);
     }
   },
 
@@ -284,6 +284,9 @@ export default Ember.Mixin.create({
             // Resolve the promise
             resolve(order);
           });
+        } else {
+          // The order does not exists!
+          this.set('currentOrder', null);
         }
       }).catch(reject);
     });
@@ -307,8 +310,34 @@ export default Ember.Mixin.create({
 
     // Add the variant to the cart using the SDK method
     return new Ember.RSVP.Promise((resolve, reject) => {
-      cart.add(variant.get('id'), quantity).then(function() {
+      cart.add(variant.get('id'), quantity).then((res) => {
+        // Is the order real?
+        if( res.order.real && !this.get('currentOrder') ) {
+          // Find it and set as the currentOrder
+          this.get('yebo').get('store').find('order', res.order.number).then((order) => {
+            // Set the order
+            this.set('currentOrder', order);
+          });
+        }
 
+        // Find the line item
+        this.get('yebo').get('store').findRecord('lineItem', res.item.id).then((lineItem) => {
+          // Return it
+          console.log(lineItem);
+          // Event
+          this.trigger('didAddToCart', lineItem);
+
+          // Finish!
+          resolve(lineItem);
+        }).catch((error) => {
+          // Event
+          this.trigger('serverError', error);
+
+          // ERRORR!!!!!
+          reject(error);
+        });
+      }).catch((error) => {
+        this.trigger('serverError', error);
       });
     });
   },

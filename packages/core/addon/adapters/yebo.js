@@ -82,10 +82,11 @@ export default ActiveModelAdapter.extend({
     var orderId = this.get('yebo.orderId');
     var token = "";
 
+    debugger;
     if (guestToken && orderId) {
       return {
-        "X-Spree-Order-Token": guestToken,
-        "X-Spree-Order-Id": orderId,
+        "X-Yebo-Order-Token": guestToken,
+        "X-Yebo-Order": orderId,
         "Authorization": ["Bearer", token].join(" ")
       };
     } else {
