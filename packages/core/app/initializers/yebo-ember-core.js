@@ -15,6 +15,11 @@ export function initialize(app) {
   app.inject('controller', 'yebo', 'service:yebo');
   app.inject('component', 'yebo', 'service:yebo');
 
+  console.log(ENV);
+  // Yebo SDK configs
+  YeboSDK.Config.set('store:api:version', ENV.yebo.namespace);
+  YeboSDK.Config.set('store:url', ENV.yebo.apiHost);
+
   /* HAHAHAHAHAHAHAHA */
   window.App = app;
 }
