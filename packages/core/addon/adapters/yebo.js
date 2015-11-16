@@ -82,7 +82,6 @@ export default ActiveModelAdapter.extend({
     var orderId = this.get('yebo.orderId');
     var token = "";
 
-    debugger;
     if (guestToken && orderId) {
       return {
         "X-Yebo-Order-Token": guestToken,

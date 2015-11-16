@@ -36,7 +36,7 @@
     <div class="panel text-left">
       <h4>Yebo Ember Auth</h4>
       <hr />
-      {{#if sessionAccount.user}}
+      {{#if session}}
         <h6><strong>Current User:</strong> {{if sessionAccount sessionAccount.user.email 'null'}}</h6>
         <h6><strong>Signin Path:</strong> {{yebo.config.signinPath}}</h6>
         <h6><strong>Signup Path:</strong> {{yebo.config.signupPath}}</h6>

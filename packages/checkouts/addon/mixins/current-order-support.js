@@ -112,29 +112,24 @@ export default Ember.Mixin.create({
     this.restore();
     var orderId = this.get('orderId');
 
-    var _this = this;
-
-    return new Ember.RSVP.Promise(function(resolve) {
-      if (orderId) {
-        _this.store.find('order', orderId).then(
-          function(currentOrder) {
-            _this.set('currentOrder', currentOrder);
-            return _this.get('checkouts').transition(currentOrder.get('state'));
-          },
-          function(error) {
-            _this.persist({
-              guestToken: null,
-              orderId: null
-            });
-            _this.trigger('serverError', error);
-            return error;
-          }
-        ).finally(function() {
-          resolve();
-        });
-      } else {
+    return new Ember.RSVP.Promise((resolve) => {
+      // Resolve here if no orderId
+      if (Ember.isBlank(orderId)){
         resolve();
       }
+      this.get('yebo.store').find('order', orderId).then((currentOrder) => {
+        this.set('currentOrder', currentOrder);
+        return this.get('checkouts').transition(currentOrder.get('state'));
+      }, (error) => {
+        this.persist({
+          guestToken: null,
+          orderId: null
+        });
+        this.trigger('serverError', error);
+        return error;
+      }).finally(() => {
+        resolve();
+      });
     });
   },
 
@@ -209,34 +204,14 @@ export default Ember.Mixin.create({
     @return {Ember.RSVP.Promise} A promise that resolves to the newly saved Line Item.
   */
   addToCart: function(variant, quantity) {
-    // var _this = this;
-    // var currentOrder = this.get('currentOrder');
-    // quantity = quantity || 1;
-
-    // if (currentOrder) {
-    //   return _this._saveLineItem(variant, quantity, currentOrder);
-    // } else {
-      // return this._createNewOrder().then(
-      //   function(currentOrder) {
-      //     return _this._saveLineItem(variant, quantity, currentOrder);
-          // _this.trigger('didAddToCart', lineItem);
-          // _this.trigger('serverError', error);
-          // return lineItem;
-        // },
-        // function(error) {
-        //   return error;
-        // }
-      // );
-    // }
-
     // Check if the cart is already initialized
-    let cart = this.get('currentCart'),
-        order = this.get('currentOrder');
+    let cart = this.get('currentCart');
+    let order = this.get('currentOrder');
 
     // Not initialized!
-    if( cart === null || order === null ) {
+    if (cart === null || order === null) {
       // Initialize the cart
-      this._initializeCart().then(() => {
+      return this._initializeCart().then(() => {
         // Add it!
         return this._addToCart(variant, quantity);
       });
@@ -263,7 +238,7 @@ export default Ember.Mixin.create({
 
     // Not defined
     // @todo Initialize the cart based on the currentOrder, if its not null
-    if( !cart ) {
+    if (!cart) {
       // Initialize the cart
       cart = new YeboSDK.Cart();
 
@@ -273,14 +248,18 @@ export default Ember.Mixin.create({
 
     return new Ember.RSVP.Promise((resolve, reject) => {
       // Find the cart order
-      cart.order.then((res) => {
+      cart.order.then((response) => {
         // Check if the order is real
-        if( res.real ) {
+        if (response.real) {
           // Get the order
-          this.get('yebo').get('store').find('order', res.number).then((order) => {
+          this.get('yebo.store').find('order', response.number).then((order) => {
             // Set the order
             this.set('currentOrder', order);
-
+            // Persist it to local storage
+            this.persist({
+              guestToken: order.get('guestToken'),
+              orderId: order.get('id')
+            });
             // Resolve the promise
             resolve(order);
           });
@@ -305,39 +284,35 @@ export default Ember.Mixin.create({
    */
   _addToCart(variant, quantity) {
     // Get the two good guys
-    let cart = this.get('currentCart'),
-        order = this.get('currentOrder');
+    let cart = this.get('currentCart');
+    let order = this.get('currentOrder');
 
     // Add the variant to the cart using the SDK method
     return new Ember.RSVP.Promise((resolve, reject) => {
-      cart.add(variant.get('id'), quantity).then((res) => {
+      cart.add(variant.get('id'), quantity).then((response) => {
         // Is the order real?
-        if( res.order.real && !this.get('currentOrder') ) {
+        if (response.order.real && !this.get('currentOrder')) {
           // Find it and set as the currentOrder
-          this.get('yebo').get('store').find('order', res.order.number).then((order) => {
+          this.get('yebo.store').find('order', response.order.number).then((order) => {
             // Set the order
             this.set('currentOrder', order);
           });
         }
-
         // Find the line item
-        this.get('yebo').get('store').findRecord('lineItem', res.item.id).then((lineItem) => {
+        this.get('yebo.store').findRecord('lineItem', response.item.id).then((lineItem) => {
           // Return it
           console.log(lineItem);
           // Event
           this.trigger('didAddToCart', lineItem);
-
           // Finish!
           resolve(lineItem);
         }).catch((error) => {
-          // Event
           this.trigger('serverError', error);
-
-          // ERRORR!!!!!
           reject(error);
         });
       }).catch((error) => {
         this.trigger('serverError', error);
+        reject(error);
       });
     });
   },
