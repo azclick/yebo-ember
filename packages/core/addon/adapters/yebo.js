@@ -77,16 +77,14 @@ export default ActiveModelAdapter.extend({
     @readOnly
     @default {}
   */
-  headers: Ember.computed('yebo.guestToken', 'yebo.orderId', function() {
-    var guestToken = this.get('yebo.guestToken');
-    var orderId = this.get('yebo.orderId');
-    var token = "";
+  headers: Ember.computed('yebo.currentOrder', function() {
+    var order = this.get('yebo.currentOrder'),
+        token = "";
 
-    debugger;
-    if (guestToken && orderId) {
+    if (order) {
       return {
-        "X-Yebo-Order-Token": guestToken,
-        "X-Yebo-Order": orderId,
+        "X-Yebo-Order-Token": order.get('guestToken'),
+        "X-Yebo-Order": order.get('number'),
         "Authorization": ["Bearer", token].join(" ")
       };
     } else {
