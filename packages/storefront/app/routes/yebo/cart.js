@@ -29,10 +29,11 @@ export default Ember.Route.extend({
       if (this.yebo.get('currentOrder.state') !== 'cart') {
         this.transitionTo('yebo.checkout');
       } else {
-        var _this = this;
-        this.yebo.get('checkouts').transition().finally(function() {
-          _this.transitionTo('yebo.checkout');
-        });
+        // var _this = this;
+        // this.yebo.get('checkouts').transition().finally(function() {
+        //   _this.transitionTo('yebo.checkout');
+        // });
+        this.transitionTo('yebo.checkout');
       }
     }
   }
