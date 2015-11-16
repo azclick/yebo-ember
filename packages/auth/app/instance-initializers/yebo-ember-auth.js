@@ -3,7 +3,8 @@ export function initialize(instance) {
   var YeboAuthenticator = instance.lookup('ember-simple-auth-authenticator:yebo');
   var YeboAdapter = instance.lookup('adapter:-yebo');
 
-  YeboAuthenticator.set('serverTokenEndpoint', YeboAdapter.buildURL('user')+'/token');
+  // TODO: Fix this
+  YeboAuthenticator.set('serverEndpoint', YeboAdapter.buildURL('user') + '/login');
 }
 
 export default {

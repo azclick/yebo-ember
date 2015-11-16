@@ -3,6 +3,11 @@ export function initialize(app) {
   app.inject('route', 'session', 'session:main');
   app.inject('controller', 'session', 'session:main');
   app.inject('component', 'session', 'session:main');
+
+  /* Inject the Session Service into Routes & Components */
+  app.inject('route', 'sessionAccount', 'service:session-account');
+  app.inject('controller', 'sessionAccount', 'service:session-account');
+  app.inject('component', 'sessionAccount', 'service:session-account');
 }
 
 export default {

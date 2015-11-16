@@ -88,10 +88,9 @@ export default Ember.Mixin.create({
     */
     authenticateUser: function(params, authComponent) {
       var _this = this;
-      const config = this.yebo.config
       authComponent.set('errors', null);
 
-      return this.get('session').authenticate('ember-simple-auth-authenticator:yebo', params, config).catch(function(serverError) {
+      return this.get('session').authenticate('ember-simple-auth-authenticator:yebo', params).catch(function(serverError) {
         authComponent.set('errors', _this.extractAuthErrors(serverError));
       });
     },
