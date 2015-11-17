@@ -47,3 +47,6 @@
 {{yebo-input  value=address.phone
               errors=address.errors.phone
               attributeName="Phone"}}
+
+
+<button class={{":expand yebo.checkouts.isLoading:disabled"}} {{action 'saveAdress'}}>{{if yebo.checkouts.isLoading "Loading" "Salvar"}}</button>

@@ -1,10 +1,9 @@
 <label>
   {{if label label attributeName}}
-  {{!view "select" content=content 
-                  optionLabelPath=optionLabelPath
-                  selection=selection
-                  prompt=prompt
-                  classBinding="errors.length:error"}}
-
+  <select onchange={{action "seleactAction" value="target.value"}}>
+    {{#each content as |item|}}
+      <option value={{selection}}>{{item}}</option>
+    {{/each}}
+  </select>
 </label>
 {{#if errors.length}}<small class="error">{{displayErrors}}</small>{{/if}}

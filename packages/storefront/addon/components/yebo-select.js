@@ -18,5 +18,10 @@ import YeboInput from 'yebo-ember-storefront/components/yebo-input';
   @extends YeboInput
 */
 export default YeboInput.extend({
-  layout: layout
+  layout: layout,
+  actions: {
+    seleactAction: function(){
+      return this.sendAction("select" + this.attributeName, this);
+    }
+  }
 });

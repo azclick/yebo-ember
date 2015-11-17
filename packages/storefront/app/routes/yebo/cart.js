@@ -26,13 +26,14 @@ export default Ember.Route.extend({
     },
 
     transitionToCheckout: function() {
-      if (this.yebo.get('currentOrder.state') !== 'cart') {
-        this.transitionTo('yebo.checkout');
-      } else {
-        var _this = this;
-        this.yebo.set('currentOrder.state', 'address');
-        this.transitionTo('yebo.checkout');
-      }
+      this.transitionTo('yebo.checkout');
+      // if (this.yebo.get('currentOrder.state') !== 'cart') {
+      //   this.transitionTo('yebo.checkout');
+      // } else {
+      //   var _this = this;
+      //   this.yebo.set('currentOrder.state', 'address');
+      //   this.transitionTo('yebo.checkout');
+      // }
     }
   }
 });

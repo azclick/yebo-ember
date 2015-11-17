@@ -18,5 +18,24 @@ import layout from '../templates/components/yebo-address';
   @extends Ember.Component
 */
 export default Ember.Component.extend({
-  layout: layout
+  layout: layout,
+  // address: null,
+  // newAddres: null,
+  // init: function() {
+  //   this._super();
+  //   let address = this.get('address');
+  //   let addresIsEmpty = Ember.isEmpty(address);
+  //
+  //   if(addresIsEmpty){
+  //     let newAddres = this.yebo.store.createRecord('address');
+  //
+  //     this.set('newAddres', newAddres);
+  //     this.set('address', newAddres);
+  //   }
+  // },
+  actions: {
+    saveAdress: function(){
+      debugger;
+    }
+  }
 });

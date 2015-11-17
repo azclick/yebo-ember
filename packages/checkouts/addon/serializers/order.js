@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import YeboSerializer from 'yebo-ember-core/serializers/yebo';
 /**
-  The Order Serializer converts the Order model into a JSON payload as dictated 
-  by Yebo's "Checkouts" endpoint.  The payload is dependant on the state of the 
+  The Order Serializer converts the Order model into a JSON payload as dictated
+  by Yebo's "Checkouts" endpoint.  The payload is dependant on the state of the
   order.
 
   @class Order
@@ -14,7 +14,7 @@ export default YeboSerializer.extend({
     By default, Ember's Active Model Serializer will merge the JSON payload
     returned by the `serialize` call under the model's name.  The Yebo
     Checkouts endpoint expects objects as siblings in the payload, so when we're
-    saving the checkouts via `DS.Order#saveToCheckouts()` we override this 
+    saving the checkouts via `DS.Order#saveToCheckouts()` we override this
     behaviour.
 
     @method serializeIntoHash
@@ -36,7 +36,7 @@ export default YeboSerializer.extend({
     @method serialize
     @param {snapshot} snapshot A snapshot of the order model for serialization.
   */
-  serialize: function(snapshot) {
+  serialize: function(snapshot, options) {
     var json = this._super.apply(this, arguments);
     if (snapshot.attr('_useCheckoutsEndpoint')) {
       json = this._serializeForCheckouts(snapshot, json);
@@ -53,7 +53,7 @@ export default YeboSerializer.extend({
   checkouts: Ember.inject.service('checkouts'),
 
   /**
-    Serializes the Order into a format the Yebo Checkouts endpoint expects, 
+    Serializes the Order into a format the Yebo Checkouts endpoint expects,
     dependant on the state of Checkouts service.
 
     @method _serializeForCheckouts
