@@ -30,7 +30,7 @@ export default Ember.Component.extend({
     this._super();
 
     // Set initialize it
-    // this.get('checkouts').trigger('checkoutCalled');
+    this.get('yebo').get('checkouts').trigger('checkoutCalled');
   },
 
   actions: {

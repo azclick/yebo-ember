@@ -18,5 +18,11 @@ import layout from '../templates/components/yebo-address';
   @extends Ember.Component
 */
 export default Ember.Component.extend({
-  layout: layout
+  layout: layout,
+  actions: {
+    saveAddress: function(name, address) {
+      // Send it to the checkout service
+      this.get('yebo').get('checkouts').trigger('saveAddress', name, address);
+    }
+  }
 });

@@ -1,6 +1,3 @@
-{{log yebo.checkouts}}
-
-
 <section class="checkout-errors errors alert">
   <ul>
     {{#each yebo.currentOrder.errors.base as |error|}}
@@ -34,7 +31,7 @@
     {{#if yebo.checkouts.editingBillAddress}}
       <section id="bill_address" class="user-info address form">
         <article class="article-title">Editar endereço de cobrança</article>
-        {{yebo-address address=yebo.currentOrder.shipAddress countries=yebo.countries}}
+        {{yebo-address address=yebo.checkouts.billAddress name='billAddress' countries=yebo.countries}}
         <br class="clear" />
       </section>
     {{/if}}
@@ -43,7 +40,7 @@
       <section id="ship_address" class="user-info address form">
         <section class="form-group">
           <article class="article-title">Editar endereço de entrega</article>
-          {{yebo-address address=yebo.currentOrder.shipAddress countries=yebo.countries}}
+          {{yebo-address address=yebo.checkouts.shipAddress name='shipAddress' countries=yebo.countries}}
         </section>
         <br class="clear" />
       </section>
