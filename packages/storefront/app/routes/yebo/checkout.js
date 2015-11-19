@@ -1,4 +1,8 @@
 import Ember from 'ember';
+import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import UserRouteActions from 'yebo-ember-auth/mixins/user-route-actions';
+
+
 /**
   The checkout route.
 
@@ -16,7 +20,7 @@ import Ember from 'ember';
   @namespace Route
   @extends Ember.Component
 */
-export default Ember.Route.extend({
+export default Ember.Route.extend(AuthenticatedRouteMixin, UserRouteActions, {
   // redirect: function(model) {
   //   var currentOrder = this.yebo.get('currentOrder');
   //

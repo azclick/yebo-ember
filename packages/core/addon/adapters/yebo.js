@@ -10,6 +10,15 @@ import ActiveModelAdapter from 'active-model-adapter';
   @extends ActiveModelAdapter
 */
 export default ActiveModelAdapter.extend({
+  /*
+    By default the RESTAdapter will send each find request coming from a
+    store.find or from accessing a relationship separately to the server.
+    If your server supports passing ids as a query string,
+    you can set coalesceFindRequests to true to coalesce all find requests within
+    a single runloop.
+  */
+  // coalesceFindRequests: true
+
   /**
     The container lookup name for the default Yebo serializer.
 
@@ -39,7 +48,7 @@ export default ActiveModelAdapter.extend({
   */
   namespace: Ember.computed('yebo.config.apiNamespace', function() {
     var namespace = this.get('yebo.config.namespace');
-    return namespace || 'api/ams';
+    return namespace || 'api/v2';
   }),
   /**
     A computed property for the server host.  If it's not set in the Host Application's

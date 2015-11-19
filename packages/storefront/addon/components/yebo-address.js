@@ -19,22 +19,20 @@ import layout from '../templates/components/yebo-address';
 */
 export default Ember.Component.extend({
   layout: layout,
-  // address: null,
-  // newAddres: null,
-  // init: function() {
-  //   this._super();
-  //   let address = this.get('address');
-  //   let addresIsEmpty = Ember.isEmpty(address);
-  //
-  //   if(addresIsEmpty){
-  //     let newAddres = this.yebo.store.createRecord('address');
-  //
-  //     this.set('newAddres', newAddres);
-  //     this.set('address', newAddres);
-  //   }
-  // },
+
+  addressDidChanged: Ember.observer('address', function() {
+    let addressIsNotModel = this.get("address").get('constructor.modelName') !== "address";
+    if(addressIsNotModel){
+      let newAddress = this.yebo.store.createRecord('address');
+      this.set("address", newAddress);
+    }
+  }),
+
   actions: {
     saveAdress: function(){
+      var newAddress = this.get("address");
+      this.yebo.currentOrder.set('shipAddress', newAddress);
+      this.yebo.currentOrder.saveToCheckouts()
       debugger;
     }
   }

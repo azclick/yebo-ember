@@ -1,10 +1,18 @@
+{{log address}}
 {{yebo-input  value=address.firstname
               errors=address.errors.firstname
-              attributeName="First Name"}}
+              attributeName="Nome"}}
 
 {{yebo-input  value=address.lastname
               errors=address.errors.lastname
-              attributeName="Last Name"}}
+              attributeName="Sobrenome"}}
+
+{{!yebo-select content=countries
+              optionLabelPath="content.name"
+              selection=address.country
+              prompt="Select a Country"
+              errors=address.errors.country
+              attributeName="Sexo"}}
 
 {{yebo-input  value=address.address1
               errors=address.errors.address1

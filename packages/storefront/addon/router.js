@@ -25,13 +25,4 @@ export default function(router, ENV) {
       this.route('show', { path: '/:id' });
     });
   });
-
-
-
-
-
-
-
-
-
 }
