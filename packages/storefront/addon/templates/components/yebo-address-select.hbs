@@ -1,0 +1,10 @@
+<label>
+  {{if label label attributeName}}
+  <select onchange={{action "selectAction" value="target.value"}}>
+    <option>{{prompt}}</option>
+    {{#each content as |item|}}
+      <option value={{item}} selected={{if selection content}}>{{item.name}}</option>
+    {{/each}}
+  </select>
+</label>
+{{#if errors.length}}<small class="error">{{displayErrors}}</small>{{/if}}

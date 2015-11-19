@@ -20,6 +20,14 @@ export default Ember.Service.extend(Ember.Evented, {
   currentOrder: Ember.computed.alias('yebo.currentOrder'),
 
   /**
+   * Ember simple auth session
+   * @property session
+  */
+  session: Ember.inject.service('session'),
+
+  // sessionAccount: Ember.inject.service('sessionAccount'),
+
+  /**
    * When background action is running this flag is setted to `true`.
    * @preperty loading
    * @type Boolean
@@ -113,8 +121,12 @@ export default Ember.Service.extend(Ember.Evented, {
     // Current order number
     let number = currentOrder.get('number');
 
+    // The current user info that will be used on the path
+    let userToken = this.get('session').get('session').get('authenticated').user.token;
+    let currentUser = `?user_token=${userToken}`;
+
     // Yebo Ajax path
-    let path = `checkout/${number}/address/update/${name.slice(0, 4)}`
+    let path = `checkout/${number}/address/update/${name.slice(0, 4)}${currentUser}`
 
     // Check if this address exists
     if( !address.get('id') ) {
@@ -122,7 +134,7 @@ export default Ember.Service.extend(Ember.Evented, {
       currentOrder.set(name, address);
 
       // Change it to create a new address
-      path = `checkout/${number}/address/create/${name.slice(0, 4)}`
+      path = `checkout/${number}/address/create/${name.slice(0, 4)}${currentUser}`
     }
 
     // Lets make it using the SDK

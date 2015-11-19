@@ -22,12 +22,13 @@
               errors=address.errors.zipcode
               attributeName="Zipcode"}}
 
-{{yebo-select content=countries
-              optionLabelPath="content.name"
-              selection=address.country
-              prompt="Select a Country"
-              errors=address.errors.country
-              attributeName="Country"}}
+<label>
+  {{#x-select value=address.country}}
+    {{#each countries as |country|}}
+      {{#x-option value=country}}{{country.name}}{{/x-option}}
+    {{/each}}
+  {{/x-select}}
+</label>
 
 {{#if address.country.states.length}}
   {{yebo-select content=address.country.states
