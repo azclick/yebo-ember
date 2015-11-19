@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/yebo-checkout';
 /**
-  A single page checkout that reactively responds to changes in the 
+  A single page checkout that reactively responds to changes in the
   `yebo.checkouts` service.
 
   **To Override:** You'll need to run the components generator:
@@ -21,6 +21,17 @@ import layout from '../templates/components/yebo-checkout';
 export default Ember.Component.extend({
   layout: layout,
   action: 'transitionCheckoutState',
+
+  /**
+   *
+   */
+  init() {
+    // Call the super
+    this._super();
+
+    // Set initialize it
+    this.get('yebo').get('checkouts').trigger('checkoutCalled');
+  },
 
   actions: {
     transitionCheckoutState: function(stateName) {

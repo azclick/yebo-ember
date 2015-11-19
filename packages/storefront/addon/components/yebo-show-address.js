@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import layout from '../templates/components/yebo-address';
+import layout from '../templates/components/yebo-show-address';
 /**
-  Controls data entry for an order's Ship or Bill Address.
+  Component that shows the address.
 
   **To Override:** You'll need to run the components generator:
 
@@ -13,16 +13,10 @@ import layout from '../templates/components/yebo-address';
   host application at `app/components/yebo-*.js`, ready to be extended or
   overriden.
 
-  @class YeboAddress
+  @class YeboSource
   @namespace Component
   @extends Ember.Component
 */
 export default Ember.Component.extend({
-  layout: layout,
-  actions: {
-    saveAddress: function(name, address) {
-      // Send it to the checkout service
-      this.get('yebo').get('checkouts').trigger('saveAddress', name, address);
-    }
-  }
+  layout: layout
 });
