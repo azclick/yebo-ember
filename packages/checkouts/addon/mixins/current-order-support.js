@@ -119,6 +119,7 @@ export default Ember.Mixin.create({
       }
       this.get('yebo.store').find('order', orderId).then((currentOrder) => {
         this.set('currentOrder', currentOrder);
+        return currentOrder;
         // return this.get('checkouts').transition(currentOrder.get('state'));
       }, (error) => {
         this.persist({

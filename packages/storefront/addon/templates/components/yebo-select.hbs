@@ -1,9 +1,1 @@
-<label>
-  {{if label label attributeName}}
-  <select onchange={{action "seleactAction" value="target.value"}}>
-    {{#each content as |item|}}
-      <option value={{selection}}>{{item}}</option>
-    {{/each}}
-  </select>
-</label>
-{{#if errors.length}}<small class="error">{{displayErrors}}</small>{{/if}}
+{{yield}}

@@ -22,27 +22,28 @@
               errors=address.errors.zipcode
               attributeName="Zipcode"}}
 
-<label>
-  {{#x-select value=address.country}}
-    {{#each countries as |country|}}
-      {{#x-option value=country}}{{country.name}}{{/x-option}}
-    {{/each}}
-  {{/x-select}}
-</label>
+{{#yebo-select value=address.country}}
+  {{#each countries as |country|}}
+    {{#x-option value=country}}{{country.name}}{{/x-option}}
+  {{/each}}
+{{/yebo-select}}
 
 {{#if address.country.states.length}}
-  {{yebo-select content=address.country.states
-                optionLabelPath="content.name"
-                selection=address.state
-                prompt="Select a State"
-                errors=address.errors.state
-                attributeName="State"}}
+
+  {{#yebo-select value=address.state}}
+    {{#each address.country.states as |state|}}
+      {{#x-option value=state}}{{state.name}}{{/x-option}}
+    {{/each}}
+  {{/yebo-select}}
+
 {{else}}
+
   {{#if address.country.statesRequired}}
     {{yebo-input  value=address.stateName
                   errors=address.errors.stateName
                   attributeName="State"}}
   {{/if}}
+
 {{/if}}
 
 {{yebo-input  value=address.phone

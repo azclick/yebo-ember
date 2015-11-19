@@ -139,6 +139,7 @@ export default Ember.Service.extend(Ember.Evented, {
 
     // Lets make it using the SDK
     // @todo Make it work by passing the User Token to the action
+    // Use address.serialize() maybe
     YeboSDK.Store.fetch(path, address.toJSON(), 'POST').then((address) => {
       // Set the Address ID
       currentOrder.get(name).set('id', address.id);

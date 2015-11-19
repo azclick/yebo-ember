@@ -28,9 +28,12 @@ export default Ember.Component.extend({
   init() {
     // Call the super
     this._super();
-
+    // debugger;
     // Set initialize it
-    this.get('yebo').get('checkouts').trigger('checkoutCalled');
+    // TODO: Move this to an initialzer
+    this.get('yebo')._restoreCurrentOrder().then(()=> {
+      this.get('yebo').get('checkouts').trigger('checkoutCalled');
+    });
   },
 
   actions: {

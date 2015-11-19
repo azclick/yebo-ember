@@ -1,5 +1,5 @@
 import layout from '../templates/components/yebo-select';
-import YeboInput from 'yebo-ember-storefront/components/yebo-input';
+import xSelect from 'emberx-select/components/x-select';
 /**
   A select component with Label and outlet for validation errors.
 
@@ -17,11 +17,6 @@ import YeboInput from 'yebo-ember-storefront/components/yebo-input';
   @namespace Component
   @extends YeboInput
 */
-export default YeboInput.extend({
+export default xSelect.extend({
   layout: layout,
-  actions: {
-    seleactAction: function(){
-      return this.sendAction("select" + this.attributeName, this);
-    }
-  }
 });
