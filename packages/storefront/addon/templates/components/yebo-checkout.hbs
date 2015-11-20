@@ -15,13 +15,15 @@
     </section>
 
     <section class="user-info address">
-      <section class="title">Endereço de entrega</section>
-      <section id="contentShipAddress" class="content-address" style="display: none;">
-        {{yebo-show-address address=yebo.currentOrder.billAddress}}
-        <button data-action="editAddress" data-address="ship">Editar</button>
-      </section>
+      {{#unless yebo.checkouts.usingBillAddressAsShipAddress}}
+        <section class="title">Endereço de entrega</section>
+        <section id="contentShipAddress" class="content-address">
+          {{yebo-show-address address=yebo.currentOrder.shipAddress}}
+          <button data-action="editAddress" data-address="ship">Editar</button>
+        </section>
+      {{/unless}}
       <label class="label-checkbox">
-        <input type="checkbox" name="useBillAddress" checked value="1">
+        {{input type="checkbox" checked=yebo.checkouts.usingBillAddressAsShipAddress}}
         <strong>Utilizar o endereço de <br /> cobrança para entrega.</strong>
       </label>
     </section>
@@ -59,22 +61,119 @@
         <a href="/cart">Voltar para o Carrinho</a>
       </span>
     </section>
-      <section class="delivery-errors infos yb-alert" data-render-template="infos">
-      </section>
 
-    <section class="shipments-content" data-render-template="delivery">
+    <section class="delivery-errors infos yb-alert" data-render-template="infos">
     </section>
+
+    <section class="shipments-content">
+      <ul class="list-rates">
+        {{#each yebo.checkouts.packages as |package|}}
+          {{#each package.rates as |rate|}}
+            <li class="rate">
+              <label>
+                {{yebo-radio value=rate.id checked=package.currentRate action="setShipment"}}
+                <span class="name">{{rate.name}}</span>
+                <span class="cost">{{rate.price.display}}</span>
+              </label>
+            </li>
+          {{/each}}
+        {{/each}}
+      </ul>
+    </section>
+
     <section id="option-delivery-section" class="option-delivery" data-render-template="option-delivery"></section>
   </section>
 
   <section class="payment">
     <section class="title">Pagamento</section>
-    <section class="payments-content" data-render-template="payment">
+    <section class="payments-content">
+      <section class="payment-header">
+        <ul class="payments-list">
+          {{#each yebo.checkouts.payments as |payment|}}
+            <li class="payment-header-item">
+              <label>
+                <span class="payment-option">
+                  {{yebo-radio value=payment.id checked=yebo.checkouts.currentPayment}}
+                </span>
+                <span class="payment-name">{{payment.name}}</span>
+              </label>
+            </li>
+          {{/each}}
+        </ul>
+      </section>
+
+			<section class="payment-content">
+				<ul class="payments-forms">
+					{{#each yebo.checkouts.payments as |payment|}}
+            {{#if (eq yebo.checkouts.currentPayment payment.id) }}
+              <li class="payment-form" id="payment_method_{{payment.id}}">
+                <!-- @todo This should be dynimic -->
+                <section class="form-group">
+                  <section class="field">
+                    <label>Bandeira<span class="required">*</span></label>
+                    <p class="field radio">
+                      {{#each payment.extra.flags as |flag|}}
+                        <label>
+                          {{yebo-radio value=flag.slug checked=yebo.checkouts.currentPaymentOptions.currentFlag}}
+                          <img src="{{flag.image}}" alt="{{flag.name}}" />
+                        </label>
+                      {{/each}}
+                    </p>
+                  </section>
+
+                  <section class="pay-col">
+                    <p class="field text">
+                      <label for="name">Nome</label><span class="required">*</span><br />
+                      {{input type="text" value=yebo.checkouts.currentPaymentOptions.name}}
+                    </p>
+
+                    <p class="field select">
+                      <label for="card_number">Número do cartão</label><span class="required">*</span><br />
+                      {{input type="number" value=yebo.checkouts.currentPaymentOptions.number}}
+                    </p>
+                  </section>
+
+                  <section class="pay-col">
+                    <p class="field select">
+                      <label for="card_month">Data de vencimento</label><span class="required">*</span><br />
+                      {{input type="number" value=yebo.checkouts.currentPaymentOptions.month}}
+                      {{input type="number" value=yebo.checkouts.currentPaymentOptions.year}}
+                    </p>
+
+                    <p class="field text">
+                      <label for="card_code">Codigo de segurança</label><span class="required">*</span><br />
+                      {{input type="number" value=yebo.checkouts.currentPaymentOptions.verification_number}}
+                    </p>
+                  </section>
+
+                  {{#each payment.extra.flags as |flag|}}
+                    {{#if (eq yebo.checkouts.currentPaymentOptions.currentFlag flag.slug)}}
+                      <section class="pay-col last">
+                        <section class="field">
+                          <label for="installments-text">Parcelamento <span class="required">*</span></label><br />
+                          {{#yebo-select value=yebo.checkouts.currentPaymentOptions.installments}}
+                            {{#each-in flag.installments as |n installment|}}
+                              {{#x-option value=n}}
+                                {{n}}x de {{installment.money}}
+                                {{if installment.tax " - Com Juros" " - Sem Juros"}}
+                              {{/x-option}}
+                            {{/each-in}}
+                          {{/yebo-select}}
+                        </section>
+                      </section>
+                    {{/if}}
+                  {{/each}}
+                </section>
+              </li>
+            {{/if}}
+					{{/each}}
+				</ul>
+			</section>
     </section>
   </section>
 
   <section class="cart-actions">
-    <button id="checkout_action" class="checkout-button" disabled>Finalizar Compra</button>
+    <button onclick={{action "checkout"}} class="checkout-button" disabled={{eq yebo.checkouts.canCheckout false}}>Finalizar Compra</button>
   </section>
 
 </section>
