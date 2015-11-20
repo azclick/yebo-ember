@@ -236,13 +236,12 @@ export default Ember.Mixin.create({
   _initializeCart() {
     // Start with the cart
     let cart = this.get('cart');
-    let order = this.get('currentOrder');
 
     // Not defined
     // @todo Initialize the cart based on the currentOrder, if its not null
     if (!cart) {
       // Initialize the cart
-      cart = new YeboSDK.Cart(order.get("number"));
+      cart = new YeboSDK.Cart(this.get('currentOrder.number'));
       // Put it in the instance
       this.set('currentCart', cart);
     }
