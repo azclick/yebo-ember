@@ -29,21 +29,17 @@
 {{/yebo-select}}
 
 {{#if address.country.states.length}}
-
   {{#yebo-select value=address.state}}
     {{#each address.country.states as |state|}}
       {{#x-option value=state}}{{state.name}}{{/x-option}}
     {{/each}}
   {{/yebo-select}}
-
 {{else}}
-
   {{#if address.country.statesRequired}}
     {{yebo-input  value=address.stateName
                   errors=address.errors.stateName
                   attributeName="State"}}
   {{/if}}
-
 {{/if}}
 
 {{yebo-input  value=address.phone

@@ -39,6 +39,14 @@ export default Ember.Component.extend({
   actions: {
     transitionCheckoutState: function(stateName) {
       this.sendAction('action', stateName);
+    },
+    setShipment: function(rateId) {
+      // Trigger the event
+      this.get('yebo').get('checkouts').trigger('setShipment', rateId);
+    },
+    checkout: function() {
+      // Trigger the event
+      this.get('yebo').get('checkouts').trigger('checkout');
     }
   }
 });

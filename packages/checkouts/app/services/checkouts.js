@@ -26,6 +26,14 @@ export default Ember.Service.extend(Ember.Evented, {
   session: Ember.inject.service('session'),
 
   // sessionAccount: Ember.inject.service('sessionAccount'),
+  //
+
+  /**
+   * This flag enable the checkout button at the bottom of the page
+   * @property canCheckout
+   * @type Boolean
+   */
+  canCheckout: false,
 
   /**
    * When background action is running this flag is setted to `true`.
@@ -47,6 +55,41 @@ export default Ember.Service.extend(Ember.Evented, {
    * @type Boolean
    */
   editingShipAddress: false,
+
+  /**
+   * Is the user using the bill address as ship address?
+   * @property usingBillAddressAsShipAddress
+   * @type Boolean
+   */
+  usingBillAddressAsShipAddress: true,
+
+  /**
+   * Order shipments packages
+   * @property packages
+   * @type Array
+   */
+  packages: [],
+
+  /**
+   * Order possible payments
+   * @property payments
+   * @type Array
+   */
+  payments: [],
+
+  /**
+   * Current payment method
+   * @property currentPayment
+   * @type Integer
+   */
+  currentPayment: 0,
+
+  /**
+   * Current payment options
+   * @property currentPaymentOptions
+   * @type Object
+   */
+  currentPaymentOptions: {},
 
   /**
    * BillAddress
@@ -78,17 +121,16 @@ export default Ember.Service.extend(Ember.Evented, {
     let currentOrder = this.get('yebo').get('currentOrder');
 
     // Check if the billAddress exists
-    // @todo Check if the flag `isFulfilled` will work in this case
-    if( currentOrder.get('billAddress').isFulfilled ) {
+    if( currentOrder.get('billAddress').get('id') ) {
       // So... we dont need to create a new one
       this.set('editingBillAddress', false);
 
       // Define as the model
       this.set('billAddress', currentOrder.get('billAddress'));
-    }
 
-    // Nice message
-    console.log('HERE IN THE SERVICE WAITING TO INITIALIZE IT!');
+      // So... We can calculate the shipments
+      this.trigger('shipments');
+    }
   }.on('checkoutCalled'),
 
   /**
@@ -97,8 +139,100 @@ export default Ember.Service.extend(Ember.Evented, {
    * @public
    */
   calculateShipments: function() {
-    // ...
+    // Current order
+    let currentOrder = this.get('yebo').get('currentOrder');
+
+    // Current order number
+    let number = currentOrder.get('number');
+
+    // User token
+    let userToken = this.get('session').get('session').get('authenticated').user.token;
+
+    // Path
+    let path = `checkout/${number}/shipments?user_token=${userToken}`;
+
+    // Request it
+    YeboSDK.Store.fetch(path, {}, 'GET').then((res) => {
+      // Isolate the shipments
+      let shipments = res.shipments;
+
+      // Each it
+      for( let i = 0; i < shipments.length; i++ ) {
+        // Define the current shipment
+        let shipment = shipments[i];
+
+        // Set the current rate if it exists
+        if( shipment.rates[0] ) {
+          // Set the first rate
+          shipment.currentRate = shipment.rates[0].id;
+
+          // Set it also
+          // @todo Make it works
+          this.trigger('setShipment', shipment.rates[0].id);
+        }
+      }
+
+      // Set it
+      this.set('packages', shipments);
+    }).catch((errors) => {
+      // @todo Show this errors
+      console.log(errors);
+    });
   }.on('shipments', 'billAddress-saved', 'shipAddress-saved'),
+
+  /**
+   * This method set the shipment for an specific package
+   * @method
+   * @public
+   */
+  setShipment: function(rateId) {
+    // Current order
+    let currentOrder = this.get('yebo').get('currentOrder');
+
+    // Current order number
+    let number = currentOrder.get('number');
+
+    // The current user info that will be used on the path
+    let userToken = this.get('session').get('session').get('authenticated').user.token;
+    let currentUser = `?user_token=${userToken}`;
+
+    // The current packages
+    let packages = this.get('packages');
+
+    // Yebo Ajax path
+    let path = `checkout/${number}/shipments/set${currentUser}`
+
+    // Each it
+    for( let i = 0; i < packages.length; i++ ) {
+      // Current item
+      let current = packages[i];
+
+      // Each on the rates to find if the rate is in this package
+      for( let iRate = 0; iRate < current.rates.length; iRate++ ) {
+        // Current Rate
+        let currentRate = current.rates[iRate];
+
+        // Check if this is the right rate
+        if( currentRate.id !== rateId )
+          continue;
+
+        // Ajax Options
+        let options = {
+          rate: currentRate.id,
+          package: current.id
+        };
+
+        // Run the request
+        YeboSDK.Store.fetch(path, options, 'POST').then((res) => {
+          // Event!
+          this.trigger('packageRateSetted');
+        }).catch((errors) => {
+          // @todo Show this errors
+          console.log(errors);
+        });
+      }
+    }
+  }.on('setShipment'),
 
   /**
    * This method will bring the enabled payment method from the API.
@@ -107,7 +241,62 @@ export default Ember.Service.extend(Ember.Evented, {
    */
   generatePayments: function() {
     // ...
-  }.on('payments', 'shipmentsCalculated', 'shipmentsChanged'),
+    console.log('Time to bring the payment methods!');
+
+    // Current order
+    let currentOrder = this.get('yebo').get('currentOrder');
+
+    // Current order number
+    let number = currentOrder.get('number');
+
+    // The current user info that will be used on the path
+    let userToken = this.get('session').get('session').get('authenticated').user.token;
+    let currentUser = `?user_token=${userToken}`;
+
+    // Ajax path
+    let path = `checkout/${number}/payments${currentUser}`;
+
+    // Ajax Request
+    YeboSDK.Store.fetch(path, {}, 'GET').then((res) => {
+      console.log(res);
+      // Set it...
+      this.set('payments', res.payments);
+
+      // Define a default payment method
+      if( res.payments[0] )
+        this.set('currentPayment', res.payments[0].id);
+
+      // Trigger an event
+      this.trigger('paymentsGot');
+    }).catch((error) => {
+      // @todo Show this error
+      console.log(error);
+    })
+  }.on('payments', 'packageRateSetted'),
+
+  /**
+   * When the current payment changes this method will be called
+   * @method
+   * @public
+   */
+  paymentChange: function() {
+    // Reset the currentPayment options
+    this.set('currentPaymentOptions', {});
+
+    // ...
+    console.log('PAYMENT CHANGED!');
+  }.observes('currentPayment'),
+
+  /**
+   * This event enable the Checkout button
+   * @method
+   * @private
+   */
+  enableCheckout: function() {
+    console.log('You can finish your order now!!!');
+    // Set it
+    this.set('canCheckout', true);
+  }.on('paymentsGot'),
 
   /**
    * This method save an address
@@ -138,21 +327,30 @@ export default Ember.Service.extend(Ember.Evented, {
     }
 
     // Lets make it using the SDK
-    // @todo Make it work by passing the User Token to the action
-    // Use address.serialize() maybe
-    YeboSDK.Store.fetch(path, address.toJSON(), 'POST').then((address) => {
+    YeboSDK.Store.fetch(path, address.serialize(), 'POST').then((address) => {
       // Set the Address ID
       currentOrder.get(name).set('id', address.id);
 
       // The user is not editing anymore
-      this.set(`editing${_generateNiceName(name)}`, false);
+      this.set(`editing${this._generateNiceName(name)}`, false);
 
       // Trigger some events here
       this.trigger(`${name}-saved`, address);
     }).catch((error) => {
+      // @todo Show the error messages
       console.log(error);
     });
   }.on('saveAddress'),
+
+  /**
+   * Final checkout execution
+   * @method
+   * @private
+   */
+  finishCheckout: function() {
+    console.log('FINISH THIS ORDER!!!!');
+    console.log(this.get('currentPaymentOptions'));
+  }.on('checkout'),
 
   /**
    * This method capitalize the first letter of a string
