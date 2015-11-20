@@ -1,0 +1,11 @@
+<div class="row">
+  <h1>Pedidos</h1>
+  <div class="small-12 medium-3 columns panel">
+
+  </div>
+  <div class="small-12 medium-9 columns">
+    {{#each model as |order|}}
+      {{link-to order.number yebo.orders.show order.number}}
+    {{/each}}
+  </div>
+</div>
