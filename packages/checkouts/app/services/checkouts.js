@@ -139,17 +139,8 @@ export default Ember.Service.extend(Ember.Evented, {
    * @public
    */
   calculateShipments: function() {
-    // Current order
-    let currentOrder = this.get('yebo').get('currentOrder');
-
-    // Current order number
-    let number = currentOrder.get('number');
-
-    // User token
-    let userToken = this.get('session').get('session').get('authenticated').user.token;
-
-    // Path
-    let path = `checkout/${number}/shipments?user_token=${userToken}`;
+    // Yebo Ajax path
+    let path = this._checkoutURL('shipments');
 
     // Request it
     YeboSDK.Store.fetch(path, {}, 'GET').then((res) => {
@@ -186,21 +177,11 @@ export default Ember.Service.extend(Ember.Evented, {
    * @public
    */
   setShipment: function(rateId) {
-    // Current order
-    let currentOrder = this.get('yebo').get('currentOrder');
-
-    // Current order number
-    let number = currentOrder.get('number');
-
-    // The current user info that will be used on the path
-    let userToken = this.get('session').get('session').get('authenticated').user.token;
-    let currentUser = `?user_token=${userToken}`;
-
     // The current packages
     let packages = this.get('packages');
 
     // Yebo Ajax path
-    let path = `checkout/${number}/shipments/set${currentUser}`
+    let path = this._checkoutURL('shipments/set');
 
     // Each it
     for( let i = 0; i < packages.length; i++ ) {
@@ -243,18 +224,8 @@ export default Ember.Service.extend(Ember.Evented, {
     // ...
     console.log('Time to bring the payment methods!');
 
-    // Current order
-    let currentOrder = this.get('yebo').get('currentOrder');
-
-    // Current order number
-    let number = currentOrder.get('number');
-
-    // The current user info that will be used on the path
-    let userToken = this.get('session').get('session').get('authenticated').user.token;
-    let currentUser = `?user_token=${userToken}`;
-
-    // Ajax path
-    let path = `checkout/${number}/payments${currentUser}`;
+    // Yebo Ajax path
+    let path = this._checkoutURL('payments');
 
     // Ajax Request
     YeboSDK.Store.fetch(path, {}, 'GET').then((res) => {
@@ -304,18 +275,8 @@ export default Ember.Service.extend(Ember.Evented, {
    * @public
    */
   saveAddress: function(name, address) {
-    // Current order
-    let currentOrder = this.get('yebo').get('currentOrder');
-
-    // Current order number
-    let number = currentOrder.get('number');
-
-    // The current user info that will be used on the path
-    let userToken = this.get('session').get('session').get('authenticated').user.token;
-    let currentUser = `?user_token=${userToken}`;
-
     // Yebo Ajax path
-    let path = `checkout/${number}/address/update/${name.slice(0, 4)}${currentUser}`
+    let path = this._checkoutURL(`address/update/${name.slice(0, 4)}`);
 
     // Check if this address exists
     if( !address.get('id') ) {
@@ -323,8 +284,9 @@ export default Ember.Service.extend(Ember.Evented, {
       currentOrder.set(name, address);
 
       // Change it to create a new address
-      path = `checkout/${number}/address/create/${name.slice(0, 4)}${currentUser}`
+      path = this._checkoutURL(`address/create/${name.slice(0, 4)}`);
     }
+
 
     // Lets make it using the SDK
     YeboSDK.Store.fetch(path, address.serialize(), 'POST').then((address) => {
@@ -360,5 +322,24 @@ export default Ember.Service.extend(Ember.Evented, {
    */
   _generateNiceName(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  },
+
+  /**
+   * This method generates a checkout url.
+   *   /checkout/${orderNumber}/${action}?${userToken}
+   *
+   * @method
+   * @private
+   */
+  _checkoutURL(action) {
+    // Current order number
+    let number = this.get('yebo').get('currentOrder').get('number');
+
+    // The current user info that will be used on the path
+    let userToken = this.get('session').get('session').get('authenticated').user.token;
+    let currentUser = `?user_token=${userToken}`;
+
+    // Yebo Ajax path
+    return `checkout/${number}/${action}${currentUser}`;
   }
 });
