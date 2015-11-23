@@ -344,6 +344,7 @@ export default Ember.Service.extend(Ember.Evented, {
 
   /**
    * Final checkout execution
+   * @todo Make it works
    * @method
    * @private
    */
