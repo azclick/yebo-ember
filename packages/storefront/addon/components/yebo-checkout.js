@@ -47,6 +47,10 @@ export default Ember.Component.extend({
     checkout: function() {
       // Trigger the event
       this.get('yebo').get('checkouts').trigger('checkout');
+    },
+    editAddress: function(name) {
+      // Trigger the event
+      this.get('yebo').get('checkouts').trigger('editAddress', name);
     }
   }
 });
