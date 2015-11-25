@@ -195,6 +195,11 @@ export default Ember.Mixin.create({
   yebo: Ember.inject.service(),
 
   /**
+   *
+   */
+  sessionAccount: Ember.inject.service(),
+
+  /**
     Adds a lineItem to the currentOrder. If there is no Current Order,
     Yebo Ember will request a new order from the server, and set it as the
     Current Order on the Yebo service.
@@ -237,14 +242,10 @@ export default Ember.Mixin.create({
     // Start with the cart
     let cart = this.get('cart');
 
-    // Not defined
-    // @todo Initialize the cart based on the currentOrder, if its not null
-    if (!cart) {
-      // Initialize the cart
-      cart = new YeboSDK.Cart(this.get('currentOrder.number'));
-      // Put it in the instance
-      this.set('currentCart', cart);
-    }
+    // Initialize the cart
+    cart = new YeboSDK.Cart(this.get('currentOrder.number'), this.get('sessionAccount.user.token'));
+    // Put it in the instance
+    this.set('currentCart', cart);
 
     return new Ember.RSVP.Promise((resolve, reject) => {
       // Find the cart order
@@ -267,7 +268,21 @@ export default Ember.Mixin.create({
           // The order does not exists!
           this.set('currentOrder', null);
         }
-      }).catch(reject);
+      }).catch(() => {
+        // ERROR!!!
+        this.set('currentOrder', null);
+        this.set('currentCart', null);
+        this.set('orderId', null);
+        this.set('guestToken', null);
+
+        // Persist it to local storage
+        this.persist({
+          guestToken: null,
+          orderId: null
+        });
+
+        reject();
+      });
     });
   },
 
@@ -300,8 +315,6 @@ export default Ember.Mixin.create({
         }
         // Find the line item
         this.get('yebo.store').findRecord('lineItem', response.item.id).then((lineItem) => {
-          // Return it
-          console.log(lineItem);
           // Event
           this.trigger('didAddToCart', lineItem);
           // Finish!
