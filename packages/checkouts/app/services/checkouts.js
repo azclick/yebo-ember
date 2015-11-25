@@ -287,9 +287,17 @@ export default Ember.Service.extend(Ember.Evented, {
       path = this._checkoutURL(`address/create/${name.slice(0, 4)}`);
     }
 
+    // Address serialized
+    let serialized;
+
+    // Address serialized
+    if( address.content === undefined )
+      serialized = address.serialize();
+    else
+      serialized = address.content.serialize();
 
     // Lets make it using the SDK
-    YeboSDK.Store.fetch(path, address.serialize(), 'POST').then((address) => {
+    YeboSDK.Store.fetch(path, serialized, 'POST').then((address) => {
       // Set the Address ID
       currentOrder.get(name).set('id', address.id);
 
