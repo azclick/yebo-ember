@@ -7,7 +7,7 @@ export default Ember.Service.extend({
   session: service(),
   yebo: service(),
 
-  user: Ember.computed('session.data.authenticated.user', function() {
+  user: Ember.computed('session.data.authenticated.user.token', function() {
     const token = this.get('session.data.authenticated.user.token');
     if (!Ember.isEmpty(token)) {
       return DS.PromiseObject.create({

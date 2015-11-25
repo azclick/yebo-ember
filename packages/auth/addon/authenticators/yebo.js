@@ -22,7 +22,7 @@ export default BaseAuthenticator.extend({
         data: JSON.stringify({
           user: options.identification,
           password: options.password,
-          order_token: options.guestToken,
+          order_token: options.order.get("guestToken"),
         }),
         contentType: 'application/json;charset=utf-8',
         dataType: 'json'

@@ -70,7 +70,8 @@ export default Ember.Component.extend({
       this.sendAction(action, {
         identification: identification,
         password: password,
-        passwordConfirmation: passwordConfirmation
+        passwordConfirmation: passwordConfirmation,
+        order: this.get("yebo.currentOrder")
       }, this);
     }
   },
