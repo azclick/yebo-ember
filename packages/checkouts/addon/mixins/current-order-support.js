@@ -296,8 +296,11 @@ export default Ember.Mixin.create({
     return new Ember.RSVP.Promise((resolve, reject) => {
       cart.add(variant.get('id'), quantity).then((response) => {
         // Is the order real?
-        if (response.order.real && !this.get('currentOrder')) {
+        // update order, but order might be huge
+        // !this.get('currentOrder')
+        if (response.order.real) {
           // Find it and set as the currentOrder
+          // TODO: This response is huge, i can't do this in every request
           this.get('yebo.store').find('order', response.order.number).then((order) => {
             // Set the order
             this.set('currentOrder', order);
