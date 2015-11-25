@@ -11,7 +11,7 @@
     <section class="user-info address address-form">
       <section class="title">Endereço de cobrança</section>
       {{yebo-show-address address=yebo.currentOrder.billAddress}}
-      <button data-action="editAddress" data-address="bill">Editar</button>
+      <button {{action 'editAddress' 'billAddress'}}>Editar</button>
     </section>
 
     <section class="user-info address">
@@ -19,7 +19,7 @@
         <section class="title">Endereço de entrega</section>
         <section id="contentShipAddress" class="content-address">
           {{yebo-show-address address=yebo.currentOrder.shipAddress}}
-          <button data-action="editAddress" data-address="ship">Editar</button>
+          <button {{action 'editAddress' 'shipAddress'}}>Editar</button>
         </section>
       {{/unless}}
       <label class="label-checkbox">

@@ -134,6 +134,20 @@ export default Ember.Service.extend(Ember.Evented, {
   }.on('checkoutCalled'),
 
   /**
+   * It will show the form from a specific address
+   * @method
+   * @public
+   */
+  startEditingAddress: function(name) {
+    // Close all the address
+    this.set('editingBillAddress', false);
+    this.set('editingShipAddress', false);
+
+    // Start Editing the address
+    this.set(`editing${this._generateNiceName(name)}`, true);
+  }.on('editAddress'),
+
+  /**
    * This method calculate the order shipments.
    * @method
    * @public
@@ -277,6 +291,9 @@ export default Ember.Service.extend(Ember.Evented, {
   saveAddress: function(name, address) {
     // Yebo Ajax path
     let path = this._checkoutURL(`address/update/${name.slice(0, 4)}`);
+
+    // Current order number
+    let currentOrder = this.get('yebo').get('currentOrder');
 
     // Check if this address exists
     if( !address.get('id') ) {
