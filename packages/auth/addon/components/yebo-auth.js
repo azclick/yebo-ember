@@ -71,7 +71,7 @@ export default Ember.Component.extend({
         identification: identification,
         password: password,
         passwordConfirmation: passwordConfirmation,
-        order: this.get("yebo.currentOrder")
+        orderToken: this.get("yebo.currentOrder.guestToken")
       }, this);
     }
   },

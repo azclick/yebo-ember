@@ -269,17 +269,7 @@ export default Ember.Mixin.create({
           this.set('currentOrder', null);
         }
       }).catch(() => {
-        // ERROR!!!
-        this.set('currentOrder', null);
-        this.set('currentCart', null);
-        this.set('orderId', null);
-        this.set('guestToken', null);
-
-        // Persist it to local storage
-        this.persist({
-          guestToken: null,
-          orderId: null
-        });
+        this.clearCurrentOrder();
 
         reject();
       });
@@ -415,6 +405,7 @@ export default Ember.Mixin.create({
       orderId: null
     });
     this.set('currentOrder', null);
+    this.set('currentCart', null);
     this.get('checkouts').transition();
     this.trigger('didClearCurrentOrder');
     return true;
