@@ -305,7 +305,7 @@ export default Ember.Mixin.create({
             // Set the order
             this.set('currentOrder', order);
           });
-        }
+        };
         // Find the line item
         this.get('yebo.store').findRecord('lineItem', response.item.id).then((lineItem) => {
           // Event
