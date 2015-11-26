@@ -114,7 +114,7 @@
                     <p class="field radio">
                       {{#each payment.extra.flags as |flag|}}
                         <label>
-                          {{yebo-radio value=flag.slug checked=yebo.checkouts.currentPaymentOptions.currentFlag}}
+                          {{yebo-radio value=flag.slug checked=yebo.checkouts.currentPaymentOptions.card_type}}
                           <img src="{{flag.image}}" alt="{{flag.name}}" />
                         </label>
                       {{/each}}
@@ -151,12 +151,12 @@
 
                     <p class="field text">
                       <label for="card_code">Codigo de segurança</label><span class="required">*</span><br />
-                      {{input type="number" value=yebo.checkouts.currentPaymentOptions.verification_number}}
+                      {{input type="number" value=yebo.checkouts.currentPaymentOptions.verification_value}}
                     </p>
                   </section>
 
                   {{#each payment.extra.flags as |flag|}}
-                    {{#if (eq yebo.checkouts.currentPaymentOptions.currentFlag flag.slug)}}
+                    {{#if (eq yebo.checkouts.currentPaymentOptions.card_type flag.slug)}}
                       <section class="pay-col last">
                         <section class="field">
                           <label for="installments-text">Parcelamento <span class="required">*</span></label><br />
