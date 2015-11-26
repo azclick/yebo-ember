@@ -136,8 +136,17 @@
                   <section class="pay-col">
                     <p class="field select">
                       <label for="card_month">Data de vencimento</label><span class="required">*</span><br />
-                      {{input type="number" value=yebo.checkouts.currentPaymentOptions.month}}
-                      {{input type="number" value=yebo.checkouts.currentPaymentOptions.year}}
+                      {{#yebo-select value=yebo.checkouts.currentPaymentOptions.month}}
+                        {{#each (range start=1 end=12) as |month|}}
+                          {{#x-option value=month}}{{month}}{{/x-option}}
+                        {{/each}}
+                      {{/yebo-select}}
+
+                      {{#yebo-select value=yebo.checkouts.currentPaymentOptions.year}}
+                        {{#each (range start=yebo.checkouts.currentYear next=15) as |month|}}
+                          {{#x-option value=month}}{{month}}{{/x-option}}
+                        {{/each}}
+                      {{/yebo-select}}
                     </p>
 
                     <p class="field text">

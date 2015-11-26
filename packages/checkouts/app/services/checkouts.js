@@ -112,6 +112,13 @@ export default Ember.Service.extend(Ember.Evented, {
   }),
 
   /**
+   * Current Year
+   * @property
+   * @type Integer
+   */
+  currentYear: new Date().getFullYear(),
+
+  /**
    * The method start the checkout process.
    * @method
    * @public
