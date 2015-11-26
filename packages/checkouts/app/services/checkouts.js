@@ -120,6 +120,7 @@ export default Ember.Service.extend(Ember.Evented, {
 
   /**
    * The method start the checkout process.
+   * @todo If there is no address, bring the last for the user
    * @method
    * @public
    */
@@ -338,13 +339,27 @@ export default Ember.Service.extend(Ember.Evented, {
 
   /**
    * Final checkout execution
-   * @todo Make it works
    * @method
    * @private
    */
   finishCheckout: function() {
-    console.log('FINISH THIS ORDER!!!!');
-    console.log(this.get('currentPaymentOptions'));
+    // Yebo Ajax path
+    let path = this._checkoutURL('payments');
+
+    // Ajax options
+    let options = {
+      method_id: this.get('currentPayment'),
+      source: this.get('currentPaymentOptions')
+    }
+
+    // Lets make it using the SDK
+    YeboSDK.Store.fetch(path, options, 'POST').then((res) => {
+      // @todo Redirect to the order page
+      console.log(res);
+    }).catch((error) => {
+      // @todo Show the error messages
+      console.log(error);
+    });
   }.on('checkout'),
 
   /**
