@@ -199,6 +199,9 @@ export default Ember.Service.extend(Ember.Evented, {
       // Isolate the shipments
       let shipments = res.shipments;
 
+      // Current rates
+      let currentRates = [];
+
       // Each it
       for( let i = 0; i < shipments.length; i++ ) {
         // Define the current shipment
@@ -210,13 +213,16 @@ export default Ember.Service.extend(Ember.Evented, {
           shipment.currentRate = shipment.rates[0].id;
 
           // Set it also
-          // @todo Make it works
-          this.trigger('setShipment', shipment.rates[0].id);
+          currentRates.push(shipment.rates[0].id);
         }
       }
 
       // Set it
       this.set('packages', shipments);
+
+      // Each the currentRates and set it to the checkout
+      for( let i = 0; i < currentRates.length; i++ )
+        this.trigger('setShipment', currentRates[i]);
     }).catch((errors) => {
       // @todo Show this errors
       console.log(errors);
