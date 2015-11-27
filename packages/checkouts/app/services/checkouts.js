@@ -377,6 +377,29 @@ export default Ember.Service.extend(Ember.Evented, {
   }.on('saveAddress'),
 
   /**
+   * This method will remove the ship address if its not required
+   * @method
+   * @private
+   */
+  removeShipAddress: function() {
+    // Get the flag
+    let flag = this.get('usingBillAddressAsShipAddress');
+
+    // If its false do nothing
+    if( flag === false )
+      return;
+
+    // Lets make it using the SDK
+    YeboSDK.Store.fetch(this._checkoutURL('address/remove/ship'), {}, 'POST').then((res) => {
+      // Create a new empty address
+      let emptyAddress = this.get('yebo').get('store').createRecord('address');
+
+      // Set it
+      this.set('shipAddress', emptyAddress);
+    });
+  }.observes('usingBillAddressAsShipAddress'),
+
+  /**
    * Final checkout execution
    * @method
    * @private
