@@ -128,13 +128,43 @@ export default Ember.Service.extend(Ember.Evented, {
     // Current Order
     let currentOrder = this.get('yebo').get('currentOrder');
 
-    // Check if the billAddress exists
-    if( currentOrder.get('billAddress').get('id') ) {
-      // So... we dont need to create a new one
-      this.set('editingBillAddress', false);
+    // Possible addresses
+    let addresses = ['bill', 'ship'];
 
-      // Define as the model
-      this.set('billAddress', currentOrder.get('billAddress'));
+    // Each all the possible address
+    for( let i in addresses ) {
+      // Address
+      let address = addresses[i],
+          niceName = this._generateNiceName(address);
+
+      // Check if the billAddress exists
+      if( currentOrder.get(`${address}Address`).get('id') ) {
+        // So... we dont need to create a new one
+        this.set(`editing${niceName}Address`, false);
+
+        // Define as the model
+        this.set(`${address}Address`, currentOrder.get(`${address}Address`));
+
+        // If the ship address exits set the flag to false
+        if( address === 'ship' )
+          this.set('usingBillAddressAsShipAddress', false);
+      } else {
+        // There is no address
+        // Try to get a new one
+        YeboSDK.Store.fetch(this._checkoutURL(`address/${address}`), {}, 'GET').then((res) => {
+          // Check if the address exists
+          if( res.address ) {
+            // Yebo Store
+            let store = this.get('yebo').get('store');
+
+            // Push to the store
+            store.pushPayload(res);
+
+            // Set it to the checkout
+            this.set(`${address}Address`, store.peekRecord('address', res.address.id));
+          }
+        });
+      }
 
       // So... We can calculate the shipments
       this.trigger('shipments');
