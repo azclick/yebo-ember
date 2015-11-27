@@ -120,7 +120,6 @@ export default Ember.Service.extend(Ember.Evented, {
 
   /**
    * The method start the checkout process.
-   * @todo If there is no address, bring the last for the user
    * @method
    * @public
    */
