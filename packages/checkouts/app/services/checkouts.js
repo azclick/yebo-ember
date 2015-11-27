@@ -148,6 +148,9 @@ export default Ember.Service.extend(Ember.Evented, {
         // If the ship address exits set the flag to false
         if( address === 'ship' )
           this.set('usingBillAddressAsShipAddress', false);
+
+        // So... We can calculate the shipments
+        this.trigger('shipments');
       } else {
         // There is no address
         // Try to get a new one
@@ -162,12 +165,12 @@ export default Ember.Service.extend(Ember.Evented, {
 
             // Set it to the checkout
             this.set(`${address}Address`, store.peekRecord('address', res.address.id));
+
+            // So... We can calculate the shipments
+            this.trigger('shipments');
           }
         });
       }
-
-      // So... We can calculate the shipments
-      this.trigger('shipments');
     }
   }.on('checkoutCalled'),
 
