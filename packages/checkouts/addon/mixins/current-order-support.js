@@ -229,6 +229,13 @@ export default Ember.Mixin.create({
   },
 
   /**
+   * Empty the current cart
+   */
+  emptyCart: function() {
+
+  },
+
+  /**
    * This method is used both to create an Order(currentOrder) for the other
    * sections of the application and the Cart(currentCart) that will be
    * used in the checkout area.

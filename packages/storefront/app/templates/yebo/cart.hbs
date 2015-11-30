@@ -7,6 +7,7 @@
       {{#link-to 'yebo.products.index'}}
         <button>Keep Shopping</button>
       {{/link-to}}
+      <button {{action 'emptyCart'}}>Empty Cart</button>
       <button {{action 'transitionToCheckout'}}>Checkout</button>
     {{else}}
       <h1>Your cart is empty.</h1>

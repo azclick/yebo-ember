@@ -34,6 +34,10 @@ export default Ember.Route.extend({
       //   this.yebo.set('currentOrder.state', 'address');
       //   this.transitionTo('yebo.checkout');
       // }
+    },
+
+    emptyCart: function() {
+      console.log('EMPTY CART!!');
     }
   }
 });
