@@ -165,6 +165,9 @@ export default Ember.Service.extend(Ember.Evented, {
             // Set it to the checkout
             this.set(`${address}Address`, store.peekRecord('address', res.address.id));
 
+            // So... we dont need to create a new one
+            this.set(`editing${niceName}Address`, false);
+
             // So... We can calculate the shipments
             this.trigger('shipments');
           }
