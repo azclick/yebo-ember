@@ -37,7 +37,8 @@ export default Ember.Route.extend({
     },
 
     emptyCart: function() {
-      console.log('EMPTY CART!!');
+      // Call the method in the current-order-support
+      this.yebo.emptyCart();
     }
   }
 });

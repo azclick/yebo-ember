@@ -236,7 +236,14 @@ export default Ember.Mixin.create({
    * Empty the current cart
    */
   emptyCart: function() {
+    // Current Cart
+    let cart = this.get('currentCart');
 
+    // Empty IT!!
+    cart.empty().then(() => {
+      // Update the order
+      this.get('currentOrder').reload();
+    });
   },
 
   /**
