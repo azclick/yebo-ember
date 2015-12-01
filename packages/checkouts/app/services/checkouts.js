@@ -159,17 +159,21 @@ export default Ember.Service.extend(Ember.Evented, {
             // Yebo Store
             let store = this.get('yebo').get('store');
 
-            // Push to the store
-            store.pushPayload(res);
-
             // Set it to the checkout
-            this.set(`${address}Address`, store.peekRecord('address', res.address.id));
+            this.set(`${address}Address`, store.createRecord('address', res.address));
 
-            // So... we dont need to create a new one
-            this.set(`editing${niceName}Address`, false);
+            // Current Address
+            let currentAddress = this.get(`${address}Address`);
 
-            // So... We can calculate the shipments
-            this.trigger('shipments');
+            // Set country
+            currentAddress.set('country', store.peekRecord('country', res.address.country_id));
+
+            // Set State
+            if( res.address.state_id )
+              currentAddress.set('state', store.peekRecord('state', res.address.state_id));
+
+            // Lets save this address
+            this.trigger('saveAddress', `${address}Address`, currentAddress);
           }
         });
       }
