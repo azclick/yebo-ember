@@ -118,6 +118,10 @@ export default Ember.Mixin.create({
         resolve();
       }
       this.get('yebo.store').find('order', orderId).then((currentOrder) => {
+        // Create the cart
+        this.set('currentCart', new YeboSDK.Cart(currentOrder.get('number'), this.get('sessionAccount.user.token')));
+
+        // Set the currentOrder
         this.set('currentOrder', currentOrder);
         return currentOrder;
         // return this.get('checkouts').transition(currentOrder.get('state'));
