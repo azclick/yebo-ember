@@ -233,6 +233,38 @@ export default Ember.Mixin.create({
   },
 
   /**
+   * Remote lineItem from the cart
+   * @method
+   * @public
+   * @param {DS.Model} lineItem The lineItem model that will be removed
+   * @return {Ember.RSVP.Promise} A promise that resolves to the saved Line Item.
+   */
+  removeFromTheCart: function(lineItem, qty) {
+    // Check if the cart is already initialized
+    let cart = this.get('currentCart');
+    let order = this.get('currentOrder');
+
+    // The cart and order should be already initialized
+    if( cart === null || order === null )
+      return;
+
+    // Remove it!
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      // Remove it using SDK
+      cart.removeItem(lineItem.get('id'), qty).then((res) => {
+        // Find the line item
+        this.get('yebo.store').findRecord('lineItem', res.item.id).then((lineItem) => {
+          // Reload the order
+          order.reload();
+
+          // Resolve it
+          resolve(lineItem);
+        });
+      });
+    });
+  },
+
+  /**
    * Empty the current cart
    */
   emptyCart: function() {

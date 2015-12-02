@@ -26,6 +26,16 @@ export default Ember.Component.extend({
     deleteLineItem: function(lineItem) {
       this.sendAction('action', lineItem);
       return false;
+    },
+
+    removeQtyItem: function(lineItem) {
+      // Add using the current-order-support method
+      this.yebo.removeFromTheCart(lineItem, 1);
+    },
+
+    addQtyItem: function(lineItem) {
+      // Add using the current-order-support method
+      this.yebo.addToCart(lineItem.get('variant'), 1);
     }
   }
 });

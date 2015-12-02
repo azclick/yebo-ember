@@ -20,7 +20,11 @@
           {{lineItem.variant.description}}
         </td>
         <td class="text-center">{{lineItem.singleDisplayAmount}}</td>
-        <td class="text-center">{{lineItem.quantity}}</td>
+        <td class="text-center">
+          <a {{action 'removeQtyItem' lineItem}}>-</a>
+          {{lineItem.quantity}}
+          <a {{action 'addQtyItem' lineItem}}>+</a>
+        </td>
         <td class="text-center">{{lineItem.displayAmount}}</td>
         {{#if canRemoveItems}}
           <td class="text-center">
