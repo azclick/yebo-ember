@@ -32,6 +32,9 @@ export default Ember.Component.extend({
     // Set initialize it
     // TODO: Move this to an initialzer
     this.get('yebo')._restoreCurrentOrder().then(()=> {
+      this.get('yebo').get('checkouts').on('checkoutCompledted', function(){
+        debugger;
+      });
       this.get('yebo').get('checkouts').trigger('checkoutCalled');
     });
   },

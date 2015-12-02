@@ -423,6 +423,7 @@ export default Ember.Service.extend(Ember.Evented, {
     // Lets make it using the SDK
     YeboSDK.Store.fetch(path, options, 'POST').then((res) => {
       // @todo Redirect to the order page
+      this.trigger('checkoutCompleted');
       console.log(res);
     }).catch((error) => {
       // @todo Show the error messages

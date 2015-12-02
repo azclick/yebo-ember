@@ -12,16 +12,17 @@ export default DS.Model.extend({
 
   // Price Attributes
   price: DS.attr('string'),
-  rawPrice: DS.attr('number'),
+  // rawPrice: DS.attr('number'),
   costPrice: DS.attr('string'),
-  rawCostPrice: DS.attr('number'),
+  // rawCostPrice: DS.attr('number'),
   discountPrice: DS.attr('string'),
-  rawDiscountPrice: DS.attr('number'),
+  // rawDiscountPrice: DS.attr('number'),
 
   // Installments Attributes
-  installments: DS.attr('number'),
+  has_installments: DS.attr("boolean"),
+  installments: DS.attr("string"),
   installmentValue: DS.attr('string'),
-  rawInstallmentValue: DS.attr('number'),
+  // rawInstallmentValue: DS.attr('number'),
 
   // Relationships
   images: DS.hasMany('image'),
