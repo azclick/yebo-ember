@@ -31,6 +31,14 @@ export default DS.Model.extend(HandlesNestedServerErrors, CanCheckout, {
   total:                 DS.attr('number'),
   updatedAt:             DS.attr('date'),
 
+  // Display
+  displayAdditionalTaxTotal:    DS.attr('string'),
+  displayAdjustmentTotal:       DS.attr('string'),
+  displayItemTotal:             DS.attr('string'),
+  displayPromoTotal:            DS.attr('string'),
+  displayShipmentTotal:         DS.attr('string'),
+  displayTotal:                 DS.attr('string'),
+
   // Relationships
   user:                    DS.belongsTo('user'),
   createdBy:               DS.belongsTo('user'),
