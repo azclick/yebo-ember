@@ -6,17 +6,17 @@
         <h6>Item Total:</h6>
       </div>
       <div class="small-6 columns text-right">
-        <h6>{{order.itemTotal}}</h6>
+        <h6>{{order.displayItemTotal}}</h6>
       </div>
     </div>
-    
+
     {{#if order.shipmentTotal}}
       <div class="row">
         <div class="small-6 columns">
           <h6>Shipping:</h6>
         </div>
         <div class="small-6 columns text-right">
-          <h6>{{order.shipmentTotal}}</h6>
+          <h6>{{order.displayShipmentTotal}}</h6>
         </div>
       </div>
     {{/if}}
@@ -27,7 +27,7 @@
           <h6>Tax:</h6>
         </div>
         <div class="small-6 columns text-right">
-          <h6>{{order.includedTaxTotal}}</h6>
+          <h6>{{order.displayIncludedTaxTotal}}</h6>
         </div>
       </div>
     {{/if}}
@@ -37,7 +37,7 @@
         <h6>Order Total:</h6>
       </div>
       <div class="small-6 columns text-right">
-        <h6>{{order.total}}</h6>
+        <h6>{{order.displayTotal}}</h6>
       </div>
     </div>
 
