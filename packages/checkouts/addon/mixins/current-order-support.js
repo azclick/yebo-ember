@@ -459,7 +459,7 @@ export default Ember.Mixin.create({
     });
     this.set('currentOrder', null);
     this.set('currentCart', null);
-    this.get('checkouts').transition();
+    // this.get('checkouts').transition();
     this.trigger('didClearCurrentOrder');
     return true;
   }

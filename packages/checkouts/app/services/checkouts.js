@@ -9,20 +9,20 @@ export default Ember.Service.extend(Ember.Evented, {
 
     @property yebo
     @type Ember.Service
-  */
+    */
   yebo: Ember.inject.service('yebo'),
 
   /**
     A reference to the Yebo Object's `currentOrder`.
     @property currentOrder
     @type DS.Model
-  */
+    */
   currentOrder: Ember.computed.alias('yebo.currentOrder'),
 
   /**
    * Ember simple auth session
    * @property session
-  */
+   */
   session: Ember.inject.service('session'),
 
   // sessionAccount: Ember.inject.service('sessionAccount'),
@@ -131,10 +131,9 @@ export default Ember.Service.extend(Ember.Evented, {
     let addresses = ['bill', 'ship'];
 
     // Each all the possible address
-    for( let i in addresses ) {
+    for(let address of addresses ) {
       // Address
-      let address = addresses[i],
-          niceName = this._generateNiceName(address);
+      let niceName = this._generateNiceName(address);
 
       // Check if the billAddress exists
       if( currentOrder.get(`${address}Address`).get('id') ) {
@@ -231,7 +230,7 @@ export default Ember.Service.extend(Ember.Evented, {
 
       // Each the currentRates and set it to the checkout
       for( let i = 0; i < currentRates.length; i++ )
-        this.trigger('setShipment', currentRates[i]);
+      this.trigger('setShipment', currentRates[i]);
     }).catch((errors) => {
       // @todo Show this errors
       console.log(errors);
@@ -423,11 +422,16 @@ export default Ember.Service.extend(Ember.Evented, {
     // Lets make it using the SDK
     YeboSDK.Store.fetch(path, options, 'POST').then((res) => {
       // @todo Redirect to the order page
-      this.trigger('checkoutCompleted');
-      console.log(res);
+      this.trigger("orderCompleted", this.get("currentOrder.number"));
+      this.get("yebo").clearCurrentOrder(true);
     }).catch((error) => {
       // @todo Show the error messages
       console.log(error);
+
+      if(error.message.state === "completed") {
+        this.trigger("orderCompleted", this.get("currentOrder.number"));
+        this.get("yebo").clearCurrentOrder(true);
+      }
     });
   }.on('checkout'),
 

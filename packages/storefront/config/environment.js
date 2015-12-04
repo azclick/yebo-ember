@@ -10,7 +10,8 @@ module.exports = function(/* environment, appConfig */) {
       cartPath: "cart",
       checkoutPath: "checkout",
       ordersPath: "orders",
-      taxonsPath: "t"
+      taxonsPath: "t",
+      afterCompletePath: "index"
     }
   };
 };
