@@ -136,7 +136,7 @@ export default Ember.Service.extend(Ember.Evented, {
       let niceName = this._generateNiceName(address);
 
       // Check if the billAddress exists
-      if( currentOrder.get(`${address}Address`).get('id') ) {
+      if( currentOrder && currentOrder.get(`${address}Address`).get('id') ) {
         // So... we dont need to create a new one
         this.set(`editing${niceName}Address`, false);
 

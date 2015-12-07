@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import ActiveModelAdapter from 'active-model-adapter';
+import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
 /**
   The Yebo Adapter is responsible for communicating with your Yebo store.  It
@@ -9,7 +10,12 @@ import ActiveModelAdapter from 'active-model-adapter';
   @namespace Adapter
   @extends ActiveModelAdapter
 */
-export default ActiveModelAdapter.extend({
+export default ActiveModelAdapter.extend(DataAdapterMixin, {
+  // TODO: Remove this dependecy, make it injectable in the proper package
+  authorizer: 'ember-simple-auth-authorizer:jwt',
+
+
+
   /*
     By default the RESTAdapter will send each find request coming from a
     store.find or from accessing a relationship separately to the server.

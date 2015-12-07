@@ -129,12 +129,17 @@ export default Ember.Mixin.create({
 
           // Set the current order
           this.set('currentOrder', currentOrder);
+
+          return resolve("calors");
         }).catch((error) => {
           // Clean the local storage(persist)
-          this.persist({
-            guestToken: null,
-            orderId: null
-          });
+          debugger;
+          // ===================== WHATCH HERE ========================
+          // TODO: This is wapping order if it timeout
+          // this.persist({
+          //   guestToken: null,
+          //   orderId: null
+          // });
 
           // Trigger the error
           this.trigger('serverError', error);
@@ -443,21 +448,18 @@ export default Ember.Mixin.create({
     Yebo Order.
   */
   _createNewOrder: function() {
-    var _this = this;
-    return this.store.createRecord('order').save().then(
-      function(newOrder) {
-        _this.set('currentOrder', newOrder);
-        _this.persist({
+    return this.store.createRecord('order').save().then((newOrder)=> {
+        this.set('currentOrder', newOrder);
+        this.persist({
           guestToken: newOrder.get('guestToken'),
           orderId: newOrder.get('id')
         });
-        _this.trigger('didCreateNewOrder', newOrder);
-        _this.get('checkouts').transition(newOrder.get('state'));
+        this.trigger('didCreateNewOrder', newOrder);
+        this.get('checkouts').transition(newOrder.get('state'));
         return newOrder;
-      },
-      function(error) {
-        _this.trigger('newOrderCreateFailed', error);
-        _this.trigger('serverError', error);
+      }, (error) => {
+        this.trigger('newOrderCreateFailed', error);
+        this.trigger('serverError', error);
         return error;
       }
     );

@@ -30,7 +30,7 @@ export default Ember.Component.extend({
     this._super();
     // Set initialize it
     // TODO: Move this to an initialzer
-    this.get('yebo')._restoreCurrentOrder().then(()=> {
+    this.get('yebo')._restoreCurrentOrder().then((orderId)=> {
       this.get('yebo').get('checkouts').trigger('checkoutCalled');
     });
   },
