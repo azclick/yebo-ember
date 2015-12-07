@@ -1,5 +1,8 @@
 import Ember from 'ember';
 
+// isEmpty
+const { isEmpty } = Ember;
+
 /**
   Provides Current Order and Checkout Functionality to the Yebo service.  This
   mixin is applied to the Yebo service when yebo-ember-checkouts initializes,
@@ -113,35 +116,90 @@ export default Ember.Mixin.create({
     var orderId = this.get('orderId');
 
     return new Ember.RSVP.Promise((resolve, reject) => {
-      // Resolve here if no orderId
-      if( !orderId )
-        return resolve();
+      // Start the cart
+      // this.instanciateCart();
 
-      // Create a new cart
-      let cart = new YeboSDK.Cart(orderId, this.get('sessionAccount.user.token'));
+      // Resolve it!
+      resolve();
+    });
 
-      // Get the cart order
-      cart.order.then((res) => {
-        // Find the order
-        this.get('yebo.store').find('order', res.number).then((currentOrder) => {
-          // Set the Cart
-          this.set('currentCart', cart);
+    // return new Ember.RSVP.Promise((resolve, reject) => {
+    //   // Resolve here if no orderId
+    //   if( !orderId )
+    //     return resolve();
 
-          // Set the current order
-          this.set('currentOrder', currentOrder);
-        }).catch((error) => {
-          // Clean the local storage(persist)
-          this.persist({
-            guestToken: null,
-            orderId: null
-          });
+    //   // Create a new cart
+    //   let cart = new YeboSDK.Cart(orderId, this.get('sessionAccount.user.token'));
 
-          // Trigger the error
-          this.trigger('serverError', error);
+    //   // Get the cart order
+    //   cart.order.then((res) => {
+    //     // Find the order
+    //     this.get('yebo.store').find('order', res.number).then((currentOrder) => {
+    //       // Set the Cart
+    //       this.set('currentCart', cart);
 
-          // Error!
-          reject(error);
-        });
+    //       // Set the current order
+    //       this.set('currentOrder', currentOrder);
+    //     }).catch((error) => {
+    //       // Clean the local storage(persist)
+    //       this.persist({
+    //         guestToken: null,
+    //         orderId: null
+    //       });
+
+    //       // Trigger the error
+    //       this.trigger('serverError', error);
+
+    //       // Error!
+    //       reject(error);
+    //     });
+    //   }).catch((error) => {
+    //     // Clean the local storage(persist)
+    //     this.persist({
+    //       guestToken: null,
+    //       orderId: null
+    //     });
+
+    //     // Trigger the error
+    //     this.trigger('serverError', error);
+
+    //     // Error!
+    //     reject(error);
+    //   });
+    // });
+  },
+
+  /**
+   *
+   */
+  instanciateCart: function(data) {
+    // The authenticated value
+    let authenticated = !isEmpty(data);
+
+    // OrderId
+    let orderId = this.get('orderId');
+
+    // Check if its necessary to create the cart
+    if( !orderId )
+      return;
+
+    // Create a new cart
+    let cart;
+
+    if( authenticated )
+      cart = new YeboSDK.Cart(orderId, data.user.token);
+    else
+      cart = new YeboSDK.Cart(orderId);
+
+    // Get the cart order
+    cart.order.then((res) => {
+      // Find the order
+      this.get('yebo.store').find('order', res.number).then((currentOrder) => {
+        // Set the Cart
+        this.set('currentCart', cart);
+
+        // Set the current order
+        this.set('currentOrder', currentOrder);
       }).catch((error) => {
         // Clean the local storage(persist)
         this.persist({
@@ -151,11 +209,19 @@ export default Ember.Mixin.create({
 
         // Trigger the error
         this.trigger('serverError', error);
-
-        // Error!
-        reject(error);
       });
+    }).catch((error) => {
+      // Clean the local storage(persist)
+      this.persist({
+        guestToken: null,
+        orderId: null
+      });
+
+      // Trigger the error
+      this.trigger('serverError', error);
     });
+
+    console.log('CART REFRESHED');
   },
 
   /**
@@ -222,6 +288,11 @@ export default Ember.Mixin.create({
    *
    */
   sessionAccount: Ember.inject.service(),
+
+  /**
+   *
+   */
+  session: Ember.inject.service('session'),
 
   /**
     Adds a lineItem to the currentOrder. If there is no Current Order,

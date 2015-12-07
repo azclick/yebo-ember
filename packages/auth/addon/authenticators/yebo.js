@@ -7,12 +7,16 @@ export default BaseAuthenticator.extend({
   serverEndpoint: null,
 
   restore: function(data) {
-    return new Ember.RSVP.Promise(function(resolve, reject) {
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      // Check if the user is logged
       if (!Ember.isEmpty(data.user.token)) {
         resolve(data);
       } else {
         reject();
       }
+
+      // Trigger an event
+      this.get('yebo').instanciateCart(data);
     });
   },
 
