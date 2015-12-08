@@ -115,12 +115,20 @@ export default Ember.Mixin.create({
     this.restore();
     var orderId = this.get('orderId');
 
-    return new Ember.RSVP.Promise((resolve, reject) => {
-      // Start the cart
-      // this.instanciateCart();
+    // Return if there is no orderId
+    if( !orderId )
+      return resolve();
 
-      // Resolve it!
-      resolve();
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      // Check if the order has user
+      YeboSDK.Store.fetch('cart/user', { number: orderId }, 'GET').then((res) => {
+        // Initialize a cart that does not have an user
+        if( !res.has_user )
+          this.instanciateCart();
+
+        // Resolve it!
+        resolve();
+      });
     });
   },
 
