@@ -183,8 +183,6 @@ export default Ember.Mixin.create({
       // Trigger the error
       this.trigger('serverError', error);
     });
-
-    console.log('CART REFRESHED');
   },
 
   /**
