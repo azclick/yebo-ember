@@ -161,15 +161,33 @@ export default Ember.Mixin.create({
     else
       cart = new YeboSDK.Cart(orderId);
 
-    // Get the cart order
-    cart.order.then((res) => {
-      // Find the order
-      this.get('yebo.store').find('order', res.number).then((currentOrder) => {
-        // Set the Cart
-        this.set('currentCart', cart);
+    // Return an Promise
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      // Get the cart order
+      cart.order.then((res) => {
+        // Find the order
+        this.get('yebo.store').find('order', res.number).then((currentOrder) => {
+          // Set the Cart
+          this.set('currentCart', cart);
 
-        // Set the current order
-        this.set('currentOrder', currentOrder);
+          // Set the current order
+          this.set('currentOrder', currentOrder);
+
+          // Resolve it
+          resolve();
+        }).catch((error) => {
+          // Clean the local storage(persist)
+          this.persist({
+            guestToken: null,
+            orderId: null
+          });
+
+          // Trigger the error
+          this.trigger('serverError', error);
+
+          // Reject it
+          reject();
+        });
       }).catch((error) => {
         // Clean the local storage(persist)
         this.persist({
@@ -179,16 +197,10 @@ export default Ember.Mixin.create({
 
         // Trigger the error
         this.trigger('serverError', error);
-      });
-    }).catch((error) => {
-      // Clean the local storage(persist)
-      this.persist({
-        guestToken: null,
-        orderId: null
-      });
 
-      // Trigger the error
-      this.trigger('serverError', error);
+        // Reject it
+        reject();
+      });
     });
   },
 
