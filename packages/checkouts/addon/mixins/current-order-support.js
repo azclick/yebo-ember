@@ -122,51 +122,6 @@ export default Ember.Mixin.create({
       // Resolve it!
       resolve();
     });
-
-    // return new Ember.RSVP.Promise((resolve, reject) => {
-    //   // Resolve here if no orderId
-    //   if( !orderId )
-    //     return resolve();
-
-    //   // Create a new cart
-    //   let cart = new YeboSDK.Cart(orderId, this.get('sessionAccount.user.token'));
-
-    //   // Get the cart order
-    //   cart.order.then((res) => {
-    //     // Find the order
-    //     this.get('yebo.store').find('order', res.number).then((currentOrder) => {
-    //       // Set the Cart
-    //       this.set('currentCart', cart);
-
-    //       // Set the current order
-    //       this.set('currentOrder', currentOrder);
-    //     }).catch((error) => {
-    //       // Clean the local storage(persist)
-    //       this.persist({
-    //         guestToken: null,
-    //         orderId: null
-    //       });
-
-    //       // Trigger the error
-    //       this.trigger('serverError', error);
-
-    //       // Error!
-    //       reject(error);
-    //     });
-    //   }).catch((error) => {
-    //     // Clean the local storage(persist)
-    //     this.persist({
-    //       guestToken: null,
-    //       orderId: null
-    //     });
-
-    //     // Trigger the error
-    //     this.trigger('serverError', error);
-
-    //     // Error!
-    //     reject(error);
-    //   });
-    // });
   },
 
   /**
