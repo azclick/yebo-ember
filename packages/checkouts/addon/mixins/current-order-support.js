@@ -112,8 +112,11 @@ export default Ember.Mixin.create({
     @return {Boolean} Always resolves to `true`.
   */
   _restoreCurrentOrder: function() {
+    // Restore!
     this.restore();
-    var orderId = this.get('orderId');
+
+    // Get the order storaged
+    let orderId = this.get('orderId');
 
     // Return if there is no orderId
     if( !orderId )
@@ -133,7 +136,11 @@ export default Ember.Mixin.create({
   },
 
   /**
+   * This method is used to load the cart and the order based on
+   * a data passed as argument and the stored info about it.
    *
+   * @method
+   * @public
    */
   instanciateCart: function(data) {
     // The authenticated value
