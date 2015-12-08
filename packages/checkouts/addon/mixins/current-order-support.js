@@ -156,9 +156,13 @@ export default Ember.Mixin.create({
     // Create a new cart
     let cart;
 
-    if( authenticated )
-      cart = new YeboSDK.Cart(orderId, data.user.token);
-    else
+    if( authenticated ) {
+      // Get the token
+      let token = data.user ? data.user.token : data.token;
+
+      // Create the cart
+      cart = new YeboSDK.Cart(orderId, token);
+    } else
       cart = new YeboSDK.Cart(orderId);
 
     // Return an Promise
