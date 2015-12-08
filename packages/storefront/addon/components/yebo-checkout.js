@@ -28,10 +28,10 @@ export default Ember.Component.extend({
   init() {
     // Call the super
     this._super();
-    // debugger;
+
     // Set initialize it
     // TODO: Move this to an initialzer
-    this.get('yebo')._restoreCurrentOrder().then(()=> {
+    this.get('yebo').instanciateCart(this.get('yebo.session.session.authenticated.user')).then(()=> {
       this.get('yebo').get('checkouts').trigger('checkoutCalled');
     });
   },
