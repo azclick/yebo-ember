@@ -1,5 +1,8 @@
 import Ember from 'ember';
 
+// isEmpty
+const { isEmpty } = Ember;
+
 /**
   Provides Current Order and Checkout Functionality to the Yebo service.  This
   mixin is applied to the Yebo service when yebo-ember-checkouts initializes,
@@ -109,17 +112,62 @@ export default Ember.Mixin.create({
     @return {Boolean} Always resolves to `true`.
   */
   _restoreCurrentOrder: function() {
+    // Restore!
     this.restore();
-    var orderId = this.get('orderId');
 
+    // Get the order storaged
+    let orderId = this.get('orderId');
+
+    // Return a promise
     return new Ember.RSVP.Promise((resolve, reject) => {
-      // Resolve here if no orderId
+      // Return if there is no orderId
       if( !orderId )
         return resolve();
 
-      // Create a new cart
-      let cart = new YeboSDK.Cart(orderId, this.get('sessionAccount.user.token'));
+      // Check if the order has user
+      YeboSDK.Store.fetch('cart/user', { number: orderId }, 'GET').then((res) => {
+        // Initialize a cart that does not have an user
+        if( !res.has_user )
+          this.instanciateCart();
 
+        // Resolve it!
+        resolve();
+      });
+    });
+  },
+
+  /**
+   * This method is used to load the cart and the order based on
+   * a data passed as argument and the stored info about it.
+   *
+   * @method
+   * @public
+   */
+  instanciateCart: function(data) {
+    // The authenticated value
+    let authenticated = !isEmpty(data);
+
+    // OrderId
+    let orderId = this.get('orderId');
+
+    // Check if its necessary to create the cart
+    if( !orderId )
+      return;
+
+    // Create a new cart
+    let cart;
+
+    if( authenticated ) {
+      // Get the token
+      let token = data.user ? data.user.token : data.token;
+
+      // Create the cart
+      cart = new YeboSDK.Cart(orderId, token);
+    } else
+      cart = new YeboSDK.Cart(orderId);
+
+    // Return an Promise
+    return new Ember.RSVP.Promise((resolve, reject) => {
       // Get the cart order
       cart.order.then((res) => {
         // Find the order
@@ -129,6 +177,9 @@ export default Ember.Mixin.create({
 
           // Set the current order
           this.set('currentOrder', currentOrder);
+
+          // Resolve it
+          resolve();
         }).catch((error) => {
           // Clean the local storage(persist)
           this.persist({
@@ -139,8 +190,8 @@ export default Ember.Mixin.create({
           // Trigger the error
           this.trigger('serverError', error);
 
-          // Error!
-          reject(error);
+          // Reject it
+          reject();
         });
       }).catch((error) => {
         // Clean the local storage(persist)
@@ -152,8 +203,8 @@ export default Ember.Mixin.create({
         // Trigger the error
         this.trigger('serverError', error);
 
-        // Error!
-        reject(error);
+        // Reject it
+        reject();
       });
     });
   },
@@ -222,6 +273,11 @@ export default Ember.Mixin.create({
    *
    */
   sessionAccount: Ember.inject.service(),
+
+  /**
+   *
+   */
+  session: Ember.inject.service('session'),
 
   /**
     Adds a lineItem to the currentOrder. If there is no Current Order,
