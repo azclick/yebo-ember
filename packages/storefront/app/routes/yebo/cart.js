@@ -12,7 +12,7 @@ import Ember from 'ember';
   host application at `app/routes/yebo/*.js`, ready to be extended or
   overriden.
 
-  @class Cart 
+  @class Cart
   @namespace Route
   @extends Ember.Component
 */
@@ -26,14 +26,19 @@ export default Ember.Route.extend({
     },
 
     transitionToCheckout: function() {
-      if (this.yebo.get('currentOrder.state') !== 'cart') {
-        this.transitionTo('yebo.checkout');
-      } else {
-        var _this = this;
-        this.yebo.get('checkouts').transition().finally(function() {
-          _this.transitionTo('yebo.checkout');
-        });
-      }
+      this.transitionTo('yebo.checkout');
+      // if (this.yebo.get('currentOrder.state') !== 'cart') {
+      //   this.transitionTo('yebo.checkout');
+      // } else {
+      //   var _this = this;
+      //   this.yebo.set('currentOrder.state', 'address');
+      //   this.transitionTo('yebo.checkout');
+      // }
+    },
+
+    emptyCart: function() {
+      // Call the method in the current-order-support
+      this.yebo.emptyCart();
     }
   }
 });

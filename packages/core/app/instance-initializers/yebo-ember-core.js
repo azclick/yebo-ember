@@ -7,15 +7,6 @@ export function initialize(instance) {
   var YeboService = instance.lookup('service:yebo');
   YeboService.set('environment', ENV.environment);
   YeboService.set('config', ENV['yebo'] || {});
-
-  // Config Yebo SDK
-  YeboService.set('sdk:token', 'Token Not Yet Set');
-  YeboSDK.Store.auth().then(function(token){
-    YeboService.set('sdk:token', token );
-  });
-
-  YeboSDK.Config.set('store:url', ENV.yebo.apiHost);
-  YeboSDK.Config.set('store:api:version', ENV.yebo.namespace);
 }
 
 export default {

@@ -13,6 +13,7 @@ export function initialize(instance) {
 
 export default {
   name: 'yebo-ember-checkouts',
-  after: "yebo-ember-core",
+  // after: "yebo-ember-core",
+  after: 'ember-simple-auth',
   initialize: initialize
 };

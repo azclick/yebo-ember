@@ -53,9 +53,8 @@ export default DS.Store.extend({
     @return {Serializer} A serializer.
   */
   serializerFor: function(modelName) {
-    // var fallbacks = ['application', this.adapterFor(modelName).get('defaultSerializer'), '-default'];
-    // return  this.lookupSerializer(modelName, fallbacks);
-    return this.lookupSerializer('yebo');
+    var fallbacks = ['application', this.adapterFor(modelName).get('defaultSerializer'), '-default'];
+    return this.lookupSerializer(modelName, fallbacks);
   },
 
   /**

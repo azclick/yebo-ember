@@ -10,6 +10,15 @@ import ActiveModelAdapter from 'active-model-adapter';
   @extends ActiveModelAdapter
 */
 export default ActiveModelAdapter.extend({
+  /*
+    By default the RESTAdapter will send each find request coming from a
+    store.find or from accessing a relationship separately to the server.
+    If your server supports passing ids as a query string,
+    you can set coalesceFindRequests to true to coalesce all find requests within
+    a single runloop.
+  */
+  // coalesceFindRequests: true
+
   /**
     The container lookup name for the default Yebo serializer.
 
@@ -39,7 +48,7 @@ export default ActiveModelAdapter.extend({
   */
   namespace: Ember.computed('yebo.config.apiNamespace', function() {
     var namespace = this.get('yebo.config.namespace');
-    return namespace || 'api/ams';
+    return namespace || 'api/v2';
   }),
   /**
     A computed property for the server host.  If it's not set in the Host Application's
@@ -77,15 +86,14 @@ export default ActiveModelAdapter.extend({
     @readOnly
     @default {}
   */
-  headers: Ember.computed('yebo.guestToken', 'yebo.orderId', 'yebo.sdk:token', function() {
-    var guestToken = this.get('yebo.guestToken');
-    var orderId = this.get('yebo.orderId');
-    var token = this.get('yebo.sdk:token');
+  headers: Ember.computed('yebo.currentOrder', function() {
+    var order = this.get('yebo.currentOrder'),
+        token = "";
 
-    if (guestToken && orderId) {
+    if (order) {
       return {
-        "X-Spree-Order-Token": guestToken,
-        "X-Spree-Order-Id": orderId,
+        "X-Yebo-Order-Token": order.get('guestToken'),
+        "X-Yebo-Order": order.get('number'),
         "Authorization": ["Bearer", token].join(" ")
       };
     } else {
@@ -106,7 +114,7 @@ export default ActiveModelAdapter.extend({
     @method buildURL
   */
   buildURL: function(record, suffix, snapshot, requestType) {
-    if (record === "order" && snapshot.attr('_useCheckoutsEndpoint')) {
+    if (record === "order" && snapshot && snapshot.attr('_useCheckoutsEndpoint')) {
       record = "checkout";
     }
     return this._super.apply(this, [record, suffix, snapshot, requestType]);

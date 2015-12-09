@@ -26,8 +26,8 @@ export default DeviseAuthorizer.extend({
     @param {jqXHR} jqXHR The XHR request to authorize (see http://api.jquery.com/jQuery.ajax/#jqXHR)
   */
   authorize: function(jqXHR) {
-    var secureData         = this.get('session.secure');
-    var userToken          = secureData[this.tokenAttributeName];
+    var secureData = this.get('session.secure');
+    var userToken = secureData[this.tokenAttributeName];
     if (this.get('session.isAuthenticated') && !Ember.isEmpty(userToken)) {
       jqXHR.setRequestHeader('X-Yebo-Token', userToken);
     }

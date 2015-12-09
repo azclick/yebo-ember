@@ -42,7 +42,8 @@ export default ActiveModelSerializer.extend({
     @param {DS.Model} record A model to serialize.
     @return {Object} A JSON object representing the record.
   */
-  serialize: function(record) {
+
+  serialize: function(record, options) {
     var payload = this._super.apply(this, arguments);
     record.eachAttribute(function(name, meta) {
       if (!meta.options.persistToServer) {

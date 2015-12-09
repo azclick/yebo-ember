@@ -1,53 +1,87 @@
-import DeviseAuthenticator from 'ember-simple-auth/authenticators/devise';
-/**
-  The Yebo Authenticator is responsible for Authenticating users against  your
-  Yebo store.  It assumes your server has the `yebo_ams` gem installed.  The Yebo
-  Auth initializer with dynamically create and set the Server Token Endpoint from
-  the Yebo Core Adapter.
+import Ember from 'ember';
+import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
-  @class Yebo
-  @namespace Authenticator
-  @extends SimpleAuthDevise.Authenticator
-*/
-export default DeviseAuthenticator.extend({
-  /**
-    The endpoint where the Authenticator will attempt to Authenticate Users.  This
-    is set dynamically by the `yebo-ember-auth` initializer, by building a URL
-    from the `yebo-ember-core` adapter.
+export default BaseAuthenticator.extend({
+  yebo: Ember.inject.service(),
 
-    @property serverTokenEndpoint
-    @type String
-    @readOnly
-    @default 'http://localhost:3000/api/ams/users/token'
-  */
-  serverTokenEndpoint: 'http://localhost:3000/api/v2/users/token',
-  /**
-    The Rails Resource that we're authenticating.  When using Yebo's
-    `yebo-auth-devise`, this is simply `user`.
+  serverEndpoint: null,
 
-    @property resourceName
-    @type String
-    @readOnly
-    @default 'user'
-  */
-  resourceName: 'user',
-  /**
-    The name of the unique key returned by the server on a successful authentication.
+  restore: function(data) {
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      // Check if the user is logged
+      if (!Ember.isEmpty(data.user.token)) {
+        resolve(data);
+      } else {
+        reject();
+      }
 
-    @property tokenAttributeName
-    @type String
-    @readOnly
-    @default 'token'
-  */
-  tokenAttributeName: 'token',
-  /**
-    The name of the identification attribute of the user.  By default in Yebo,
-    this is email.
+      // Trigger an event
+      this.get('yebo').instanciateCart(data);
+    });
+  },
 
-    @property indentificationAttributeName
-    @type String
-    @readOnly
-    @default 'email'
-  */
-  identificationAttributeName: 'email'
+  authenticate: function(options) {
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      Ember.$.ajax({
+        url: this.serverEndpoint,
+        type: 'POST',
+        data: JSON.stringify({
+          user: options.identification,
+          password: options.password,
+          order_token: options.orderToken
+        }),
+        contentType: 'application/json;charset=utf-8',
+        dataType: 'json'
+      }).then((response) => {
+        // Restore the order
+        this.restoreOrder(response);
+
+        // Resolve it
+        Ember.run(function() {
+          resolve(response);
+        });
+      }, (xhr, status, error)=> {
+        Ember.run(function() {
+          reject(xhr.responseJSON || xhr.responseText);
+        });
+      });
+    });
+  },
+
+  invalidate: function() {
+    let yebo = this.get("yebo");
+
+    // Persist it to local storage
+    yebo.restore();
+    yebo.persist({
+      guestToken: null,
+      orderId: null
+    });
+
+    yebo.set('currentOrder', null);
+    yebo.set('currentCart', null);
+    yebo.set('orderId', null);
+    yebo.set('guestToken', null);
+
+    console.log('invalidate...');
+    return Ember.RSVP.resolve();
+  },
+
+  restoreOrder: function(data){
+    // Yebo instance
+    let yebo = this.get("yebo");
+
+    // Check if there is any order
+    if( !data.user.order.number )
+      return false;
+
+    // Persist it to local storage
+    yebo.persist({
+      guestToken: data.user.token,
+      orderId: data.user.order.number
+    });
+
+    // Instanciate the cart
+    yebo.instanciateCart(data);
+  }
 });

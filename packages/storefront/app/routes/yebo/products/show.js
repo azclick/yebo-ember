@@ -23,12 +23,11 @@ export default Ember.Route.extend({
 
   actions: {
     addToCart: function(variant, quantity) {
-      var _this = this;
-      this.yebo.addToCart(variant, quantity).then(
-        function() {
-          _this.transitionTo('yebo.cart');
-        }
-      );
+      this.yebo.addToCart(variant, quantity).then(()=> {
+        this.transitionTo('yebo.cart');
+      }).catch((error) => {
+        console.log(error);
+      });
     }
   }
 });

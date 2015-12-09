@@ -1,10 +1,10 @@
 {{yebo-input  value=address.firstname
               errors=address.errors.firstname
-              attributeName="First Name"}}
+              attributeName="Nome"}}
 
 {{yebo-input  value=address.lastname
               errors=address.errors.lastname
-              attributeName="Last Name"}}
+              attributeName="Sobrenome"}}
 
 {{yebo-input  value=address.address1
               errors=address.errors.address1
@@ -22,20 +22,18 @@
               errors=address.errors.zipcode
               attributeName="Zipcode"}}
 
-{{yebo-select content=countries
-              optionLabelPath="content.name"
-              selection=address.country
-              prompt="Select a Country"
-              errors=address.errors.country
-              attributeName="Country"}}
+{{#yebo-select value=address.country}}
+  {{#each countries as |country|}}
+    {{#x-option value=country}}{{country.name}}{{/x-option}}
+  {{/each}}
+{{/yebo-select}}
 
 {{#if address.country.states.length}}
-  {{yebo-select content=address.country.states
-                optionLabelPath="content.name"
-                selection=address.state
-                prompt="Select a State"
-                errors=address.errors.state
-                attributeName="State"}}
+  {{#yebo-select value=address.state}}
+    {{#each address.country.states as |state|}}
+      {{#x-option value=state}}{{state.name}}{{/x-option}}
+    {{/each}}
+  {{/yebo-select}}
 {{else}}
   {{#if address.country.statesRequired}}
     {{yebo-input  value=address.stateName
@@ -47,3 +45,6 @@
 {{yebo-input  value=address.phone
               errors=address.errors.phone
               attributeName="Phone"}}
+
+<a href="#" class="btn checkout-button btn-cancel">Cancelar</a>
+<a href="#" {{action 'saveAddress' name address}} class="btn checkout-button">Salvar</a>

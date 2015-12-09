@@ -1,17 +1,13 @@
-import Session from 'yebo-ember-auth/services/session';
-import setupSession from 'ember-simple-auth/initializers/setup-session';
-import setupSessionService from 'ember-simple-auth/initializers/setup-session-service';
-
 export function initialize(app) {
-  setupSession(app);
-  setupSessionService(app);
-  /* Register Custom Session */
-  // app.register('service:session', Session);
+  /* Inject the Session Service into Routes & Components */
+  app.inject('route', 'session', 'session:main');
+  app.inject('controller', 'session', 'session:main');
+  app.inject('component', 'session', 'session:main');
 
   /* Inject the Session Service into Routes & Components */
-  app.inject('route', 'session', 'service:session');
-  app.inject('controller', 'session', 'service:session');
-  app.inject('component', 'session', 'service:session');
+  app.inject('route', 'sessionAccount', 'service:session-account');
+  app.inject('controller', 'sessionAccount', 'service:session-account');
+  app.inject('component', 'sessionAccount', 'service:session-account');
 }
 
 export default {

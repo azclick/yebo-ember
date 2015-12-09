@@ -21,8 +21,8 @@ import layout from '../templates/components/yebo-auth';
 export default Ember.Component.extend({
   layout: layout,
   /**
-    The mode of the component. 
-    
+    The mode of the component.
+
     @property isSignup
     @type Boolean
     @default false
@@ -31,15 +31,15 @@ export default Ember.Component.extend({
   /**
     An array of server errors.
 
-    @property errors 
+    @property errors
     @type Object
-    @default {} 
+    @default {}
   */
   errors: {},
   /**
     The action that is sent when `isSignup` is `false`.  This is caught by the action
     defined in the `yebo-auth-user-route-mixin`.
-    
+
     @property authAction
     @type String
     @default 'authenticateUser'
@@ -48,12 +48,13 @@ export default Ember.Component.extend({
   /**
     The action that is sent when `isSignup` is `true`.  This is caught by the action
     defined in the `yebo-auth-user-route-mixin`.
-    
+
     @property createAction
     @type String
     @default 'createAndAuthenticateUser'
   */
   createAction: 'createAndAuthenticateUser',
+
   identification: null,
   password: null,
   passwordConfirmation: null,
@@ -65,11 +66,12 @@ export default Ember.Component.extend({
       var passwordConfirmation = this.get('passwordConfirmation');
 
       var action = this.get('isSignup') ? 'createAction' : 'authAction';
-      
+
       this.sendAction(action, {
         identification: identification,
         password: password,
-        passwordConfirmation: passwordConfirmation
+        passwordConfirmation: passwordConfirmation,
+        orderToken: this.get("yebo.currentOrder.guestToken")
       }, this);
     }
   },

@@ -16,7 +16,7 @@ import Storable from 'yebo-ember-core/mixins/storable';
   @uses Ember.Evented, YeboEmber.Storable, YeboEmber.Store
 */
 
-export default Ember.Object.extend(Ember.Evented, Storable, {
+export default Ember.Service.extend(Ember.Evented, Storable, {
   /**
     The Local Storage key we use to Restore and Persist data across browser refreshes.
 
