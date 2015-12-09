@@ -33,8 +33,10 @@ export default BaseAuthenticator.extend({
         contentType: 'application/json;charset=utf-8',
         dataType: 'json'
       }).then((response) => {
-        this.restoreOrder(response.user);
+        // Restore the order
+        this.restoreOrder(response);
 
+        // Resolve it
         Ember.run(function() {
           resolve(response);
         });
@@ -65,20 +67,21 @@ export default BaseAuthenticator.extend({
     return Ember.RSVP.resolve();
   },
 
-  restoreOrder: function(user){
+  restoreOrder: function(data){
+    // Yebo instance
     let yebo = this.get("yebo");
 
-    if(!user.order.number || yebo.get("currentOrder.number")){
+    // Check if there is any order
+    if( !data.user.order.number )
       return false;
-    } else {
 
-      // Persist it to local storage
-      yebo.persist({
-        guestToken: user.token,
-        orderId: user.order.number
-      });
+    // Persist it to local storage
+    yebo.persist({
+      guestToken: data.user.token,
+      orderId: data.user.order.number
+    });
 
-      yebo._restoreCurrentOrder();
-    }
+    // Instanciate the cart
+    yebo.instanciateCart(data);
   }
 });
