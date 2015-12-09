@@ -15,55 +15,55 @@ const { isEmpty } = Ember;
   @class CurrentOrderSupport
   @namespace Mixin
   @extends Ember.Mixin
-*/
+  */
 export default Ember.Mixin.create({
   /**
     A generic event triggered whenever a Yebo Server request fails.
 
     @event serverError
     @param {Object} error The error object returned from the Yebo Server.
-  */
+    */
 
   /**
     Triggered whenever a Line Item is created or updated.
 
     @event didAddToCart
     @param {DS.Model} lineItem The newly updated lineItem object
-  */
+    */
 
   /**
     Triggered whenever a Line Item is created or updated.
 
     @event addToCartFailed
     @param {Error} error The returned Server Error.
-  */
+    */
 
   /**
     Triggered whenever a new Order is created for the checkout user.
 
     @event didCreateNewOrder
     @param {DS.Model} order The newly created order object
-  */
+    */
 
   /**
     Triggered whenever a new Order is created for the checkout user.
 
     @event newOrderCreateFailed
     @param {Object} error The returned Server Error.
-  */
+    */
 
   /**
     Triggered whenever a new Order is created for the checkout user.
 
     @event didClearCurrentOrder
-  */
+    */
 
   /**
     Triggered whenever the Current Order changes State.
 
     @event checkoutStateDidChange
     @param {DS.Model} order The Current Order.
-  */
+    */
 
   /**
     Triggered when the `_saveCurrentOrder` call succeeds.
@@ -71,14 +71,14 @@ export default Ember.Mixin.create({
     @event didSaveCurrentOrder
     @param {Ember.RSVP.Promise} currentOrderPromise A promise that resolves to
     the Current Order
-  */
+    */
 
   /**
     Triggered when the `_saveCurrentOrder` call fails.
 
     @event saveCurrentOrderFailed
     @param {Error} error The returned Server Error.
-  */
+    */
 
   /**
     Triggered when the `advanceCurrentOrder` call succeeds.
@@ -86,21 +86,21 @@ export default Ember.Mixin.create({
     @event didAdvanceCurrentOrder
     @param {Ember.RSVP.Promise} currentOrderPromise A promise that resolves to
     the Current Order
-  */
+    */
 
   /**
     Triggered when the `advanceCurrentOrder` call fails.
 
     @event advanceCurrentOrderFailed
     @param {Error} error The returned Server Error.
-  */
+    */
 
   /**
     Triggered whenever the Current Order reached it's "Complete" State.
 
     @event currentOrderDidComplete
     @param {DS.Model} order The Current Order.
-  */
+    */
 
   /**
     A method called in the `yebo-ember-checkouts` initializer after the
@@ -110,11 +110,10 @@ export default Ember.Mixin.create({
     @method _restoreCurrentOrder
     @private
     @return {Boolean} Always resolves to `true`.
-  */
+    */
   _restoreCurrentOrder: function() {
     // Restore!
     this.restore();
-    var orderId = this.get('orderId');
 
     // Get the order storaged
     let orderId = this.get('orderId');
@@ -164,8 +163,9 @@ export default Ember.Mixin.create({
 
       // Create the cart
       cart = new YeboSDK.Cart(orderId, token);
-    } else
+    } else {
       cart = new YeboSDK.Cart(orderId);
+    }
 
     // Return an Promise
     return new Ember.RSVP.Promise((resolve, reject) => {
@@ -221,7 +221,7 @@ export default Ember.Mixin.create({
     @type String
     @readOnly
     @default null
-  */
+    */
   guestToken: null,
 
   /**
@@ -233,7 +233,7 @@ export default Ember.Mixin.create({
     @type String
     @readOnly
     @default null
-  */
+    */
   orderId: null,
 
   /**
@@ -244,7 +244,7 @@ export default Ember.Mixin.create({
     @property currentOrder
     @type DS.Model
     @default null
-  */
+    */
   currentOrder: null,
 
   /**
@@ -264,7 +264,7 @@ export default Ember.Mixin.create({
 
     @property checkouts
     @type Ember.Service
-  */
+    */
   checkouts: Ember.inject.service('checkouts'),
 
   /**
@@ -286,7 +286,7 @@ export default Ember.Mixin.create({
     @param {DS.Model} variant A class of the variant model
     @param {Integer} quantity Optional, A quantity for the Line Item.
     @return {Ember.RSVP.Promise} A promise that resolves to the newly saved Line Item.
-  */
+    */
   addToCart: function(variant, quantity) {
     // Check if the cart is already initialized
     let cart = this.get('currentCart');
@@ -459,7 +459,7 @@ export default Ember.Mixin.create({
     @param {Ember.Object} order The corresponding order
     @return {Ember.RSVP.Promise} A promise that resolves to the newly created or
     updated `lineItem` object.
-  */
+    */
   _saveLineItem: function(variant, quantity, order) {
     var _this = this;
     var lineItem = order.get('lineItems').findBy('variant', variant);
@@ -495,23 +495,23 @@ export default Ember.Mixin.create({
     @private
     @return {Ember.RSVP.Promise} A promise that resolves to the newly created
     Yebo Order.
-  */
+    */
   _createNewOrder: function() {
     return this.store.createRecord('order').save().then((newOrder)=> {
-        this.set('currentOrder', newOrder);
-        this.persist({
-          guestToken: newOrder.get('guestToken'),
-          orderId: newOrder.get('id')
-        });
-        this.trigger('didCreateNewOrder', newOrder);
-        this.get('checkouts').transition(newOrder.get('state'));
-        return newOrder;
-      }, (error) => {
-        this.trigger('newOrderCreateFailed', error);
-        this.trigger('serverError', error);
-        return error;
-      }
-    );
+      this.set('currentOrder', newOrder);
+      this.persist({
+        guestToken: newOrder.get('guestToken'),
+        orderId: newOrder.get('id')
+      });
+      this.trigger('didCreateNewOrder', newOrder);
+      this.get('checkouts').transition(newOrder.get('state'));
+      return newOrder;
+    }, (error) => {
+      this.trigger('newOrderCreateFailed', error);
+      this.trigger('serverError', error);
+      return error;
+    }
+                                                       );
   },
 
   /**
@@ -519,7 +519,7 @@ export default Ember.Mixin.create({
 
     @method clearCurrentOrder
     @return {Boolean} Always returns `true`.
-  */
+    */
   clearCurrentOrder: function(didComplete) {
     if (didComplete) {
       this.trigger('currentOrderDidComplete', this.get('currentOrder'));

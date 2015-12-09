@@ -15,7 +15,6 @@ export default ActiveModelAdapter.extend(DataAdapterMixin, {
   authorizer: 'ember-simple-auth-authorizer:jwt',
 
 
-
   /*
     By default the RESTAdapter will send each find request coming from a
     store.find or from accessing a relationship separately to the server.
@@ -93,18 +92,12 @@ export default ActiveModelAdapter.extend(DataAdapterMixin, {
     @default {}
   */
   headers: Ember.computed('yebo.currentOrder', function() {
-    var order = this.get('yebo.currentOrder'),
-        token = "";
+    let order = this.get('yebo.currentOrder');
 
     if (order) {
       return {
         "X-Yebo-Order-Token": order.get('guestToken'),
         "X-Yebo-Order": order.get('number'),
-        "Authorization": ["Bearer", token].join(" ")
-      };
-    } else {
-      return {
-        "Authorization": ["Bearer", token].join(" ")
       };
     }
   }),
