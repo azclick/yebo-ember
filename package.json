@@ -1,12 +1,14 @@
 {
   "name": "yebo-ember",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1",
   "description": "An Ember Ecosystem for Yebo Commerce.",
-  "repository": "https://github.com/yurifrl/yebo-ember.git",
-  "author": ["Hugh Francis", "Yuri Freire"],
+  "repository": "https://github.com/azclick/yebo-ember.git",
+  "author": ["Hugh Francis", "Yuri Freire", "Gabriel Corado"],
   "license": "MIT",
   "dependencies":{
-    "emberx-select": "^2.0.2"
+    "ember-simple-auth": "1.0.1",
+    "active-model-adapter": "2.0.2",
+    "emberx-select": "2.0.2"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
