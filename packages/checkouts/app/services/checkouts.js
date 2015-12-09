@@ -158,18 +158,27 @@ export default Ember.Service.extend(Ember.Evented, {
             // Yebo Store
             let store = this.get('yebo').get('store');
 
+            // Get the address resultant
+            let resAddress = res.address;
+
+            // Delete the adress
+            delete res.address
+
+            // Push the payload
+            store.pushPayload(res);
+
             // Set it to the checkout
-            this.set(`${address}Address`, store.createRecord('address', res.address));
+            this.set(`${address}Address`, store.createRecord('address', resAddress));
 
             // Current Address
             let currentAddress = this.get(`${address}Address`);
 
             // Set country
-            currentAddress.set('country', store.peekRecord('country', res.address.country_id));
+            currentAddress.set('country', store.peekRecord('country', resAddress.country_id));
 
             // Set State
-            if( res.address.state_id )
-              currentAddress.set('state', store.peekRecord('state', res.address.state_id));
+            if( resAddress.state_id )
+              currentAddress.set('state', store.peekRecord('state', resAddress.state_id));
 
             // Lets save this address
             this.trigger('saveAddress', `${address}Address`, currentAddress);
@@ -369,6 +378,9 @@ export default Ember.Service.extend(Ember.Evented, {
     YeboSDK.Store.fetch(path, serialized, 'POST').then((address) => {
       // Set the Address ID
       currentOrder.get(name).set('id', address.id);
+
+      // Testing reloading the currentOrder
+      currentOrder.reload();
 
       // The user is not editing anymore
       this.set(`editing${this._generateNiceName(name)}`, false);
