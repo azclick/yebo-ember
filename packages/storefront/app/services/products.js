@@ -56,4 +56,17 @@ export default Ember.Service.extend(Ember.Evented, {
       });
     });
   },
+
+  /**
+   * This method return the possible filters that can applied to the
+   * products that match the query passed.
+   *
+   * @method
+   * @public
+   * @param {YeboSDK.Products} query An instance of the YeboSDK.Products or the
+   * options that will be used to create a new instance of this class
+   * @return {Promise} The result with the aggregations
+   */
+  aggs(query) {
+  }
 });
