@@ -8,6 +8,12 @@ export default Ember.Service.extend(Ember.Evented, {
    * Yebo main service reference
    */
   yebo: Ember.inject.service('yebo'),
+
+  /**
+   * Current Query
+   */
+  currentQuery: null,
+
   /**
    * This methods returns an promise that resolves an array of products
    * that are the result of an query executed in the Yebo API.
