@@ -17,7 +17,15 @@ import Ember from 'ember';
   @extends Ember.Component
 */
 export default Ember.Route.extend({
-  model: function() {
+  // Define the params
+  queryParams: {
+    search: {}
+  },
+
+  model: function(params) {
+    console.log(params);
+
+    // Make the searches
     return Ember.RSVP.hash({
       // products: this.yebo.store.findAll('product'),
       products: this.get('yebo.products').search(),
