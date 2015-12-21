@@ -28,8 +28,12 @@ export default Ember.Component.extend({
       if( searchText.length < 3 )
         return;
 
+      // Get the current controller
+      // @todo Check if _controller is the correct to use in this case
+      let controller = this._controller;
+
       // Transition to the products page
-      // this.transitionTo('products', { queryParams: { search: searchText } });
+      controller.transitionToRoute('yebo.products', { queryParams: { search: searchText } });
     }
   }
 });
