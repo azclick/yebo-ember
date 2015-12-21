@@ -433,9 +433,11 @@ export default Ember.Service.extend(Ember.Evented, {
 
     // Lets make it using the SDK
     YeboSDK.Store.fetch(path, options, 'POST').then((res) => {
-      // @todo Redirect to the order page
-      this.trigger("orderCompleted", this.get("currentOrder.number"));
-      this.get("yebo").clearCurrentOrder(true);
+      // Clean the current order (that is completed)
+      this.get('yebo').clearCurrentOrder(true);
+
+      // Trigger an event of completed order
+      this.trigger('orderCompleted', this.get('currentOrder.number'));
     }).catch((error) => {
       // @todo Show the error messages
       console.log(error);
