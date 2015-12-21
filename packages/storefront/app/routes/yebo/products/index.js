@@ -22,6 +22,11 @@ export default Ember.Route.extend({
     search: {}
   },
 
+  /**
+   * The query will be stored here
+   */
+  currentQuery: null,
+
   model: function(params) {
     console.log(params);
 
