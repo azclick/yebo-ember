@@ -46,8 +46,19 @@
       {{/if}}
     </div>
 
-    {{#link-to 'yebo.products.index'}}
-      <button class="expand">Products</button>
-    {{/link-to}}
+    <div class="panel text-left">
+      <h4>Yebo Products</h4>
+      <hr />
+      <h6>
+        <strong>Products search:</strong>
+        {{yebo-search}}
+      </h6>
+
+      <h6>
+        <strong>Products list:</strong>
+        {{#link-to 'yebo.products.index' (query-params search=undefined)}}Products{{/link-to}}
+      </h6>
+    </div>
+
   </div>
 </div>
