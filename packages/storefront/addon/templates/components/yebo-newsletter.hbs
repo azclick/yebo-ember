@@ -1,0 +1,13 @@
+<div class="newsletter-form">
+  <form {{action "subscribe" on="submit"}}>
+    {{input type="text" value=email placeholder="Email"}}
+    {{input type="text" value=fullName placeholder="Name"}}
+
+    {{#yebo-select value=gender}}
+      {{#x-option value=1}}Male{{/x-option}}
+      {{#x-option value=2}}Female{{/x-option}}
+    {{/yebo-select}}
+
+    <button type="submit">Subscribe</button>
+  </form>
+</div>
