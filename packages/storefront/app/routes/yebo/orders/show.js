@@ -20,9 +20,28 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 */
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model: function(params) {
-    var _this = this;
-    return this.yebo.store.find('order', params.id).catch(function() {
-      _this.transitionTo('yebo.products.index');
+    // Return a promise
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      // Get the user
+      this.get("sessionAccount.user").then((currentUser) => {
+        // Get the user token
+        let token = currentUser.get("token");
+
+        // Yebo Store
+        let store = this.get('yebo').store;
+
+        // Get the order
+        YeboSDK.Store.fetch(`orders/${params.id}`, { token: token, completed: true }, 'GET').then((res) => {
+          // Push the records to the ember
+          store.pushPayload(res);
+
+          // Resolve passing the order
+          resolve(store.peekRecord('order', res.order.number));
+        }).catch((err) => {
+          // Go back to home
+          this.transitionTo('yebo.orders.index');
+        });
+      });
     });
   },
   afterModel: function(model) {
