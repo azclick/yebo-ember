@@ -19,7 +19,7 @@ export default DS.Model.extend({
   // rawDiscountPrice: DS.attr('number'),
 
   // Installments Attributes
-  has_installments: DS.attr("boolean"),
+  hasInstallments: DS.attr("boolean"),
   installments: DS.attr("string"),
   installmentValue: DS.attr('string'),
   // rawInstallmentValue: DS.attr('number'),
