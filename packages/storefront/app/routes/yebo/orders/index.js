@@ -13,7 +13,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     return new Ember.RSVP.Promise((resolve, reject)=>{
       this.get("sessionAccount.user").then((currentUser)=>{
         let token = currentUser.get("token");
-        let orders = this.yebo.store.query('order', { token: token } );
+        let orders = this.yebo.store.query('order', { token: token, complete: true } );
         resolve(orders);
       });
     });
