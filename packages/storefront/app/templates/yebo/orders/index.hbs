@@ -5,7 +5,9 @@
   </div>
   <div class="small-12 medium-9 columns">
     {{#each model as |order|}}
-      {{link-to order.number yebo.orders.show order.number}}
+      {{#link-to 'yebo.orders.show' order.number}}
+        {{order.number}}
+      {{/link-to}}
     {{/each}}
   </div>
 </div>
