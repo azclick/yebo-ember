@@ -10,17 +10,16 @@
     <h6>Phone {{order.shipAddress.phone}}</h6>
   </div>
   <div class='small-12 medium-4 columns'>
-    <h4>Shipments {{#if isConfirmationPage}}<a {{action 'transitionCheckoutState' 'delivery'}}>(Edit)</a>{{/if}}</h4>
+    <h4>Shipments</h4>
     <hr />
     {{#each order.shipments as |shipment|}}
       <h6>From {{shipment.stockLocation.name}} via {{shipment.selectedShippingRate.name}}</h6>
     {{/each}}
   </div>
   <div class='small-12 medium-4 columns'>
-    <h4>Payment {{#if isConfirmationPage}}<a {{action 'transitionCheckoutState' 'payment'}}>(Edit)</a>{{/if}}</h4>
+    <h4>Payment</h4>
     <hr />
-    <h6>Ending in {{order.activePayment.source.lastDigits}}</h6>
-    <h6>{{order.activePayment.source.name}}</h6>
+    <h6>{{order.activePayment.paymentMethod.name}}</h6>
   </div>
   <div class='small-12 columns'>
     <hr />
