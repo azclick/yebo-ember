@@ -29,7 +29,13 @@
         {{input value=quantity placeholder="Quantity"}}
       </div>
       <div class='small-12 columns'>
-        <button class="expand" {{action 'addToCart'}}>Add To Cart</button>
+        <button class="expand" disabled={{not selectedVariant.canSupply}} {{action 'addToCart'}}>
+          {{#if selectedVariant.canSupply}}
+            Add To Cart
+          {{else}}
+            Product not available
+          {{/if}}
+        </button>
       </div>
     </div>
 

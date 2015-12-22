@@ -29,8 +29,7 @@ export default Ember.Component.extend({
         return;
 
       // Get the current controller
-      // @todo Check if _controller is the correct to use in this case
-      let controller = this._controller;
+      let controller = this.get('container').lookup('controller:application');
 
       // Transition to the products page
       controller.transitionToRoute('yebo.products', { queryParams: { search: searchText } });
