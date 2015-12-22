@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+
 /**
   The Orders Show Route.
 
@@ -16,7 +18,7 @@ import Ember from 'ember';
   @namespace Route
   @extends Ember.Component
 */
-export default Ember.Route.extend({
+export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model: function(params) {
     var _this = this;
     return this.yebo.store.find('order', params.id).catch(function() {
