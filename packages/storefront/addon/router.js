@@ -12,7 +12,7 @@ export default function(router, ENV) {
     router.route('yebo.checkout', { path: mountPath + '/' + checkoutPath });
 
     router.route('yebo.products', { path: mountPath + '/' + productsPath },function() {
-      this.route('index', { path: '/' });
+      this.route('index', { path: '/', queryParams: ['taxon'] });
       this.route('show', { path: '/:slug' });
     });
 

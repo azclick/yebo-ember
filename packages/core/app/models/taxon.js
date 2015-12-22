@@ -5,5 +5,11 @@ export default DS.Model.extend({
   prettyName: DS.attr('string'),
   permalink: DS.attr('string'),
   parentId: DS.attr('number'),
-  taxonomy: DS.belongsTo('taxonomy')
+  taxonomy: DS.belongsTo('taxonomy'),
+
+  children: DS.hasMany('taxon'),
+
+  childrenExcMaster: Ember.computed('children', function() {
+    return this.get('children').findBy('parentId', undefined);
+  }),
 });
