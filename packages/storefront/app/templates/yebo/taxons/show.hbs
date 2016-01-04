@@ -1,0 +1,8 @@
+<div class='row'>
+  <h1>Shop by {{model.taxon.name}}</h1>
+  {{#if model.taxon.description}}
+    <h2>Description: {{model.taxon.description}}</h2>
+  {{/if}}
+</div>
+
+{{yebo-grid products=model.products}}
