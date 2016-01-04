@@ -23,8 +23,7 @@ export default Ember.Route.extend({
       query = new YeboSDK.Products();
 
       // Define the rule
-      // @todo Keep it in the and rule
-      rule = new YeboSDK.Products.Rules.taxonomy([], 'permalink', 'or');
+      rule = new YeboSDK.Products.Rules.taxonomy([]);
 
       // Add the rule to the query
       query.and(rule);
