@@ -7,7 +7,9 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   // Define the query params
   queryParams: {
-    page: {}
+    page: {
+      refreshModel: true
+    }
   },
 
   //
@@ -28,7 +30,8 @@ export default Ember.Route.extend({
       query.and(rule);
 
       // Define the number of results per page
-      query.perPage(15);
+      // @todo Change to the correct number of products
+      query.perPage(2);
 
       // Set query and rule to the route
       this.set('currentQuery', query);
@@ -49,7 +52,7 @@ export default Ember.Route.extend({
     return Ember.RSVP.hash({
       taxonomies: this.yebo.store.findAll('taxonomy'),
       taxon: this.yebo.store.find('taxon', params.taxon),
-      products: this.yebo.products.search(query),
+      search: this.yebo.products.search(query)
     });
   },
 
@@ -68,5 +71,22 @@ export default Ember.Route.extend({
     // Set the values to the application controller
     appController.set('currentTaxonomy', taxon.get('taxonomy'));
     appController.set('taxonomies', taxonomies);
+  },
+
+  // When reset the controller
+  resetController(controller, isExiting, transition) {
+    // Check if the user is leaving the page
+    if (isExiting) {
+      // Reset the page
+      controller.set('page', 1);
+    }
+  },
+
+  //
+  actions: {
+    changePage: function(pageNumber) {
+      // Change the page number
+      this.transitionTo({ queryParams: { page: pageNumber } })
+    }
   }
 });

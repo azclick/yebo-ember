@@ -19,7 +19,10 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   // Define the params
   queryParams: {
-    search: {}
+    search: {},
+    page: {
+      refreshModel: true
+    }
   },
 
   /**
@@ -28,12 +31,22 @@ export default Ember.Route.extend({
   currentQuery: null,
 
   model: function(params) {
-    // Start a new Query if its necessary
-    if( this.get('currentQuery') === null )
-      this.set('currentQuery', new YeboSDK.Products());
-
     // Query
-    let query = this.get('currentQuery');
+    let query;
+
+    // Start a new Query if its necessary
+    if( this.get('currentQuery') === null ) {
+      // Create a new query
+      query = new YeboSDK.Products();
+
+      // Define the number of results per page
+      // @todo Change to the correct number of products
+      query.perPage(2);
+
+      // Set it to the route
+      this.set('currentQuery', query);
+    } else
+      query = this.get('currentQuery');
 
     // Set the search
     // @todo Do not send seach param if its not necessary
@@ -42,11 +55,34 @@ export default Ember.Route.extend({
     else
       query.search(params.search);
 
+    // Set the page
+    query.page(params.page);
+
     // Make the searches
     return Ember.RSVP.hash({
       // products: this.yebo.store.findAll('product'),
-      products: this.get('yebo.products').search(query),
+      search: this.get('yebo.products').search(query),
       taxonomies: this.yebo.store.findAll('taxonomy')
     });
+  },
+
+  // When reset the controller
+  resetController(controller, isExiting, transition) {
+    // Check if the user is leaving the page
+    if (isExiting) {
+      // Reset the page
+      controller.set('page', 1);
+
+      // Reset the search
+      controller.set('search', null);
+    }
+  },
+
+  //
+  actions: {
+    changePage: function(pageNumber) {
+      // Change the page number
+      this.transitionTo({ queryParams: { page: pageNumber } })
+    }
   }
 });
