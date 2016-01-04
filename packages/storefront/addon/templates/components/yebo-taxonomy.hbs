@@ -1,7 +1,7 @@
 <h4 class="taxonomy-root">{{taxonomy.prettyName}}</h4>
 {{#each childTaxons as |taxon|}}
   <li>
-    {{#link-to 'yebo.taxons' taxon.permalink class='list-group-item'}}
+    {{#link-to 'yebo.taxons.show' taxon.permalink class='list-group-item'}}
       {{taxon.name}}
     {{/link-to}}
   </li>

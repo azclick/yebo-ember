@@ -10,3 +10,13 @@
     {{/link-to}}
   {{/each}}
 </div>
+
+<div class="row">
+  <ul class="pagination">
+    {{#each (range start=1 end=meta.total_pages) as |item|}}
+      <li class={{if (eq item meta.current_page) 'current'}}>
+        <a {{action 'changePage' item}}>{{item}}</a>
+      </li>
+    {{/each}}
+  </ul>
+</div>

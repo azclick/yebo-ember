@@ -22,7 +22,7 @@ export default Ember.Service.extend(Ember.Evented, {
    * @public
    * @param {YeboSDK.Products} query An instance of the YeboSDK.Products or the
    * options that will be used to create a new instance of this class
-   * @return {Promise} The result of the query
+   * @return {Promise} The result of the query and the meta information
    */
   search(query) {
     // Check if the query is the YeboSDK Object
@@ -30,7 +30,7 @@ export default Ember.Service.extend(Ember.Evented, {
       query = new YeboSDK.Products();
 
     // Set it to the currentQuery
-    this.set('currentQuery', query);
+    // this.set('currentQuery', query);
 
     // Return a Promise
     return new Ember.RSVP.Promise((resolve, reject) => {
@@ -55,7 +55,7 @@ export default Ember.Service.extend(Ember.Evented, {
         }
 
         // Resolve with the result
-        resolve(result);
+        resolve({ products: result, meta: res.meta });
       }).catch((error) => {
         // Error!
         reject(error);

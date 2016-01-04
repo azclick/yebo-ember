@@ -17,7 +17,9 @@ export default function(router, ENV) {
     });
 
     router.route('yebo.taxons', { path: mountPath + '/' + taxonsPath },function() {
-      this.route('index', { path: '/*taxon_id' });
+      // @todo Implement this route
+      // this.route('index', { path: '/' });
+      this.route('show', { path: '/*taxon' });
     });
 
     router.route('yebo.orders', { path: mountPath + '/' + ordersPath },function() {
