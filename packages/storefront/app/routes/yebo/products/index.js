@@ -40,8 +40,7 @@ export default Ember.Route.extend({
       query = new YeboSDK.Products();
 
       // Define the number of results per page
-      // @todo Change to the correct number of products
-      query.perPage(2);
+      query.perPage(15);
 
       // Set it to the route
       this.set('currentQuery', query);

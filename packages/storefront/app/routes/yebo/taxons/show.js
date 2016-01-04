@@ -29,8 +29,7 @@ export default Ember.Route.extend({
       query.and(rule);
 
       // Define the number of results per page
-      // @todo Change to the correct number of products
-      query.perPage(2);
+      query.perPage(15);
 
       // Set query and rule to the route
       this.set('currentQuery', query);
