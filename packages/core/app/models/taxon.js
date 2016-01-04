@@ -6,6 +6,7 @@ export default DS.Model.extend({
   permalink: DS.attr('string'),
   parentId: DS.attr('number'),
   taxonomy: DS.belongsTo('taxonomy'),
+  description: DS.attr('string'),
 
   children: DS.hasMany('taxon'),
 

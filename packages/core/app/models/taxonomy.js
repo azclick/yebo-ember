@@ -5,6 +5,7 @@ export default DS.Model.extend({
   permalink: DS.attr('string'),
   prettyName: DS.attr('string'),
   taxons: DS.hasMany('taxon'),
+  description: DS.attr('string'),
 
   root: function() {
     return this.get('taxons').findBy('parentId', undefined);
