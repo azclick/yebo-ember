@@ -1,4 +1,5 @@
 import Ember from 'ember';
+
 /**
   The Taxons Index route.
 
@@ -17,12 +18,18 @@ import Ember from 'ember';
   @extends Ember.Component
 */
 export default Ember.Route.extend({
-  model: function(params) {
-    return Ember.RSVP.hash({
-      products: this.yebo.store.findAll('product', { taxon_id: params.taxon_id }),
-      taxon: this.yebo.store.findAll('taxon').then(function(taxons) {
-        return taxons.findBy('permalink', params.taxon_id)
-      })
-    })
+  //
+  model: function() {
+    return this.yebo.store.findAll('taxonomy');
+  },
+
+  //
+  setupController: function(controller, model) {
+    // Get the controller
+    let appController = this.controllerFor('application');
+
+    // Set some values to the controller
+    appController.set('taxonomies', model);
+    appController.set('currentTaxonomy', { });
   }
 });
