@@ -30,7 +30,7 @@ export default Ember.Service.extend(Ember.Evented, {
       query = new YeboSDK.Products();
 
     // Set it to the currentQuery
-    this.set('currentQuery', query);
+    // this.set('currentQuery', query);
 
     // Return a Promise
     return new Ember.RSVP.Promise((resolve, reject) => {
