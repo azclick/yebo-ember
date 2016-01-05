@@ -49,9 +49,7 @@ export default Ember.Route.extend({
 
     // Set the search
     // @todo Do not send seach param if its not necessary
-    if( params.search === 'null' )
-      query.search(null);
-    else
+    if( params.search !== undefined )
       query.search(params.search);
 
     // Set the page
@@ -73,7 +71,7 @@ export default Ember.Route.extend({
       controller.set('page', 1);
 
       // Reset the search
-      controller.set('search', null);
+      controller.set('search', undefined);
     }
   },
 
