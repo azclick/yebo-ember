@@ -19,11 +19,19 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   // Define the params
   queryParams: {
-    search: {},
+    search: {
+      refreshModel: true
+    },
     page: {
+      refreshModel: true
+    },
+    sort: {
       refreshModel: true
     }
   },
+
+  // Current ordenation
+  currentSortParam: 'price-desc',
 
   /**
    * The query will be stored here
@@ -52,6 +60,16 @@ export default Ember.Route.extend({
     if( params.search !== undefined )
       query.search(params.search);
 
+    // Check if the sort param exists
+    if( params.sort !== undefined )
+      this.set('currentSortParam', params.sort);
+
+    // Sort options
+    let sortOptions = this.get('currentSortParam').split('-');
+
+    // Set the page
+    query.sortBy(sortOptions[0], sortOptions[1]);
+
     // Set the page
     query.page(params.page);
 
@@ -59,6 +77,7 @@ export default Ember.Route.extend({
     return Ember.RSVP.hash({
       // products: this.yebo.store.findAll('product'),
       search: this.get('yebo.products').search(query),
+      sortParam: this.get('currentSortParam'),
       taxonomies: this.yebo.store.findAll('taxonomy')
     });
   },
@@ -72,6 +91,9 @@ export default Ember.Route.extend({
 
       // Reset the search
       controller.set('search', undefined);
+
+      // Reset the sort
+      controller.set('sort', undefined);
     }
   },
 
@@ -80,6 +102,10 @@ export default Ember.Route.extend({
     changePage: function(pageNumber) {
       // Change the page number
       this.transitionTo({ queryParams: { page: pageNumber } })
+    },
+    changeSort: function(sort) {
+      // Change the sort
+      this.transitionTo({ queryParams: { sort: sort } })
     }
   }
 });
