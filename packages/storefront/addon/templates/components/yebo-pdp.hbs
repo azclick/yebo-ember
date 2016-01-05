@@ -17,15 +17,15 @@
       {{#if product.variants.length}}
         <div class="small-12 medium-6 columns left">
           <h3>Variants</h3>
-          <select onchange={{!action "selectVariant" value="target.value"}}>
+          <select onchange={{action "selectVariant" value="target.value"}}>
             {{#each product.variants as |variant|}}
-              <option value={{selectedVariant}}>{{selectedVariant.name}}</option>
+              <option value={{variant.id}}>{{variant.optionsText}}</option>
             {{/each}}
           </select>
         </div>
       {{/if}}
       <div class="small-12 medium-6  columns left">
-        <h3>Price: {{selectedVariant.displayPrice}}</h3>
+        <h3>Price: {{selectedVariant.price}}</h3>
         {{input value=quantity placeholder="Quantity"}}
       </div>
       <div class='small-12 columns'>
