@@ -47,7 +47,7 @@ export default Ember.Route.extend({
     }
 
     // Set a new value to the rule
-    rule.values = params.taxon.split('/');
+    rule.values = [params.taxon];
 
     // Check if the sort param exists
     if( params.sort !== undefined )
