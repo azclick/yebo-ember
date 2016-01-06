@@ -8,6 +8,9 @@ export default DS.Model.extend({
   taxonomy: DS.belongsTo('taxonomy'),
   description: DS.attr('string'),
 
+  // Breadcrumbs
+  breadcrumbs: DS.attr(),
+
   children: DS.hasMany('taxon'),
 
   childrenExcMaster: Ember.computed('children', function() {
