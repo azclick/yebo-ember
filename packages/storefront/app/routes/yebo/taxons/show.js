@@ -62,7 +62,7 @@ export default Ember.Route.extend({
     // Set the page
     query.page(params.page);
 
-		// Todo: Reuse taxonomy find all
+    // Todo: Reuse taxonomy find all
     return Ember.RSVP.hash({
       taxonomies: this.yebo.store.findAll('taxonomy'),
       taxon: this.yebo.store.find('taxon', params.taxon),
@@ -105,6 +105,10 @@ export default Ember.Route.extend({
     changePage: function(pageNumber) {
       // Change the page number
       this.transitionTo({ queryParams: { page: pageNumber } })
+    },
+    changeSort: function(sort) {
+      // Change the sort
+      this.transitionTo({ queryParams: { sort: sort  }  })
     }
   }
 });
