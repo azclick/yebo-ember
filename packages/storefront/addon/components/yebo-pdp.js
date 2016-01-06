@@ -23,19 +23,37 @@ export default Ember.Component.extend({
   quantity: 1,
   action: 'addToCart',
 
-  selectedVariant: Ember.computed('product.variants', function() {
-    var selection = this.get('variantSelection');
+  //
+  selectedVariant: Ember.computed('product.variants', 'variantSelection', function() {
+    // Get the selection
+    let selection = this.get('variantSelection');
 
-    if (selection && selection.get("images").any()) {
+    // If the select exists, return it
+    if( selection )
       return selection;
-    } else {
+
+    // Try to get the first variant
+    let firstVariant = this.get('product.variants.firstObject');
+
+    // Check if the firstVariant exists
+    if( firstVariant )
+      return firstVariant;
+    else
       return this.get('product.master');
-    }
   }),
 
+  //
   actions: {
+    //
     addToCart: function() {
       this.sendAction('action', this.get('selectedVariant'), this.get('quantity'));
+    },
+
+    //
+    selectVariant: function(variantId) {
+      // Set as the selected variant
+      // @todo Check if there is problem with this way
+      this.set('variantSelection', this.yebo.store.peekRecord('variant', variantId));
     }
   }
 });
