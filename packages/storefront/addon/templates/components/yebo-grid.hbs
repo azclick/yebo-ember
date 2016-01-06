@@ -1,4 +1,14 @@
 <div class="row">
+  <select onchange={{action 'changeOrderBy' value='target.value'}}>
+    <option selected={{eq currentSortParam 'price-asc'}} value="price-asc">Price ASC</option>
+    <option selected={{eq currentSortParam 'price-desc'}} value="price-desc">Price DESC</option>
+
+    <option selected={{eq currentSortParam 'name-asc'}} value="name-asc">Name ASC</option>
+    <option selected={{eq currentSortParam 'name-desc'}} value="name-desc">Name DESC</option>
+  </select>
+</div>
+
+<div class="row">
   {{#each products as |product|}}
     {{#link-to 'yebo.products.show' product}}
       <div class="small-12 medium-6 columns text-center">

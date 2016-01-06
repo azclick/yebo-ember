@@ -9,8 +9,14 @@ export default Ember.Route.extend({
   queryParams: {
     page: {
       refreshModel: true
+    },
+    sort: {
+      refreshModel: true
     }
   },
+
+  // Current ordenation
+  currentSortParam: 'price-desc',
 
   //
   model: function(params) {
@@ -43,6 +49,16 @@ export default Ember.Route.extend({
     // Set a new value to the rule
     rule.values = params.taxon.split('/');
 
+    // Check if the sort param exists
+    if( params.sort !== undefined )
+      this.set('currentSortParam', params.sort);
+
+    // Sort options
+    let sortOptions = this.get('currentSortParam').split('-');
+
+    // Set the page
+    query.sortBy(sortOptions[0], sortOptions[1]);
+
     // Set the page
     query.page(params.page);
 
@@ -50,6 +66,7 @@ export default Ember.Route.extend({
     return Ember.RSVP.hash({
       taxonomies: this.yebo.store.findAll('taxonomy'),
       taxon: this.yebo.store.find('taxon', params.taxon),
+      sortParam: this.get('currentSortParam'),
       search: this.yebo.products.search(query)
     });
   },
@@ -77,6 +94,9 @@ export default Ember.Route.extend({
     if (isExiting) {
       // Reset the page
       controller.set('page', 1);
+
+      // Reset the sort
+      controller.set('sort', undefined);
     }
   },
 

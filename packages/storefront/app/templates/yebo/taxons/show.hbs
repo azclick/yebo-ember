@@ -2,4 +2,4 @@
   <h1>Shop by {{model.taxon.name}} ({{model.search.meta.total_count}} products found)</h1>
 </div>
 
-{{yebo-grid action='changePage' meta=model.search.meta products=model.search.products}}
+{{yebo-grid currentSortParam=model.sortParam action='changePage' meta=model.search.meta products=model.search.products}}
