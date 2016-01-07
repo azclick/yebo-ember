@@ -10,6 +10,9 @@ export default DS.Model.extend({
   total_on_hand: DS.attr('number'),
   available: DS.attr('boolean'),
 
+  // Breadcrumbs
+  breadcrumbs: DS.attr(),
+
   // Price Attributes
   price: DS.attr('string'),
   // rawPrice: DS.attr('number'),

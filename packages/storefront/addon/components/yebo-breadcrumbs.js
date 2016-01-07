@@ -1,55 +1,24 @@
 import Ember from 'ember';
 import layout from '../templates/components/yebo-breadcrumbs';
+
 /**
-  Allows Breadcrumb style interaction for the Checkout Route.
-
-  **To Override:** You'll need to run the components generator:
-
-  ```bash
-  ember g yebo-ember-storefront-components
-  ```
-
-  This will install all of the Yebo Ember Storefront component files into your
-  host application at `app/components/yebo-*.js`, ready to be extended or
-  overriden.
-
-  @class YeboBreadcrumbs
-  @namespace Component
-  @extends Ember.Component
-*/
+ * Breadcrumbs
+ */
 export default Ember.Component.extend({
   layout: layout,
-  action: 'transitionCheckoutState',
 
-  steps: Ember.computed('checkoutSteps', 'checkoutState', function() {
-    var checkoutSteps = this.get('checkoutSteps') || Ember.A();
-    var checkoutState = this.get('checkoutState');
-    var stepObjects   = Ember.A();
+  // Breadcrumbs items
+  items: Ember.computed('breadcrumbs', function() {
+    // Get the breadcrumbs
+    let breadcrumbs = this.get('breadcrumbs');
 
-    for (var i = 0; i < checkoutSteps.length; i++) {
-      var stepName          = checkoutSteps[i];
-      var stepObject        = Ember.Object.create({ name: stepName });
-      var currentStateIndex = checkoutSteps.indexOf(checkoutState);
-      var stepIndex         = checkoutSteps.indexOf(stepName);
+    // Set the last item
+    this.set('lastItem', breadcrumbs[breadcrumbs.length - 1]);
 
-      if (stepIndex > currentStateIndex) {
-        stepObject.set('status', 'unavailable');
-      } else if (stepName === checkoutState) {
-        stepObject.set('status', 'current');
-      } else {
-        stepObject.set('status', 'completed');
-      }
+    // Remove the last item
+    breadcrumbs.pop();
 
-      stepObjects.pushObject(stepObject);
-    }
-    return stepObjects;
+    // Return the breadcrumbs
+    return breadcrumbs;
   }),
-
-  actions:  {
-    clickedCrumb: function(step) {
-      if (step.get('status') === "completed") {
-        this.sendAction('action', step.get('name'));
-      }
-    }
-  }
 });
