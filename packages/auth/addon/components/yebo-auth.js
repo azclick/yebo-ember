@@ -55,6 +55,11 @@ export default Ember.Component.extend({
   */
   createAction: 'createAndAuthenticateUser',
 
+  /**
+   *
+   */
+  resetPasswordAction: 'resetPasswordRedirect',
+
   identification: null,
   password: null,
   passwordConfirmation: null,
@@ -73,6 +78,10 @@ export default Ember.Component.extend({
         passwordConfirmation: passwordConfirmation,
         orderToken: this.get("yebo.currentOrder.guestToken")
       }, this);
+    },
+    // Reset password actions
+    requestToReset: function() {
+      this.sendAction('resetPasswordAction');
     }
   },
   identificationDidChange: Ember.observer('identification', function() {
