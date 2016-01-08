@@ -9,5 +9,8 @@ export default function(router, ENV) {
     this.route('signin', { path: signinPath });
     this.route('signup', { path: signupPath });
     this.route('account', { path: accountPath });
+
+    this.route('reset-password', { path: 'reset-password/:token' });
+    this.route('request-reset-password', { path: 'reset-password' });
   });
 }
