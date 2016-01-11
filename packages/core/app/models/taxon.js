@@ -8,6 +8,7 @@ export default DS.Model.extend({
   taxonomy: DS.belongsTo('taxonomy'),
   description: DS.attr('string'),
   iconUrl: DS.attr('string'),
+  iconNormalUrl: DS.attr('string'),
   iconMiniUrl: DS.attr('string'),
 
   // Breadcrumbs
