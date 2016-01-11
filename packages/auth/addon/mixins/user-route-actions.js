@@ -148,6 +148,13 @@ export default Ember.Mixin.create({
           return error;
         }
       );
+    },
+
+    /**
+     * Redirect to the reset password route
+     */
+    resetPasswordRedirect: function() {
+      this.transitionTo('yebo.request-reset-password');
     }
   }
 });
