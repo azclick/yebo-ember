@@ -7,6 +7,8 @@ export default DS.Model.extend({
   parentId: DS.attr('number'),
   taxonomy: DS.belongsTo('taxonomy'),
   description: DS.attr('string'),
+  iconUrl: DS.attr('string'),
+  iconMiniUrl: DS.attr('string'),
 
   // Breadcrumbs
   breadcrumbs: DS.attr(),
