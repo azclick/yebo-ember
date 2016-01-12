@@ -2,7 +2,7 @@
   "name": "yebo-ember-auth",
   "shortName": "auth",
   "description": "The default blueprint for ember-cli addons.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "options": {
     "paths": [
       "addon",
