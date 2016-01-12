@@ -380,7 +380,7 @@ export default Ember.Service.extend(Ember.Evented, {
       currentOrder.get(name).set('id', address.id);
 
       // Testing reloading the currentOrder
-      currentOrder.reload();
+      // currentOrder.reload();
 
       // The user is not editing anymore
       this.set(`editing${this._generateNiceName(name)}`, false);
