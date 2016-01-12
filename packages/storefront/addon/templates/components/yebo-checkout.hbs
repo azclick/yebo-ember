@@ -107,72 +107,91 @@
 					{{#each yebo.checkouts.payments as |payment|}}
             {{#if (eq yebo.checkouts.currentPayment payment.id) }}
               <li class="payment-form" id="payment_method_{{payment.id}}">
-                <!-- @todo This should be dynimic -->
-                <section class="form-group">
-                  <section class="field">
-                    <label>Bandeira<span class="required">*</span></label>
-                    <p class="field radio">
-                      {{#each payment.extra.flags as |flag|}}
-                        <label>
-                          {{yebo-radio value=flag.slug checked=yebo.checkouts.currentPaymentOptions.card_type}}
-                          <img src="{{flag.image}}" alt="{{flag.name}}" />
-                        </label>
-                      {{/each}}
-                    </p>
-                  </section>
-
-                  <section class="pay-col">
-                    <p class="field text">
-                      <label for="name">Nome</label><span class="required">*</span><br />
-                      {{input type="text" value=yebo.checkouts.currentPaymentOptions.name}}
-                    </p>
-
-                    <p class="field select">
-                      <label for="card_number">Número do cartão</label><span class="required">*</span><br />
-                      {{input type="number" value=yebo.checkouts.currentPaymentOptions.number}}
-                    </p>
-                  </section>
-
-                  <section class="pay-col">
-                    <p class="field select">
-                      <label for="card_month">Data de vencimento</label><span class="required">*</span><br />
-                      {{#yebo-select value=yebo.checkouts.currentPaymentOptions.month}}
-                        {{#each (range start=1 end=12) as |month|}}
-                          {{#x-option value=month}}{{month}}{{/x-option}}
+                {{#if payment.extra.flags}}
+                  <!-- @todo This should be dynimic -->
+                  <section class="form-group">
+                    <section class="field">
+                      <label>Bandeira<span class="required">*</span></label>
+                      <p class="field radio">
+                        {{#each payment.extra.flags as |flag|}}
+                          <label>
+                            {{yebo-radio value=flag.slug checked=yebo.checkouts.currentPaymentOptions.card_type}}
+                            <img src="{{flag.image}}" alt="{{flag.name}}" />
+                          </label>
                         {{/each}}
-                      {{/yebo-select}}
+                      </p>
+                    </section>
 
-                      {{#yebo-select value=yebo.checkouts.currentPaymentOptions.year}}
-                        {{#each (range start=yebo.checkouts.currentYear next=15) as |month|}}
-                          {{#x-option value=month}}{{month}}{{/x-option}}
-                        {{/each}}
-                      {{/yebo-select}}
-                    </p>
+                    <section class="pay-col">
+                      <p class="field text">
+                        <label for="name">Nome</label><span class="required">*</span><br />
+                        {{input type="text" value=yebo.checkouts.currentPaymentOptions.name}}
+                      </p>
 
-                    <p class="field text">
-                      <label for="card_code">Codigo de segurança</label><span class="required">*</span><br />
-                      {{input type="number" value=yebo.checkouts.currentPaymentOptions.verification_value}}
-                    </p>
-                  </section>
+                      <p class="field select">
+                        <label for="card_number">Número do cartão</label><span class="required">*</span><br />
+                        {{input type="number" value=yebo.checkouts.currentPaymentOptions.number}}
+                      </p>
+                    </section>
 
-                  {{#each payment.extra.flags as |flag|}}
-                    {{#if (eq yebo.checkouts.currentPaymentOptions.card_type flag.slug)}}
-                      <section class="pay-col last">
-                        <section class="field">
-                          <label for="installments-text">Parcelamento <span class="required">*</span></label><br />
-                          {{#yebo-select value=yebo.checkouts.currentPaymentOptions.installments}}
-                            {{#each-in flag.installments as |n installment|}}
-                              {{#x-option value=n}}
-                                {{n}}x de {{installment.money}}
-                                {{if installment.tax " - Com Juros" " - Sem Juros"}}
-                              {{/x-option}}
-                            {{/each-in}}
-                          {{/yebo-select}}
+                    <section class="pay-col">
+                      <p class="field select">
+                        <label for="card_month">Data de vencimento</label><span class="required">*</span><br />
+                        {{#yebo-select value=yebo.checkouts.currentPaymentOptions.month}}
+                          {{#x-option}}Mês{{/x-option}}
+                          {{#each (range start=1 end=12) as |month|}}
+                            {{#x-option value=month}}{{month}}{{/x-option}}
+                          {{/each}}
+                        {{/yebo-select}}
+
+                        {{#yebo-select value=yebo.checkouts.currentPaymentOptions.year}}
+                          {{#x-option}}Ano{{/x-option}}
+                          {{#each (range start=yebo.checkouts.currentYear next=15) as |month|}}
+                            {{#x-option value=month}}{{month}}{{/x-option}}
+                          {{/each}}
+                        {{/yebo-select}}
+                      </p>
+
+                      <p class="field text">
+                        <label for="card_code">Codigo de segurança</label><span class="required">*</span><br />
+                        {{input type="number" value=yebo.checkouts.currentPaymentOptions.verification_value}}
+                      </p>
+                    </section>
+
+                    {{#each payment.extra.flags as |flag|}}
+                      {{#if (eq yebo.checkouts.currentPaymentOptions.card_type flag.slug)}}
+                        <section class="pay-col last">
+                          <section class="field">
+                            <label for="installments-text">Parcelamento <span class="required">*</span></label><br />
+                            {{#yebo-select value=yebo.checkouts.currentPaymentOptions.installments}}
+                              {{#x-option}}Selecione{{/x-option}}
+                              {{#each-in flag.installments as |n installment|}}
+                                {{#x-option value=n}}
+                                  {{n}}x de {{installment.money}}
+                                  {{if installment.tax " - Com Juros" " - Sem Juros"}}
+                                {{/x-option}}
+                              {{/each-in}}
+                            {{/yebo-select}}
+                          </section>
                         </section>
-                      </section>
-                    {{/if}}
-                  {{/each}}
-                </section>
+                      {{/if}}
+                    {{/each}}
+                  </section>
+                {{else if payment.extra.operators}}
+                  <section class="form-group">
+                    <section class="field">
+                      <label>Operadora<span class="required">*</span></label>
+                      <p class="field radio">
+                        {{#each payment.extra.operators as |operator|}}
+                          <label>
+                            {{yebo-radio value=operator.slug checked=yebo.checkouts.currentPaymentOptions.operator}}
+                            <img src="{{operator.image}}" alt="{{operator.name}}" />
+                          </label>
+                        {{/each}}
+                      </p>
+                    </section>
+                  </section>
+                {{/if}}
               </li>
             {{/if}}
 					{{/each}}
