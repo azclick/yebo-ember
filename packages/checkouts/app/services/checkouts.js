@@ -433,8 +433,12 @@ export default Ember.Service.extend(Ember.Evented, {
       // Clean the current order (that is completed)
       this.get('yebo').clearCurrentOrder(true);
 
-      // Trigger an event of completed order
-      this.trigger('orderCompleted', this.get('currentOrder.number'));
+      // Check if is necessary to redirect the page
+      // @todo Check if it will work fine
+      if( res.source.redirect )
+        window.location = res.source.url;
+      else
+        this.trigger('orderCompleted', this.get('currentOrder.number'));
     }).catch((error) => {
       // @todo Show the error messages
       console.log(error);
