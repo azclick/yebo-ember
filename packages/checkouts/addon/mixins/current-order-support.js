@@ -195,6 +195,9 @@ export default Ember.Mixin.create({
           // Set the current order
           this.set('currentOrder', store.peekRecord('order', res.number));
 
+          // Order loaded event
+          this.get('yebo').trigger('orderLoaded');
+
           // Resolve it
           resolve();
         }).catch((error) => {
