@@ -327,10 +327,7 @@ export default Ember.Service.extend(Ember.Evented, {
    */
   paymentChange: function() {
     // Reset the currentPayment options
-    this.set('currentPaymentOptions', {});
-
-    // ...
-    console.log('PAYMENT CHANGED!');
+    this.set('currentPaymentOptions', { name: '' });
   }.observes('currentPayment'),
 
   /**
