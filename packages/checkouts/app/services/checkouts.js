@@ -154,7 +154,8 @@ export default Ember.Service.extend(Ember.Evented, {
         // Try to get a new one
         YeboSDK.Store.fetch(this._checkoutURL(`address/${address}`), {}, 'GET').then((res) => {
           // Check if the address exists
-          if( res.address ) {
+          // @todo Check in the API why it has two different types
+          if( !Ember.isArray(res.address) ) {
             // Yebo Store
             let store = this.get('yebo').get('store');
 
@@ -327,10 +328,7 @@ export default Ember.Service.extend(Ember.Evented, {
    */
   paymentChange: function() {
     // Reset the currentPayment options
-    this.set('currentPaymentOptions', {});
-
-    // ...
-    console.log('PAYMENT CHANGED!');
+    this.set('currentPaymentOptions', { name: '' });
   }.observes('currentPayment'),
 
   /**
@@ -436,8 +434,12 @@ export default Ember.Service.extend(Ember.Evented, {
       // Clean the current order (that is completed)
       this.get('yebo').clearCurrentOrder(true);
 
-      // Trigger an event of completed order
-      this.trigger('orderCompleted', this.get('currentOrder.number'));
+      // Check if is necessary to redirect the page
+      // @todo Check if it will work fine
+      if( res.source.redirect )
+        window.location = res.source.url;
+      else
+        this.trigger('orderCompleted', this.get('currentOrder.number'));
     }).catch((error) => {
       // @todo Show the error messages
       console.log(error);
