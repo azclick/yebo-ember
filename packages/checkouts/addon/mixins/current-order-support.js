@@ -150,6 +150,7 @@ export default Ember.Mixin.create({
     // OrderId
     let orderId = this.get('orderId');
 
+
     // Check if its necessary to create the cart
     if( !orderId )
       return;
@@ -157,12 +158,18 @@ export default Ember.Mixin.create({
     // Create a new cart
     let cart;
 
+    // The options used to get the current order order
+    let orderOptions = {};
+
     if( authenticated ) {
       // Get the token
       let token = data.user ? data.user.token : data.token;
 
       // Create the cart
       cart = new YeboSDK.Cart(orderId, token);
+
+      // Add the token to the orderOptions
+      orderOptions.token = token;
     } else {
       cart = new YeboSDK.Cart(orderId);
     }
@@ -172,12 +179,18 @@ export default Ember.Mixin.create({
       // Get the cart order
       cart.order.then((res) => {
         // Find the order
-        this.get('yebo.store').find('order', res.number).then((currentOrder) => {
+        YeboSDK.Store.fetch(`orders/${res.number}`, orderOptions).then((orderRes) => {
+          // Yebo Store
+          let store = this.get('yebo').store;
+
+          // Push the records to the ember
+          store.pushPayload(orderRes);
+
           // Set the Cart
           this.set('currentCart', cart);
 
           // Set the current order
-          this.set('currentOrder', currentOrder);
+          this.set('currentOrder', store.peekRecord('order', res.number));
 
           // Resolve it
           resolve();
