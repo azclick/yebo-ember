@@ -1,3 +1,6 @@
+Version 0.0.1:
+ - :arrow_up: bump version
+
 Version 0.1.0
  - Merge master into develop
  - find real root taxon, prevously returning nothing
