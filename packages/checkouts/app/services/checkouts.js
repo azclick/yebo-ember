@@ -154,7 +154,8 @@ export default Ember.Service.extend(Ember.Evented, {
         // Try to get a new one
         YeboSDK.Store.fetch(this._checkoutURL(`address/${address}`), {}, 'GET').then((res) => {
           // Check if the address exists
-          if( res.address ) {
+          // @todo Check in the API why it has two different types
+          if( !Ember.isArray(res.address) ) {
             // Yebo Store
             let store = this.get('yebo').get('store');
 
