@@ -127,11 +127,14 @@ export default Ember.Mixin.create({
       // Check if the order has user
       YeboSDK.Store.fetch('cart/user', { number: orderId }, 'GET').then((res) => {
         // Initialize a cart that does not have an user
-        if( !res.has_user )
-          this.instanciateCart();
-
-        // Resolve it!
-        resolve();
+        if( !res.has_user ) {
+          // Instanciante the cart
+          this.instanciateCart().then(() => {
+            // Resolve the main promise
+            resolve();
+          });
+        } else
+          resolve();
       });
     });
   },
