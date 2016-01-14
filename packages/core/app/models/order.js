@@ -52,6 +52,10 @@ export default DS.Model.extend(HandlesNestedServerErrors, CanCheckout, {
   payments:                DS.hasMany('payment'),
 
   // Computed
+  lineItemsCount: Ember.computed('lineItems', function() {
+    return this.get('lineItems.length');
+  }),
+
   empty: Ember.computed('itemCount', function() {
     return this.get('itemCount') === 0;
   }),

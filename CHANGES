@@ -1,0 +1,420 @@
+Version 0.0.1:
+ - :arrow_up: bump version
+
+Version 0.1.0
+ - Merge master into develop
+ - find real root taxon, prevously returning nothing
+ - add original url
+ - Merge pull request #13 from azclick/feature/reset-password
+ - add icon attributes to taxon
+ - Add the option user token to the order request
+ - Request reset password template
+ - Reset password route
+ - Request reset password template
+ - Request reset password route
+ - Link to the reset password route
+ - Add the reset password routes
+ - Merge pull request #12 from azclick/traduz-campo-busca
+ - remove icon
+ - traduz campo de busca
+ - Merge branch 'master' of github.com:azclick/yebo-ember
+ - facade for count lineItems
+ - Merge pull request #10 from azclick/breadcrumbs
+ - Merge pull request #11 from azclick/permalink-bug
+ - Do not split the taxon permalink
+ - add missing action hnadler in route
+ - Add home link to the breadcrumbs
+ - Calling breadcrumbs component in the products#show route
+ - Calling breadcrumbs component in the taxons#show route
+ - Breadcrumbs component
+ - Add breadcrumbs to the product and taxon models
+ - Merge pull request #9 from azclick/products-sort
+ - Merge pull request #8 from azclick/select-variant
+ - Update the yebo-grid component call
+ - Sort logic in the taxons#show
+ - Sort logic in the products#index
+ - Change the way to reset the search
+ - Add the action to change the sort option in the yebo-grid component
+ - Adding the sort select into the yebo-grid component
+ - Enble selectVariant action and rename some variables in the yebo-pdp component
+ - Make the yebo-pdp component work with variants
+ - Merge pull request #6 from azclick/taxon-description
+ - Merge pull request #7 from azclick/products-pagination
+ - Change the perPage number to 15 as default
+ - Change the taxonomy rule
+ - Remove the link-to reset query params for the search
+ - Starting passing meta, products and action to the yebo-grid component
+ - Search products in products/index and taxons/show with pagination support
+ - Add pagination view to the yebo-grid component
+ - Add meta data to the search results
+ - Current query in the products service is not in use
+ - Rename the taxons/index.hbs to taxons/show.hbs
+ - Taxons show route now shows the products related to the current taxon
+ - Taxon index route logic
+ - Change the taxon link
+ - Change the taxons routes
+ - Giving an example how to use the taxon description
+ - Add description to the taxon and taxonomy models
+ - Merge pull request #5 from azclick/newsletter
+ - Merge origin/master into master
+ - Add an example of the component at the home page
+ - Newsletter component
+ - Create the newsletter service
+ - Merge branch 'master' of github.com:azclick/yebo-ember
+ - Merge pull request #4 from azclick/products-list
+ - remove misplaced queryParams
+ - Merge pull request #2 from azclick/bug_keep_order
+ - Merge pull request #3 from azclick/orders-details
+ - Merge remote-tracking branch 'origin/orders-details'
+ - Merge remote-tracking branch 'origin/bug_keep_order'
+ - Merge branch 'products-list'
+ - Merge branch 'taxon-list'
+ - Merge branch 'master' into products-list
+ - Change the way to find the controller (inside the component)
+ - Get the order detail validating if its completed and if the current user is the owner
+ - Make the order link to work
+ - List just completed orders
+ - Just show the payment method name
+ - Remove edit links in the order detail page
+ - Restrict the orders routes to logged users
+ - Change the wrong config route to a static route for now
+ - First clean the completed order and then trigger the event because an external error can block the checkout
+ - apply cammelCasing
+ - Merge pull request #1 from azclick/products-list
+ - Merge available-products into master
+ - Check if the selected variant has stock and enable or disable the add to cart button based on this
+ - Merge branch 'taxon-list' into productsList-merge-taxonList
+ - add competence to list a taxon's children
+ - Change the default link to return all the products
+ - Search the products by the text recieved
+ - Make the form action redirect to the products.index page with the correct params
+ - Define a currentQuery just not create a new every time
+ - Make the products/index to accept the search queryParam
+ - Getting started with the search component
+ - Current Query property
+ - Aggregations definition
+ - Search Method (without query changes)
+ - Getting started with the products service
+ - Change the list call to call the service method
+ - Create a new service called products
+ - bump minor version
+ - Merge branch 'master' of github.com:yurifrl/yebo-ember
+ - Merge branch 'new-checkout' of github.com:yurifrl/yebo-ember into new-checkout
+ - merge conflicts, identation, remove passing tokens in the url
+ - Merge new-checkout into master
+ - Merge origin/new-checkout into new-checkout
+ - Merge restore-order into new-checkout
+ - Create a new cart with the users when they log into the system
+ - Set up the address when start the checkout service
+ - Merge branch 'new-checkout' of github.com:yurifrl/yebo-ember into newCheckout-m-restoreOrder
+ - meged
+ - Merge restore-order into new-checkout
+ - If there is no orderId do nothing
+ - Before initialize the checkout get instanciate the cart
+ - Support instanciate cart using data from the session
+ - Start return a promise in the method instanciateCart
+ - Some comments
+ - Remove console.log
+ - Check if the order has user
+ - Remove dirty
+ - jwt
+ - Started solving the problem of loading orders
+ - Merge branch 'new-checkout' of github.com:yurifrl/yebo-ember into new-checkout
+ - redirect after completed
+ - Validade user and order using the SDK Cart class
+ - Merge branch 'new-checkout' of github.com:yurifrl/yebo-ember into new-checkout
+ - Change view methods to display
+ - Adding display methods to the order model
+ - YeboApplicationRouteMixin
+ - Merge branch 'new-checkout' of github.com:yurifrl/yebo-ember into new-checkout
+ - save
+ - Add/Remove line items in the cart
+ - Empty Cart action
+ - When restore the currentOrder, also restore the YeboSDK.Cart
+ - New way to get old addresses
+ - Getting started with the empty cart method
+ - Close the address form when there is an address
+ - Remove todo
+ - Remove the ship address if its not required
+ - Just calculate the shipments when there is at least one address
+ - Set the default shipments when its calculated
+ - When initialize a checkout with and order that does not have address, try to get an old address to set
+ - Pay the order
+ - Rename some card properties
+ - Change the cart inputs(month, year) to a select using the range helper
+ - Range templates Helper
+ - update order when add new item
+ - update order when add new item
+ - ensure user has correct order
+ - Merge branch 'new-checkout' of github.com:yurifrl/yebo-ember into new-checkout
+ - pass order token to request
+ - Solve the problem with the current order
+ - Merge origin/new-checkout into new-checkout
+ - Edit address button
+ - Prevent some errors in the Address Model
+ - Implementing a method that generates the checkout urls
+ - Add a new TODO
+ - np
+ - pass order to cart
+ - Merge branch 'new-checkout' of github.com:yurifrl/yebo-ember into new-checkout
+ - few things
+ - Checkout - Address, Delivery and Payment(not 100%)
+ - select
+ - Trying to make the select works
+ - merged
+ - must be authenticated to checkout
+ - Make the checkout address works with the YeboSDK
+ - chekout work
+ - Comment just to prevent the errors
+ - Some work in the checkout service
+ - Change the checkout components to the old cart templates
+ - Start looking when the checkout component initialize to start the checkout process
+ - Add the component yebo-show-address to present the address in the checkout
+ - render checkout
+ - Start to remove FSM
+ - Merge
+ - restore session
+ - Send the correct order number and token (based on the currentOrder)
+ - Merge branch 'ember-2.0' of github.com:yurifrl/yebo-ember into ember-2.0
+ - currentUser
+ - Make it add to cart
+ - Getting started with the Yebo Checkout, doing some changes in the currentOrder and started to integrate it with the SDK
+ - login
+ - save for now
+ - session stuff
+ - remove spree reference
+ - aparently working version
+ - auth initializers
+ - update addon to 2.0
+ - auth
+ - ok
+ - ok
+ - active model serializer
+ - partial workin, just savin
+ - save for now
+ - save
+ - Dockerfile for publish
+ - change repo
+ - remove mention to spree
+ - save progress
+ - save
+ - save
+ - save
+ - remove things
+ - save
+ - update
+ - update
+ - bkp
+ - did not work
+ - fix model serializer adapter
+ - model update
+ - test assync set token
+ - authorship and test tweeks
+ - change permision
+ - create yebo ember start
+ - mixin attribute
+ - handle error 'Assertion Failed: Passing classes to store methods has been removed'
+ - old changes
+ - Add Sketch File
+ - Bump Master Version
+ - Merge pull request #72 from hhff/fix/move-hack-to-mixin
+ - Move Null Payment hack to Mixin
+ - Merge pull request #71 from hhff/fix/better-active-payment-handling
+ - Better active payment handling
+ - Merge pull request #70 from hhff/fix/payment-changing
+ - Fix for changing payment
+ - Merge pull request #66 from hhff/fix/tweaks
+ - Simple Tweaks
+ - Merge pull request #65 from hhff/fix/test-suite
+ - Full Test Suite, closes #19
+ - Merge pull request #63 from hhff/fix/better-guides
+ - Finalize documentation, closes #58
+ - Merge pull request #62 from hhff/fix/update-boostrap.rb
+ - Thanks @ninjz
+ - Merge pull request #61 from hhff/feature/full-frontend-buildout
+ - Frontend buildout.  Closes #56, closes #55, closes #13, closes #6
+ - Merge pull request #53 from triptec/feature/taxonomies-sidebar
+ - Closes hhff/spree-ember#53
+ - Merge pull request #50 from hhff/fix/better-checkout-architecture
+ - Better checkout architecture.  Closes #21
+ - sync with upstream
+ - Merge pull request #49 from hhff/feature/CHANGLOG
+ - Merge pull request #47 from hhff/feature/ember-simple-auth
+ - Add CHANGELOG, closes #27
+ - Add Authentication and Tests, closes #41, closes #17
+ - Merge pull request #45 from hhff/feature/grunt-gh-pages
+ - Tidy up docs, rename main to storefront, move to gh-pages, closes #42, closes #37, closes #26
+ - Merge pull request #44 from hhff/revert-43-fix/remove-docs-from-master
+ - Revert "Fix/remove docs from master"
+ - Merge pull request #43 from hhff/fix/remove-docs-from-master
+ - Remove Docs & associated from the master branch
+ - Merge pull request #40 from hhff/fix/addon-name-migration
+ - Rename Addons, closes #34
+ - migrate addon names
+ - Merge pull request #39 from hhff/feature/spree-navigation
+ - Spree Navigation Component & Structure Migration, closes #33
+ - Merge pull request #38 from hhff/feature/spree-nesting
+ - Editable Routes and Nesting under spree resource, closes #32, closes #23
+ - Merge pull request #36 from hhff/fix/better-docs
+ - Added Checkouts and got YUI working with example blocks
+ - Added taxonomies
+ - Remove .npmignore
+ - Merge pull request #30 from hhff/fix/readme-tweaks
+ - nicer image
+ - oops, better image
+ - Merge branch 'master' into fix/readme-tweaks
+ - Merge pull request #24 from hhff/fix/package-tweaks
+ - New Header, emphasize docs on spree-ember.com
+ - Drop support for Node 0.10.x and update packages
+ - Merge pull request #20 from hhff/feature/travis-test-packages-against-repo-verions
+ - Ready
+ - reignore docs
+ - Run Tests against packages in Repo
+ - add auth to travis
+ - testing harness
+ - testing harness
+ - progress
+ - core test harness
+ - Add 'packages/auth/' from commit 'e6aa27ae14db5bf7ea25fe4edc71c12085d64012'
+ - Initial Commit from Ember CLI v0.1.15
+ - tidy docs
+ - Merge branch 'master' of https://github.com/hhff/spree_ember
+ - progress with frontend
+ - Better readme
+ - Merge pull request #16 from gitter-badger/gitter-badge
+ - Added Gitter badge
+ - logo
+ - logo
+ - k
+ - add docs site to repo
+ - bump versions
+ - kk rad
+ - tidy up theme
+ - ok nice
+ - Add 'packages/frontend/' from commit '96cb2fcd1a4e7458bdd5a354711a9cf6a5d0290e'
+ - Initial Commit from Ember CLI v0.1.15
+ - ok
+ - oy vey
+ - remove untracked frontend files
+ - move to packages
+ - remove old frontend
+ - Add 'packages/frontend/' from commit '0f38fc98904a2ed6de935e997bcdce5b485728ef'
+ - Add 'packages/checkouts/' from commit '86938fa42ffd3765704a6e6fef6164b24aa04d42'
+ - Add 'packages/core/' from commit 'ece3786ee96033e195a75406a3ff5fd19e20c242'
+ - ok
+ - hmm
+ - git
+ - grunt for docs
+ - grunt for docs
+ - grunt for docs
+ - woot now were getting there
+ - woot now were getting there
+ - woot now were getting there
+ - much neater
+ - much neater
+ - much neater
+ - gitignore
+ - gitignore
+ - checkouts boilerplate
+ - checkouts boilerplate
+ - checkouts boilerplate
+ - Add 'checkouts/' from commit 'bd79f5a3d2be66539273c34fc3458aab407bd2bd'
+ - Initial Commit from Ember CLI v0.1.15
+ - few
+ - few
+ - enormous refactor
+ - enormous refactor
+ - messy but progres
+ - messy but progres
+ - removing emberscript
+ - removing emberscript
+ - WIP
+ - WIP
+ - WIP
+ - before update
+ - before update
+ - before update
+ - before updates
+ - before updates
+ - before updates
+ - spree 2-3-stable
+ - spree 2-3-stable
+ - spree 2-3-stable
+ - key filter & other
+ - key filter & other
+ - key filter & other
+ - ok radd
+ - ok radd
+ - tests should run
+ - tests should run
+ - working on spree global
+ - working on spree global
+ - Basic Flash Messaging, closes #7
+ - Basic Flash Messaging, closes #7
+ - Merge pull request #10 from hhff/feature/find-by-slug
+ - header link & neater find
+ - header link & neater find
+ - Merge pull request #9 from hhff/feature/find-by-slug
+ - basic - may need tweaking
+ - basic - may need tweaking
+ - auth tests passing
+ - auth tests passing
+ - Merge branch 'master' of https://github.com/hhff/spree_ember
+ - update to ember-cli 0.1.2
+ - update to ember-cli 0.1.2
+ - update to ember-cli 0.1.2
+ - basic server mocks
+ - basic server mocks
+ - Update README.md
+ - signup working
+ - signup working
+ - signup working
+ - delete old
+ - delete old
+ - new partial syntax
+ - new partial syntax
+ - renamed package
+ - renamed package
+ - renamed package
+ - renamed package
+ - move models to core
+ - move models to core
+ - move models to core
+ - cool guy readme
+ - core private
+ - core private
+ - this might work
+ - this might work
+ - mhm
+ - mhm
+ - duh
+ - duh
+ - reference core
+ - reference core
+ - testing core
+ - working with core
+ - working with core
+ - ember cli in name
+ - ember cli in name
+ - image model in core
+ - image model in core
+ - Add 'core/' from commit '744e0211b753769686751cdd41bee5c37ba57f79'
+ - image model & emberscript+emblem
+ - Initial Commit from Ember CLI v0.1.1
+ - description
+ - better readme
+ - specific node versions
+ - tweaks
+ - travis badge
+ - travis cd
+ - travis
+ - Add 'frontend/' from commit '6ff4ae2f31d1831f0e77569101f16fde099b5b89'
+ - Merge branch 'master' of https://github.com/hhff/spree_ember_frontend
+ - Initial commit
+ - Initial commit
+ - forgot to run pretender's generate command
+ - broken tests
+ - authentication working nice
+ - bump up to 0.1.1
+ - first commit
+

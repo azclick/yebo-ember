@@ -154,7 +154,8 @@ export default Ember.Service.extend(Ember.Evented, {
         // Try to get a new one
         YeboSDK.Store.fetch(this._checkoutURL(`address/${address}`), {}, 'GET').then((res) => {
           // Check if the address exists
-          if( res.address ) {
+          // @todo Check in the API why it has two different types
+          if( !Ember.isArray(res.address) ) {
             // Yebo Store
             let store = this.get('yebo').get('store');
 
@@ -380,7 +381,7 @@ export default Ember.Service.extend(Ember.Evented, {
       currentOrder.get(name).set('id', address.id);
 
       // Testing reloading the currentOrder
-      currentOrder.reload();
+      // currentOrder.reload();
 
       // The user is not editing anymore
       this.set(`editing${this._generateNiceName(name)}`, false);

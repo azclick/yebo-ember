@@ -8,7 +8,7 @@ export default DS.Model.extend({
   description: DS.attr('string'),
 
   root: function() {
-    return this.get('taxons').findBy('parentId', undefined);
+    return this.get('taxons').findBy('parentId', null);
   }.property('taxons'),
 
   taxonsExcludingRoot: function() {

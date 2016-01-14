@@ -2,7 +2,7 @@
   "name": "yebo-ember-storefront",
   "shortName": "storefront",
   "description": "A fully functional frontend starting point for a Yebo Ember storefront.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "options": {
     "paths": [
       "addon",
