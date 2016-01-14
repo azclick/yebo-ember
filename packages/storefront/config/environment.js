@@ -11,7 +11,7 @@ module.exports = function(/* environment, appConfig */) {
       checkoutPath: "checkout",
       ordersPath: "orders",
       taxonsPath: "t",
-      afterCompletePath: "index"
+      thanksPath: "thanks"
     }
   };
 };
