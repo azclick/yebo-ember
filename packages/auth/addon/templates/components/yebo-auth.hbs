@@ -10,29 +10,27 @@
     {{yebo-input value=password
                   errors=errors.password
                   type="password"
-                  attributeName="Password"
-                  placeholder="Password"}}
+                  attributeName="Senha"
+                  placeholder="Senha"}}
 
     {{#if isSignup}}
       {{yebo-input value=passwordConfirmation
                     errors=errors.passwordConfirmation
                     type="password"
-                    attributeName="Password Confirmation"
-                    placeholder="Password Confirmation"}}
+                    attributeName="Confirme sua senha"
+                    placeholder="Confirme sua senha"}}
     {{/if}}
 
-    <button type="submit" class="expand">Continue</button>
+    <button type="submit" class="expand">CONTINUAR</button>
     <br>
 
     {{#unless isSignup}}
-      <a {{action 'requestToReset'}} class="forgot-password">Forgot password</a>
+      <!-- <a {{action 'requestToReset'}} class="forgot-password">Forgot password</a> -->
       <br />
     {{/unless}}
 
     {{#if isSignup}}
-      {{#link-to 'yebo.signin'}}Or sign in here.{{/link-to}}
     {{else}}
-      {{#link-to 'yebo.signup'}}Or create a new account.{{/link-to}}
     {{/if}}
   </fieldset>
 </form>
