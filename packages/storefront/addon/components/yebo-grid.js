@@ -19,12 +19,13 @@ import layout from '../templates/components/yebo-grid';
 */
 export default Ember.Component.extend({
   layout: layout,
+  changePage: 'changePage',
   changeSort: 'changeSort',
 
   actions: {
     changePage: function(pageNumber) {
       // Send the action
-      this.sendAction('action', pageNumber);
+      this.sendAction('changePage', pageNumber);
     },
 
     //
