@@ -38,6 +38,23 @@ export default Ember.Mixin.create({
   perPage: 15,
 
   /**
+   * Current aggregation
+   */
+  currentAggregation: null,
+
+  /**
+   * Selected aggregations used to generate
+   * the next query
+   */
+  selectedAggs: {},
+
+  /**
+   * Flag to check if its necessary to fetch
+   * aggregations again
+   */
+  refreshAggregations: true,
+
+  /**
    * Route Model
    */
   model: function(params) {
