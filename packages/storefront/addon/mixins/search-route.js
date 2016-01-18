@@ -165,7 +165,28 @@ export default Ember.Mixin.create({
    * @return {void} This method does not return anything
    */
   searchRules(query, params, aggs) {
-    // Do nothing
+    // Generated rules
+    let rules = [];
+
+    // Set the price filter
+    if( aggs.price !== undefined )
+      rules.push(new YeboSDK.Products.Rules.price(aggs.price.split('-')));
+
+    // Set filters
+    if( aggs.filters !== undefined ) {
+      // Each the filters
+      for( let filter in aggs.filters ) {
+        // Get the filter values
+        let values = aggs.filters[filter];
+
+        // Add the rule
+        rules.push(new YeboSDK.Products.Rules.filter(filter, values));
+      }
+    }
+
+    // As default set the relation
+    // between the aggregations as `and`
+    query.and(rules);
   },
 
   /**
