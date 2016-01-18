@@ -87,7 +87,7 @@ export default Ember.Mixin.create({
     query.page(params.page);
 
     // Define the search rules
-    this.searchRules(query, params);
+    this.searchRules(query, params, this.get('selectedAggs'));
 
     // Set the default promises
     let defaultPromises = {
@@ -161,9 +161,10 @@ export default Ember.Mixin.create({
    * @param {YeboSDK.Products} query The query that is being formed,
    *                           so new rules will be added into this new query.
    * @param {Object} params Parameters that come from the route
+   * @param {Object} aggs The selected aggregations
    * @return {void} This method does not return anything
    */
-  searchRules(query, params) {
+  searchRules(query, params, aggs) {
     // Do nothing
   },
 
