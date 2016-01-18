@@ -1,32 +1,66 @@
-<div class="row">
-  <select onchange={{action 'changeOrderBy' value='target.value'}}>
-    <option selected={{eq currentSortParam 'price-asc'}} value="price-asc">Price ASC</option>
-    <option selected={{eq currentSortParam 'price-desc'}} value="price-desc">Price DESC</option>
+<div class="small-12 medium-3 columns panel">
+  <h3>Filters</h3>
 
-    <option selected={{eq currentSortParam 'name-asc'}} value="name-asc">Name ASC</option>
-    <option selected={{eq currentSortParam 'name-desc'}} value="name-desc">Name DESC</option>
-  </select>
+  <div class="row">
+    <strong>Categories</strong>
+    <ul>
+      {{#each-in aggs.taxons as |taxon count|}}
+        <li>
+          {{#link-to 'yebo.taxons.show' taxon}}
+            {{taxon}} ({{count}})
+          {{/link-to}}
+        </li>
+      {{/each-in}}
+    </ul>
+  </div>
+
+  <div class="row">
+    <strong>Prices</strong>
+    <ul>
+      {{#each-in aggs.prices as |price count|}}
+        <li>
+          <label>
+            {{input type="radio"}}
+            {{price}}
+            ({{count}})
+          </label>
+        </li>
+      {{/each-in}}
+    </ul>
+  </div>
 </div>
 
-<div class="row">
-  {{#each products as |product|}}
-    {{#link-to 'yebo.products.show' product}}
-      <div class="small-12 medium-6 columns text-center">
-        <img style="height:100px" src={{product.images.firstObject.largeUrl}}>
-        <h6>{{product.name}}</h6>
-        <hr>
-        <h6>{{product.displayPrice}}</h6>
-      </div>
-    {{/link-to}}
-  {{/each}}
-</div>
+<div class="small-12 medium-8 columns">
+  <div class="row">
+    <select onchange={{action 'changeOrderBy' value='target.value'}}>
+      <option selected={{eq currentSortParam 'price-asc'}} value="price-asc">Price ASC</option>
+      <option selected={{eq currentSortParam 'price-desc'}} value="price-desc">Price DESC</option>
 
-<div class="row">
-  <ul class="pagination">
-    {{#each (range start=1 end=meta.total_pages) as |item|}}
-      <li class={{if (eq item meta.current_page) 'current'}}>
-        <a {{action 'changePage' item}}>{{item}}</a>
-      </li>
+      <option selected={{eq currentSortParam 'name-asc'}} value="name-asc">Name ASC</option>
+      <option selected={{eq currentSortParam 'name-desc'}} value="name-desc">Name DESC</option>
+    </select>
+  </div>
+
+  <div class="row">
+    {{#each products as |product|}}
+      {{#link-to 'yebo.products.show' product}}
+        <div class="small-12 medium-6 columns text-center">
+          <img style="height:100px" src={{product.images.firstObject.largeUrl}}>
+          <h6>{{product.name}}</h6>
+          <hr>
+          <h6>{{product.displayPrice}}</h6>
+        </div>
+      {{/link-to}}
     {{/each}}
-  </ul>
+  </div>
+
+  <div class="row">
+    <ul class="pagination">
+      {{#each (range start=1 end=meta.total_pages) as |item|}}
+        <li class={{if (eq item meta.current_page) 'current'}}>
+          <a {{action 'changePage' item}}>{{item}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
 </div>
