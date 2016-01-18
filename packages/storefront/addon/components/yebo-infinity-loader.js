@@ -1,7 +1,8 @@
 import Ember from 'ember';
-import emberVersionIs from 'ember-version-is';
+import layout from '../templates/components/yebo-infinity-loader';
 
 const InfinityLoaderComponent = Ember.Component.extend({
+  layout: layout,
   classNames: ["infinity-loader"],
   classNameBindings: ["infinityModel.reachedInfinity"],
   guid: null,
@@ -100,10 +101,5 @@ const InfinityLoaderComponent = Ember.Component.extend({
   })
 });
 
-if (emberVersionIs('lessThan', '1.13.0')) {
-  InfinityLoaderComponent.reopen({
-    hasBlock: Ember.computed.alias('template')
-  });
-}
 
 export default InfinityLoaderComponent;

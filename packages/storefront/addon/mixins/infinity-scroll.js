@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import SearchRoute from 'yebo-ember-storefront/mixins/search-route';
-import { emberDataVersionIs } from 'ember-version-is';
+
+// Merge method
+const { merge } = Ember;
 
 const keys = Object.keys || Ember.keys;
 /**
@@ -12,15 +14,14 @@ const keys = Object.keys || Ember.keys;
   @namespace EmberInfinity
   @module ember-infinity/mixins/route
   @extends Ember.Mixin
-*/
+  */
 const RouteMixin = Ember.Mixin.create(SearchRoute, {
-
   /**
     @private
     @property _perPage
     @type Integer
     @default 25
-  */
+    */
   _perPage: 25,
 
   /**
@@ -28,7 +29,7 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
     @property currentPage
     @type Integer
     @default 0
-  */
+    */
   currentPage: 0,
 
   /**
@@ -36,7 +37,7 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
     @property _extraParams
     @type Object
     @default {}
-  */
+    */
   _extraParams: {},
 
   /**
@@ -44,7 +45,7 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
     @property _boundParams
     @type Object
     @default {}
-  */
+    */
   _boundParams: {},
 
   /**
@@ -52,7 +53,7 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
     @property _loadingMore
     @type Boolean
     @default false
-  */
+    */
   _loadingMore: false,
 
   /**
@@ -60,7 +61,7 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
     @property _totalPages
     @type Integer
     @default 0
-  */
+    */
   _totalPages: 0,
 
   /**
@@ -68,7 +69,7 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
     @property _infinityModelName
     @type String
     @default null
-  */
+    */
   _infinityModelName: null,
 
   /**
@@ -76,7 +77,7 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
     @property _modelPath
     @type String
     @default 'controller.model'
-  */
+    */
   _modelPath: 'controller.model',
 
   /**
@@ -103,6 +104,20 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
    */
   totalPagesParam: 'meta.total_pages',
 
+  /**
+   * Default Sorting string
+   * @type {String}
+   * @default "price-desc"
+   */
+  sort: 'price-desc',
+
+  /**
+   * Search Params
+   * @type {String}
+   * @default null
+   */
+  search: null,
+
   actions: {
     infinityLoad() {
       this._infinityLoad();
@@ -125,7 +140,7 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
     @property _canLoadMore
     @type Boolean
     @default false
-  */
+    */
   _canLoadMore: Ember.computed('_totalPages', 'currentPage', function() {
     const totalPages  = this.get('_totalPages');
     const currentPage = this.get('currentPage');
@@ -134,26 +149,12 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
   }),
 
   /**
-   @private
-   @method _infinityModel
-   @return {DS.RecordArray} the model
-  */
+    @private
+    @method _infinityModel
+    @return {DS.RecordArray} the model
+    */
   _infinityModel() {
     return this.get(this.get('_modelPath'));
-  },
-
-  _ensureCompatibility() {
-    if (emberDataVersionIs('greaterThan', '1.0.0-beta.19.2') && emberDataVersionIs('lessThan', '1.13.4')) {
-      throw new Ember.Error("Ember Infinity: You are using an unsupported version of Ember Data.  Please upgrade to at least 1.13.4 or downgrade to 1.0.0-beta.19.2");
-    }
-
-    if (Ember.isEmpty(this.get('store')) || Ember.isEmpty(this.get('store')[this._storeFindMethod])){
-      throw new Ember.Error("Ember Infinity: Ember Data store is not available to infinityModel");
-    }
-
-    if (this.get('_infinityModelName') === undefined) {
-      throw new Ember.Error("Ember Infinity: You must pass a Model Name to infinityModel");
-    }
   },
 
   /**
@@ -165,28 +166,26 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
     @param {Object} options Optional, the perPage and startingPage to load from.
     @param {Object} boundParams Optional, any route properties to be included as additional params.
     @return {Ember.RSVP.Promise}
-  */
+    */
   infinityModel(modelName, options, boundParams) {
-    if (emberDataVersionIs('lessThan', '1.13.0')) {
-      this.set('_storeFindMethod', 'find');
-    }
-
     this.set('_infinityModelName', modelName);
-
-    this._ensureCompatibility();
 
     options = options ? Ember.merge({}, options) : {};
     const startingPage = options.startingPage === undefined ? 0 : options.startingPage-1;
-
+    const search       = options.search === undefined ? null : options.search;
+    const sort         = options.sort === undefined ? this.get('sort') : options.sort;
     const perPage      = options.perPage || this.get('_perPage');
     const modelPath    = options.modelPath || this.get('_modelPath');
 
     delete options.startingPage;
+    delete options.search;
     delete options.perPage;
     delete options.modelPath;
 
     this.setProperties({
       currentPage: startingPage,
+      search: search,
+      sort: sort,
       _firstPageLoaded: false,
       _perPage: perPage,
       _modelPath: modelPath,
@@ -201,31 +200,11 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
   },
 
   /**
-   Call additional functions after finding the infinityModel in the Ember data store.
-   @private
-   @method _afterInfinityModel
-   @param {Function} infinityModelPromise The resolved result of the Ember store find method. Passed in automatically.
-   @return {Ember.RSVP.Promise}
-  */
-  _afterInfinityModel(_this) {
-    return function(infinityModelPromiseResult) {
-      if (typeof _this.afterInfinityModel === 'function') {
-        let result = _this.afterInfinityModel(infinityModelPromiseResult);
-        if (result) {
-          return result;
-        }
-      }
+    Trigger a load of the next page of results.
 
-      return infinityModelPromiseResult;
-    };
-  },
-
-  /**
-   Trigger a load of the next page of results.
-
-   @private
-   @method _infinityLoad
-   */
+    @private
+    @method _infinityLoad
+    */
   _infinityLoad() {
     if (this.get('_loadingMore') || !this.get('_canLoadMore')) {
       return;
@@ -235,50 +214,120 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
   },
 
   /**
-   load the next page from the adapter and update the model
+    load the next page from the adapter and update the model
 
-   @private
-   @method _loadNextPage
-   @return {Ember.RSVP.Promise} A Promise that resolves the model
-   */
+    @private
+    @method _loadNextPage
+    @return {Ember.RSVP.Promise} A Promise that resolves the model
+    */
   _loadNextPage() {
     this.set('_loadingMore', true);
 
     return this._requestNextPage()
-      .then((newObjects) => {
-        this._nextPageLoaded(newObjects);
+    .then((newObjects) => {
+      this._nextPageLoaded(newObjects);
 
-        return newObjects;
-      })
-      .finally(() => {
-        this.set('_loadingMore', false);
-      });
+      return newObjects;
+    })
+    .finally(() => {
+      this.set('_loadingMore', false);
+    });
   },
 
   /**
-   request the next page from the adapter
+    request the next page from the adapter
 
-   @private
-   @method _requestNextPage
-   @returns {Ember.RSVP.Promise} A Promise that resolves the next page of objects
-   */
+    @private
+    @method _requestNextPage
+    @returns {Ember.RSVP.Promise} A Promise that resolves the next page of objects
+    */
   _requestNextPage() {
-    const modelName   = this.get('_infinityModelName');
-    const nextPage    = this.incrementProperty('currentPage');
-    const params      = this._buildParams(nextPage);
+    const modelName         = this.get('_infinityModelName');
+    const nextPage          = this.incrementProperty('currentPage');
+    const params            = this._buildParams(nextPage);
+    const paramsForProducts = this._buildParamsForProducts(nextPage);
 
-    return this.get('store')[this._storeFindMethod](modelName, params).then(
-      this._afterInfinityModel(this));
+    if(modelName === 'product'){
+      return this.get('yebo.products').search(paramsForProducts).then(
+        this._afterInfinityModel(this));
+    } else {
+      return this.get('yebo.store')[this._storeFindMethod](modelName, params).then(
+        this._afterInfinityModel(this));
+    }
   },
 
   /**
-   build the params for the next page request
+    Call additional functions after finding the infinityModel in the Ember data store.
+    @private
+    @method _afterInfinityModel
+    @param {Function} infinityModelPromise The resolved result of the Ember store find method. Passed in automatically.
+    @return {Ember.RSVP.Promise}
+    */
+  _afterInfinityModel(_this) {
+    return function(infinityModelPromiseResult) {
+      if (typeof _this.afterInfinityModel === 'function') {
+        let result = _this.afterInfinityModel(infinityModelPromiseResult);
+        if (result) {
+          return result;
+        }
+      }
 
-   @private
-   @method _buildParams
-   @param {Number} nextPage the page number for the current request
-   @return {Object} The query params for the next page of results
-   */
+      if(infinityModelPromiseResult.products){
+        let store = _this.yebo.store;
+        store.push(infinityModelPromiseResult);
+        // store._setMetadataFor('product', infinityModelPromiseResult.meta)
+        let result =  store.peekAll('product');
+        return result;
+      } else {
+        return infinityModelPromiseResult;
+      }
+    };
+  },
+
+  /**
+    build the params for the next page request
+
+    @private
+    @method _buildParams
+    @param {Number} nextPage the page number for the current request
+    @return {Object} The query params for the next page of results
+    */
+  _buildParamsForProducts(nextPage) {
+    // Create a new query
+    let query = new YeboSDK.Products();
+
+    // Define the number of results per page
+    query.perPage(this.get('_perPage'));
+
+    let search = this.get('searchParams');
+
+    // Set the search
+    if( search !== null )
+      query.search(search);
+
+    // Define the sort param
+    let sortParam = this.get('sort');
+
+    // Sort options
+    let sortOptions = sortParam.split('-');
+
+    // Set the page
+    query.sortBy(sortOptions[0], sortOptions[1]);
+
+    // Set the page
+    query.page(nextPage);
+
+    return query;
+  },
+
+  /**
+    build the params for the next page request
+
+    @private
+    @method _buildParams
+    @param {Number} nextPage the page number for the current request
+    @return {Object} The query params for the next page of results
+    */
   _buildParams(nextPage) {
     const pageParams = {};
     pageParams[this.get('perPageParam')] = this.get('_perPage');
@@ -295,14 +344,14 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
   },
 
   /**
-   Update the infinity model with new objects
-   Only called on the second page and following
+    Update the infinity model with new objects
+    Only called on the second page and following
 
-   @deprecated
-   @method updateInfinityModel
-   @param {Ember.Enumerable} newObjects The new objects to add to the model
-   @return {Ember.Array} returns the new objects
-   */
+    @deprecated
+    @method updateInfinityModel
+    @param {Ember.Enumerable} newObjects The new objects to add to the model
+    @return {Ember.Array} returns the new objects
+    */
   updateInfinityModel(newObjects) {
     return this._doUpdate(newObjects);
   },
@@ -314,31 +363,20 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
 
   /**
 
-   @method _nextPageLoaded
-   @param {Ember.Enumerable} newObjects The new objects to add to the model
-   @return {DS.RecordArray} returns the updated infinity model
-   @private
-   */
+    @method _nextPageLoaded
+    @param {Ember.Enumerable} newObjects The new objects to add to the model
+    @return {DS.RecordArray} returns the updated infinity model
+    @private
+    */
   _nextPageLoaded(newObjects) {
-    const totalPages = newObjects.get(this.get('totalPagesParam'));
+    // const totalPages = newObjects.get(this.get('totalPagesParam'));
+    const totalPages = this.yebo.store._metadataFor('product').total_pages;
     this.set('_totalPages', totalPages);
 
     let infinityModel = newObjects;
 
     if (this.get('_firstPageLoaded')) {
-      if (typeof this.updateInfinityModel === 'function' &&
-          (this.updateInfinityModel !==
-           Ember.Object.extend(RouteMixin).create().updateInfinityModel)) {
-        Ember.deprecate("EmberInfinity.updateInfinityModel is deprecated. "+
-                        "Please use EmberInfinity.afterInfinityModel.",
-                        false,
-                        {id: 'ember-infinity.updateInfinityModel', until: '2.1'}
-                       );
-
-        infinityModel = this.updateInfinityModel(newObjects);
-      } else {
-        infinityModel = this._doUpdate(newObjects);
-      }
+      infinityModel = this._doUpdate(newObjects);
     }
 
     this.set('_firstPageLoaded', true);
@@ -355,11 +393,11 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
   },
 
   /**
-   notify that the infinity model has been updated
+    notify that the infinity model has been updated
 
-   @private
-   @method _notifyInfinityModelUpdated
-   */
+    @private
+    @method _notifyInfinityModelUpdated
+    */
   _notifyInfinityModelUpdated(newObjects) {
     if (!this.infinityModelUpdated) {
       return;
@@ -373,11 +411,11 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
   },
 
   /**
-   finish the loading cycle by notifying that infinity has been reached
+    finish the loading cycle by notifying that infinity has been reached
 
-   @private
-   @method _notifyInfinityModelLoaded
-   */
+    @private
+    @method _notifyInfinityModelLoaded
+    */
   _notifyInfinityModelLoaded() {
     if (!this.infinityModelLoaded) {
       return;
@@ -385,7 +423,24 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
 
     const totalPages = this.get('_totalPages');
     Ember.run.scheduleOnce('afterRender', this, 'infinityModelLoaded', { totalPages: totalPages });
-  }
+  },
+
+  /**
+   * Route Model
+   */
+  model: function(params) {
+    // Define the search rules
+    // this.searchRules(query, params);
+
+    let defaultModel = {
+      search: this.infinityModel("product", params),
+      sortParam: this.get('sort'),
+      taxonomies: this.yebo.store.findAll('taxonomy')
+    };
+
+    // Make the searches
+    return Ember.RSVP.hash(merge(this.searchModel(params), defaultModel));
+  },
 });
 
 export default RouteMixin;
