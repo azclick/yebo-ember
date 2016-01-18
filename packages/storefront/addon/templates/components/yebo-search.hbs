@@ -1,6 +1,6 @@
 <div class="search-form">
-  <form {{action "search" on="submit"}}>
-    {{input type="text" value=searchText placeholder="Buscar"}}
+  <form {{action "search" on="submit"}} id="search">
+    {{input type="text" value=searchText placeholder=customPlaceholder}}
     <button type="submit">Buscar</button>
   </form>
 </div>
