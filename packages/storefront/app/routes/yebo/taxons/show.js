@@ -1,74 +1,24 @@
+// Ember!
 import Ember from 'ember';
+import SearchRoute from 'yebo-ember-storefront/mixins/search-route';
 
 /**
  * Taxons show page
  * This page shows products related to the current taxon
  */
-export default Ember.Route.extend({
-  // Define the query params
-  queryParams: {
-    page: {
-      refreshModel: true
-    },
-    sort: {
-      refreshModel: true
-    }
-  },
+export default Ember.Route.extend(SearchRoute, {
+  /**
+   * Define the search rules
+   */
+  searchRules(query, params) {
+    // Create a new taxonomy rule
+    let rule = new YeboSDK.Products.Rules.taxonomy([]);
 
-  // Current ordenation
-  currentSortParam: 'price-desc',
-
-  //
-  model: function(params) {
-    // Query and rule for this route
-    let query, rule;
-
-    // Check if the query exists
-    if( !this.get('currentQuery') ) {
-      // Define a query
-      query = new YeboSDK.Products();
-
-      // Define the rule
-      rule = new YeboSDK.Products.Rules.taxonomy([]);
-
-      // Add the rule to the query
-      query.and(rule);
-
-      // Define the number of results per page
-      query.perPage(15);
-
-      // Set query and rule to the route
-      this.set('currentQuery', query);
-      this.set('currentRule', rule);
-    } else {
-      // Get the current query and rule
-      query = this.get('currentQuery');
-      rule = this.get('currentRule');
-    }
-
-    // Set a new value to the rule
+    // Set its values
     rule.values = [params.taxon];
 
-    // Check if the sort param exists
-    if( params.sort !== undefined )
-      this.set('currentSortParam', params.sort);
-
-    // Sort options
-    let sortOptions = this.get('currentSortParam').split('-');
-
-    // Set the page
-    query.sortBy(sortOptions[0], sortOptions[1]);
-
-    // Set the page
-    query.page(params.page);
-
-    // Todo: Reuse taxonomy find all
-    return Ember.RSVP.hash({
-      taxonomies: this.yebo.store.findAll('taxonomy'),
-      taxon: this.yebo.store.find('taxon', params.taxon),
-      sortParam: this.get('currentSortParam'),
-      search: this.yebo.products.search(query)
-    });
+    // Set it into the query
+    query.and(rule);
   },
 
   // Change the current controller
@@ -88,27 +38,14 @@ export default Ember.Route.extend({
     appController.set('taxonomies', taxonomies);
   },
 
-  // When reset the controller
-  resetController(controller, isExiting, transition) {
-    // Check if the user is leaving the page
-    if (isExiting) {
-      // Reset the page
-      controller.set('page', 1);
-
-      // Reset the sort
-      controller.set('sort', undefined);
-    }
-  },
-
-  //
-  actions: {
-    changePage: function(pageNumber) {
-      // Change the page number
-      this.transitionTo({ queryParams: { page: pageNumber } })
-    },
-    changeSort: function(sort) {
-      // Change the sort
-      this.transitionTo({ queryParams: { sort: sort  }  })
-    }
+  /**
+   * This values will be returned into the route (with the route model)
+   */
+  searchModel(params) {
+    // Search all the taxonomies and the current taxon
+    return {
+      taxonomies: this.yebo.store.findAll('taxonomy'),
+      taxon: this.yebo.store.find('taxon', params.taxon),
+    };
   }
 });
