@@ -89,14 +89,37 @@ export default Ember.Mixin.create({
     // Define the search rules
     this.searchRules(query, params);
 
-    let defaultModel = {
+    // Set the default promises
+    let defaultPromises = {
       search: this.get('yebo.products').search(query),
-      sortParam: sortParam,
-      taxonomies: this.yebo.store.findAll('taxonomy')
+      taxonomies: this.yebo.store.findAll('taxonomy'),
+      selectedAggs: this.get('selectedAggs')
     };
 
-    // Make the searches
-    return Ember.RSVP.hash(merge(this.searchModel(params), defaultModel));
+    // Check if its necessary to get the aggregations
+    if( this.get('currentAggregation') === null || this.get('refreshAggregations') )
+      defaultPromises.aggs = query.aggregations();
+    else
+      defaultPromises.aggs = this.get('currentAggregation');
+
+    // Return a promise to the route
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      // Execute the default model promises
+      Ember.RSVP.hash(defaultPromises).then((result) => {
+        // Set the current aggregation
+        this.set('currentAggregation', result.aggs);
+
+        // Define the route model
+        let routeModel = this.searchModel(params);
+
+        // Check if it is a promise
+        if( routeModel.then === undefined )
+          return resolve(merge(routeModel, result));
+
+        // Resolve the promise with the result
+        routeModel.then((res) => { resolve(merge(res, result)); });
+      });
+    });
   },
 
   /**
@@ -149,8 +172,8 @@ export default Ember.Mixin.create({
    * model object that is returned
    * @param {Object} params Parameters that come from the route
    * @return {Object} This object will be merged into the default model
-   *                  from the search, and it will processed by the
-   *                  Ember.RSVP.Hash method
+   *                  from the search. It can be a Promise that
+   *                  returns an Object.
    */
   searchModel(params) {
     // As default return an empty object
