@@ -121,8 +121,17 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
   actions: {
     infinityLoad() {
       this._infinityLoad();
+    },
+    changePage(pageNumber) {
+      // Change the page number
+      this.transitionTo({ queryParams: { page: pageNumber } })
+    },
+    changeSort(sort) {
+      // Change the sort
+      this.transitionTo({ queryParams: { sort: sort } })
     }
   },
+
 
   /**
    * The supported findMethod name for
@@ -274,8 +283,8 @@ const RouteMixin = Ember.Mixin.create(SearchRoute, {
 
       if(infinityModelPromiseResult.products){
         let store = _this.yebo.store;
-        store.push(infinityModelPromiseResult);
-        // store._setMetadataFor('product', infinityModelPromiseResult.meta)
+        store.pushPayload(infinityModelPromiseResult);
+        store._setMetadataFor('product', infinityModelPromiseResult.meta)
         let result =  store.peekAll('product');
         return result;
       } else {
