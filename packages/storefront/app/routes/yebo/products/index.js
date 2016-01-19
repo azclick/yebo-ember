@@ -1,9 +1,8 @@
 // Ember!
 import Ember from 'ember';
-import SearchRoute from 'yebo-ember-storefront/mixins/search-route';
+import InfinityScroll from 'yebo-ember-storefront/mixins/infinity-scroll';
 
 /**
  * Product index route
  */
-export default Ember.Route.extend(SearchRoute, {
-});
+export default Ember.Route.extend(InfinityScroll, {  });

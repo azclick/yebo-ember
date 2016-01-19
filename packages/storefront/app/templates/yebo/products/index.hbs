@@ -4,6 +4,11 @@
     {{yebo-taxonomies taxonomies=model.taxonomies}}
   </div>
   <div class="small-12 medium-9 columns">
-    {{yebo-grid currentSortParam=model.sortParam action='changePage' meta=model.search.meta products=model.search.products}}
+    {{yebo-grid currentSortParam=model.sortParam action='changePage' meta=model.search.meta products=model.search}}
+
+    {{yebo-infinity-loader
+      infinityModel=model.search
+      loadingText="Carregando..."
+      loadedText="Fim da listagem de produtos!"}}
   </div>
 </div>
