@@ -53,11 +53,15 @@ export default BaseAuthenticator.extend({
 
     // Persist it to local storage
     yebo.restore();
+    // #orderWipe
+    // Why do i have to wipe order here?
+    // Because user logged out
     yebo.persist({
       guestToken: null,
       orderId: null
     });
 
+    // Clean the local storage(persist)
     yebo.set('currentOrder', null);
     yebo.set('currentCart', null);
     yebo.set('orderId', null);

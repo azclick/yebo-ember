@@ -25,7 +25,7 @@ export default Ember.Component.extend({
   /**
    *
    */
-  init() {
+  didInsertElement() {
     // Call the super
     this._super();
     // Set initialize it
@@ -33,6 +33,10 @@ export default Ember.Component.extend({
     this.get('yebo').on('orderLoaded', () => {
       this.get('yebo').get('checkouts').trigger('checkoutCalled');
     });
+
+    if(this.get('yebo.currentOrder.number')) {
+      this.get('yebo').get('checkouts').trigger('checkoutCalled');
+    }
   },
 
   actions: {

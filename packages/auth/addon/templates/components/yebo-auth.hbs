@@ -25,7 +25,7 @@
     <br>
 
     {{#unless isSignup}}
-      <a {{action 'requestToReset'}} class="forgot-password">Forgot password</a>
+      {{link-to 'Forgot Password' 'yebo.request-reset-password' class='forgot-password'}}
       <br />
     {{/unless}}
 

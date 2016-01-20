@@ -15,6 +15,10 @@ export default Ember.Component.extend({
   // The text that is going to be searched
   searchText: '',
 
+  customPlaceholder: Ember.computed('placeholder', function(){
+    return this.placeholder || "Buscar"
+  }),
+
   actions: {
     /**
      * Transition to the /products route with param search

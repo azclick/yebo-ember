@@ -20,8 +20,8 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   redirect: function(model) {
     this.get('yebo').get('checkouts').on('orderCompleted', (order)=> {
-      // @todo Redirect to the order details page
-      this.transitionTo('yebo');
+      // TODO: Move to a config
+      this.transitionTo('yebo.thanks');
     });
   },
 });
