@@ -12,7 +12,8 @@ module.exports = function(/* environment, appConfig */) {
       authorizer: 'ember-simple-auth-authorizer:yebo',
       crossOriginWhitelist: ['http://localhost:3000'],
       authenticationRoute: 'yebo.signin',
-      routeAfterAuthentication: "yebo.index",
+      // routeAfterAuthenticationWithItems: "yebo.checkout",
+      // routeAfterAuthenticationWithoutItems: "yebo.account",
       routeIfAlreadyAuthenticated: "yebo.account"
     }
   };
