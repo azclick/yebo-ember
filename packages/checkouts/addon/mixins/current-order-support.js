@@ -153,7 +153,6 @@ export default Ember.Mixin.create({
     // OrderId
     let orderId = this.get('orderId');
 
-
     // Check if its necessary to create the cart
     if( !orderId )
       return;
@@ -216,11 +215,12 @@ export default Ember.Mixin.create({
           reject();
         });
       }).catch((error) => {
+        // Why do i have to wipe order here?
         // Clean the local storage(persist)
-        this.persist({
-          guestToken: null,
-          orderId: null
-        });
+        // this.persist({
+        //   guestToken: null,
+        //   orderId: null
+        // });
 
         // Trigger the error
         this.trigger('serverError', error);
@@ -543,6 +543,9 @@ export default Ember.Mixin.create({
     if (didComplete) {
       this.trigger('currentOrderDidComplete', this.get('currentOrder'));
     }
+    // Why do i have to wipe order here?
+    // Because it says so
+    // Clean the local storage(persist)
     this.persist({
       guestToken: null,
       orderId: null
