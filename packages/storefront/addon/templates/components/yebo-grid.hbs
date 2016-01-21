@@ -20,7 +20,8 @@
       {{#each aggs.prices as |price|}}
         <li>
           <label>
-            {{input type="radio"}}
+            {{yebo-radio action='changeAggs' value=price checked=selectedAggs.priceRange}}
+
             {{#if (and price.to price.from)}}
               From {{price.from}} to {{price.to}}
             {{else if price.to}}
