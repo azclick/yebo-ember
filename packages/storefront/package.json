@@ -45,7 +45,8 @@
     "ember-cli-htmlbars": "0.7.6",
     "yebo-ember-core": "0.0.1",
     "yebo-ember-checkouts": "0.0.1",
-    "emberx-select": "2.0.2"
+    "emberx-select": "2.0.2",
+    "ember-truth-helpers": "1.2.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
