@@ -60,8 +60,9 @@ export default Ember.Mixin.create({
   /**
    * Flag to check if its necessary to fetch
    * aggregations again
+   * @todo Enable the aggregations to be refreshed
    */
-  refreshAggregations: true,
+  refreshAggregations: false,
 
   /**
    * Route Model
