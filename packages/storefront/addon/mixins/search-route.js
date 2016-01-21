@@ -161,6 +161,12 @@ export default Ember.Mixin.create({
     changeSort: function(sort) {
       // Change the sort
       this.transitionTo({ queryParams: { sort: sort } })
+    },
+    changeAggs: function() {
+      // Refresh the current model
+      // @todo Make it as transition to store
+      //       the selected aggregations into the URL
+      this.refresh();
     }
   },
 
