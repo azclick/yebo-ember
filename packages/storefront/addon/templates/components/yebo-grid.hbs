@@ -4,28 +4,34 @@
   <div class="row">
     <strong>Categories</strong>
     <ul>
-      {{#each-in aggs.taxons as |taxon count|}}
+      {{#each aggs.taxons as |taxon|}}
         <li>
-          {{#link-to 'yebo.taxons.show' taxon}}
-            {{taxon}} ({{count}})
+          {{#link-to 'yebo.taxons.show' taxon.permalink}}
+            {{taxon.name}} ({{taxon.count}})
           {{/link-to}}
         </li>
-      {{/each-in}}
+      {{/each}}
     </ul>
   </div>
 
   <div class="row">
     <strong>Prices</strong>
     <ul>
-      {{#each-in aggs.prices as |price count|}}
+      {{#each aggs.prices as |price|}}
         <li>
           <label>
             {{input type="radio"}}
-            {{price}}
-            ({{count}})
+            {{#if (and price.to price.from)}}
+              From {{price.from}} to {{price.to}}
+            {{else if price.to}}
+              To {{price.to}}
+            {{else}}
+              From {{price.from}}
+            {{/if}}
+            ({{price.count}})
           </label>
         </li>
-      {{/each-in}}
+      {{/each}}
     </ul>
   </div>
 </div>
