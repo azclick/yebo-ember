@@ -38,6 +38,15 @@ export default Ember.Mixin.create({
   perPage: 15,
 
   /**
+   * Default price ranges
+   */
+  defaultPriceRanges: [
+    { to: 49.99 },
+    { from: 50, to: 99.99 },
+    { from: 100 }
+  ],
+
+  /**
    * Current aggregation
    */
   currentAggregation: null,
@@ -98,7 +107,7 @@ export default Ember.Mixin.create({
 
     // Check if its necessary to get the aggregations
     if( this.get('currentAggregation') === null || this.get('refreshAggregations') )
-      defaultPromises.aggs = query.aggregations();
+      defaultPromises.aggs = query.aggregations(undefined, this.get('defaultPriceRanges'));
     else
       defaultPromises.aggs = this.get('currentAggregation');
 
