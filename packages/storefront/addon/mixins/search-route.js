@@ -146,6 +146,10 @@ export default Ember.Mixin.create({
 
       // Reset the sort
       controller.set('sort', undefined);
+
+      // Reset aggregations
+      this.set('selectedAggs', {});
+      this.set('currentAggregation', null);
     }
   },
 
