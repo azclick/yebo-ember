@@ -34,6 +34,22 @@
       {{/each}}
     </ul>
   </div>
+
+  {{#each aggs.filters as |filter|}}
+    <div class="row">
+      <strong>{{filter.presentation}}</strong>
+      <ul>
+        {{#each filter.values as |value|}}
+          <li>
+            <label>
+              {{yebo-filter-select action='changeAggs' value=value.value selection=selectedAggs.filters filterName=filter.name}}
+              {{value.presentation}} ({{value.count}})
+            </label>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/each}}
 </div>
 
 <div class="small-12 medium-8 columns">
