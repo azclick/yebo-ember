@@ -1,9 +1,9 @@
 <table>
   <thead>
     <tr>
-      <th class="text-center" colspan="2">Item</th>
-      <th class="text-center" width="100">Price</th>
-      <th class="text-center" width="100">Quantity</th>
+      <th class="text-center" colspan="2">Produto</th>
+      <th class="text-center" width="100">Preço</th>
+      <th class="text-center" width="100">Quantidade</th>
       <th class="text-center" width="100">Total</th>
       {{#if canRemoveItems}}
         <th class="text-center" width="100"></th>
@@ -22,7 +22,7 @@
         <td class="text-center">{{lineItem.singleDisplayAmount}}</td>
         <td class="text-center">
           <a {{action 'removeQtyItem' lineItem}}>-</a>
-          {{lineItem.quantity}}
+          <span class="quantity-itens">{{lineItem.quantity}}</span>
           <a {{action 'addQtyItem' lineItem}}>+</a>
         </td>
         <td class="text-center">{{lineItem.displayAmount}}</td>
