@@ -47,6 +47,11 @@ export default Ember.Mixin.create({
   ],
 
   /**
+   * Default taxon root (used to generate the aggregations)
+   */
+  defaultTaxonRoot: undefined,
+
+  /**
    * Current aggregation
    */
   currentAggregation: null,
@@ -108,7 +113,7 @@ export default Ember.Mixin.create({
 
     // Check if its necessary to get the aggregations
     if( this.get('currentAggregation') === null || this.get('refreshAggregations') )
-      defaultPromises.aggs = query.aggregations(undefined, this.get('defaultPriceRanges'));
+      defaultPromises.aggs = query.aggregations(this.get('defaultTaxonRoot'), this.get('defaultPriceRanges'));
     else
       defaultPromises.aggs = this.get('currentAggregation');
 
