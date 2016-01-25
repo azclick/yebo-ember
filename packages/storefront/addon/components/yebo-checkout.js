@@ -25,7 +25,7 @@ export default Ember.Component.extend({
   /**
    *
    */
-  didInsertElement() {
+  init() {
     // Call the super
     this._super();
     // Set initialize it
