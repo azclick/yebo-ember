@@ -194,8 +194,13 @@ export default Ember.Mixin.create({
     let rules = [];
 
     // Set the price filter
-    if( aggs.priceRange !== undefined )
-      rules.push(new YeboSDK.Products.Rules.price(aggs.priceRange.form, aggs.priceRange.to);
+    if( aggs.priceRange !== undefined ) {
+      // Set the from value
+      let fromValue = aggs.priceRange.from === undefined ? 0 : aggs.priceRange.from;
+
+      // Add the rule
+      rules.push(new YeboSDK.Products.Rules.price(fromValue, aggs.priceRange.to));
+    }
 
     // Set filters
     if( aggs.filters !== undefined ) {
