@@ -43,9 +43,9 @@ export default Ember.Route.extend(SearchRoute, {
    */
   searchModel(params) {
     // Search all the taxonomies and the current taxon
-    return {
+    return Ember.RSVP.hash({
       taxonomies: this.yebo.store.findAll('taxonomy'),
       taxon: this.yebo.store.find('taxon', params.taxon),
-    };
+    });
   }
 });
