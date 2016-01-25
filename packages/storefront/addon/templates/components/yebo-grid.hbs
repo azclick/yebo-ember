@@ -1,32 +1,89 @@
-<div class="row">
-  <select onchange={{action 'changeOrderBy' value='target.value'}}>
-    <option selected={{eq currentSortParam 'price-asc'}} value="price-asc">Price ASC</option>
-    <option selected={{eq currentSortParam 'price-desc'}} value="price-desc">Price DESC</option>
+<div class="small-12 medium-3 columns panel">
+  <h3>Filters</h3>
 
-    <option selected={{eq currentSortParam 'name-asc'}} value="name-asc">Name ASC</option>
-    <option selected={{eq currentSortParam 'name-desc'}} value="name-desc">Name DESC</option>
-  </select>
-</div>
+  <div class="row">
+    <strong>Categories</strong>
+    <ul>
+      {{#each aggs.taxons as |taxon|}}
+        <li>
+          {{#link-to 'yebo.taxons.show' taxon.permalink}}
+            {{taxon.name}} ({{taxon.count}})
+          {{/link-to}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
 
-<div class="row">
-  {{#each products as |product|}}
-    {{#link-to 'yebo.products.show' product}}
-      <div class="small-12 medium-6 columns text-center">
-        <img style="height:100px" src={{product.images.firstObject.largeUrl}}>
-        <h6>{{product.name}}</h6>
-        <hr>
-        <h6>{{product.displayPrice}}</h6>
-      </div>
-    {{/link-to}}
+  <div class="row">
+    <strong>Prices</strong>
+    <ul>
+      {{#each aggs.prices as |price|}}
+        <li>
+          <label>
+            {{yebo-radio action='changeAggs' value=price checked=selectedAggs.priceRange}}
+
+            {{#if (and price.to price.from)}}
+              From {{price.from}} to {{price.to}}
+            {{else if price.to}}
+              To {{price.to}}
+            {{else}}
+              From {{price.from}}
+            {{/if}}
+            ({{price.count}})
+          </label>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+
+  {{#each aggs.filters as |filter|}}
+    <div class="row">
+      <strong>{{filter.presentation}}</strong>
+      <ul>
+        {{#each filter.values as |value|}}
+          <li>
+            <label>
+              {{yebo-filter-select action='changeAggs' value=value.value selection=selectedAggs.filters filterName=filter.name}}
+              {{value.presentation}} ({{value.count}})
+            </label>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
   {{/each}}
 </div>
 
-<div class="row">
-  <ul class="pagination">
-    {{#each (range start=1 end=meta.total_pages) as |item|}}
-      <li class={{if (eq item meta.current_page) 'current'}}>
-        <a {{action 'changePage' item}}>{{item}}</a>
-      </li>
+<div class="small-12 medium-8 columns">
+  <div class="row">
+    <select onchange={{action 'changeOrderBy' value='target.value'}}>
+      <option selected={{eq currentSortParam 'price-asc'}} value="price-asc">Price ASC</option>
+      <option selected={{eq currentSortParam 'price-desc'}} value="price-desc">Price DESC</option>
+
+      <option selected={{eq currentSortParam 'name-asc'}} value="name-asc">Name ASC</option>
+      <option selected={{eq currentSortParam 'name-desc'}} value="name-desc">Name DESC</option>
+    </select>
+  </div>
+
+  <div class="row">
+    {{#each products as |product|}}
+      {{#link-to 'yebo.products.show' product}}
+        <div class="small-12 medium-6 columns text-center">
+          <img style="height:100px" src={{product.images.firstObject.largeUrl}}>
+          <h6>{{product.name}}</h6>
+          <hr>
+          <h6>{{product.displayPrice}}</h6>
+        </div>
+      {{/link-to}}
     {{/each}}
-  </ul>
+  </div>
+
+  <div class="row">
+    <ul class="pagination">
+      {{#each (range start=1 end=meta.total_pages) as |item|}}
+        <li class={{if (eq item meta.current_page) 'current'}}>
+          <a {{action 'changePage' item}}>{{item}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
 </div>

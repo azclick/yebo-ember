@@ -38,6 +38,38 @@ export default Ember.Mixin.create({
   perPage: 15,
 
   /**
+   * Default price ranges
+   */
+  defaultPriceRanges: [
+    { to: 49.99 },
+    { from: 50, to: 99.99 },
+    { from: 100 }
+  ],
+
+  /**
+   * Default taxon root (used to generate the aggregations)
+   */
+  defaultTaxonRoot: undefined,
+
+  /**
+   * Current aggregation
+   */
+  currentAggregation: null,
+
+  /**
+   * Selected aggregations used to generate
+   * the next query
+   */
+  selectedAggs: {},
+
+  /**
+   * Flag to check if its necessary to fetch
+   * aggregations again
+   * @todo Enable the aggregations to be refreshed
+   */
+  refreshAggregations: false,
+
+  /**
    * Route Model
    */
   model: function(params) {
@@ -70,16 +102,39 @@ export default Ember.Mixin.create({
     query.page(params.page);
 
     // Define the search rules
-    this.searchRules(query, params);
+    this.searchRules(query, params, this.get('selectedAggs'));
 
-    let defaultModel = {
+    // Set the default promises
+    let defaultPromises = {
       search: this.get('yebo.products').search(query),
-      sortParam: sortParam,
-      taxonomies: this.yebo.store.findAll('taxonomy')
+      taxonomies: this.yebo.store.findAll('taxonomy'),
+      selectedAggs: this.get('selectedAggs')
     };
 
-    // Make the searches
-    return Ember.RSVP.hash(merge(this.searchModel(params), defaultModel));
+    // Check if its necessary to get the aggregations
+    if( this.get('currentAggregation') === null || this.get('refreshAggregations') )
+      defaultPromises.aggs = query.aggregations(this.get('defaultTaxonRoot'), this.get('defaultPriceRanges'));
+    else
+      defaultPromises.aggs = this.get('currentAggregation');
+
+    // Return a promise to the route
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      // Execute the default model promises
+      Ember.RSVP.hash(defaultPromises).then((result) => {
+        // Set the current aggregation
+        this.set('currentAggregation', result.aggs);
+
+        // Define the route model
+        let routeModel = this.searchModel(params);
+
+        // Check if it is a promise
+        if( routeModel.then === undefined )
+          return resolve(merge(routeModel, result));
+
+        // Resolve the promise with the result
+        routeModel.then((res) => { resolve(merge(res, result)); });
+      });
+    });
   },
 
   /**
@@ -96,6 +151,10 @@ export default Ember.Mixin.create({
 
       // Reset the sort
       controller.set('sort', undefined);
+
+      // Reset aggregations
+      this.set('selectedAggs', {});
+      this.set('currentAggregation', null);
     }
   },
 
@@ -111,6 +170,12 @@ export default Ember.Mixin.create({
     changeSort: function(sort) {
       // Change the sort
       this.transitionTo({ queryParams: { sort: sort } })
+    },
+    changeAggs: function() {
+      // Refresh the current model
+      // @todo Make it as transition to store
+      //       the selected aggregations into the URL
+      this.refresh();
     }
   },
 
@@ -121,10 +186,37 @@ export default Ember.Mixin.create({
    * @param {YeboSDK.Products} query The query that is being formed,
    *                           so new rules will be added into this new query.
    * @param {Object} params Parameters that come from the route
+   * @param {Object} aggs The selected aggregations
    * @return {void} This method does not return anything
    */
-  searchRules(query, params) {
-    // Do nothing
+  searchRules(query, params, aggs) {
+    // Generated rules
+    let rules = [];
+
+    // Set the price filter
+    if( aggs.priceRange !== undefined ) {
+      // Set the from value
+      let fromValue = aggs.priceRange.from === undefined ? 0 : aggs.priceRange.from;
+
+      // Add the rule
+      rules.push(new YeboSDK.Products.Rules.price(fromValue, aggs.priceRange.to));
+    }
+
+    // Set filters
+    if( aggs.filters !== undefined ) {
+      // Each the filters
+      for( let filter in aggs.filters ) {
+        // Get the filter values
+        let values = aggs.filters[filter];
+
+        // Add the rule
+        rules.push(new YeboSDK.Products.Rules.filter(filter, values));
+      }
+    }
+
+    // As default set the relation
+    // between the aggregations as `and`
+    query.and(rules);
   },
 
   /**
@@ -132,8 +224,8 @@ export default Ember.Mixin.create({
    * model object that is returned
    * @param {Object} params Parameters that come from the route
    * @return {Object} This object will be merged into the default model
-   *                  from the search, and it will processed by the
-   *                  Ember.RSVP.Hash method
+   *                  from the search. It can be a Promise that
+   *                  returns an Object.
    */
   searchModel(params) {
     // As default return an empty object

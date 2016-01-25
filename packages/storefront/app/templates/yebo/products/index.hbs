@@ -1,9 +1,5 @@
 <div class="row">
   <h1>Products ({{model.search.meta.total_count}} products found)</h1>
-  <div class="small-12 medium-3 columns panel">
-    {{yebo-taxonomies taxonomies=model.taxonomies}}
-  </div>
-  <div class="small-12 medium-9 columns">
-    {{yebo-grid currentSortParam=model.sortParam action='changePage' meta=model.search.meta products=model.search.products}}
-  </div>
+
+  {{yebo-grid selectedAggs=model.selectedAggs aggs=model.aggs currentSortParam=model.sortParam meta=model.search.meta products=model.search.products}}
 </div>
