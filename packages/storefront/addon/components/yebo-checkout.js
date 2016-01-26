@@ -4,40 +4,41 @@ import layout from '../templates/components/yebo-checkout';
   A single page checkout that reactively responds to changes in the
   `yebo.checkouts` service.
 
-  **To Override:** You'll need to run the components generator:
+ **To Override:** You'll need to run the components generator:
 
-  ```bash
-  ember g yebo-ember-storefront-components
-  ```
+ ```bash
+ ember g yebo-ember-storefront-components
+ ```
 
-  This will install all of the Yebo Ember Storefront component files into your
-  host application at `app/components/yebo-*.js`, ready to be extended or
-  overriden.
+ This will install all of the Yebo Ember Storefront component files into your
+ host application at `app/components/yebo-*.js`, ready to be extended or
+ overriden.
 
-  @class YeboCheckout
-  @namespace Component
-  @extends Ember.Component
-*/
+ @class YeboCheckout
+ @namespace Component
+ @extends Ember.Component
+ */
 export default Ember.Component.extend({
   layout: layout,
   action: 'transitionCheckoutState',
-
-  /**
-   *
-   */
+  checkoutLoading: false,
   init() {
-    // Call the super
     this._super();
-    // Set initialize it
-    // TODO: Move this to an initialzer
-    this.get('yebo').on('orderLoaded', () => {
-      this.get('yebo').get('checkouts').trigger('checkoutCalled');
+
+    this.get('yebo').on('checkoutStarted', () => {
+      this.set("checkoutLoading", true);
     });
 
-    if(this.get('yebo.currentOrder.number')) {
+    this.get('yebo').on('checkoutEnded', () => {
+      this.set("checkoutLoading", false);
+    });
+  },
+
+  orderDidChange: Ember.on('init', Ember.observer('yebo.currentOrder', function() {
+    if(this.get("yebo.currentOrder") !== null) {
       this.get('yebo').get('checkouts').trigger('checkoutCalled');
     }
-  },
+  })),
 
   actions: {
     transitionCheckoutState: function(stateName) {

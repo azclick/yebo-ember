@@ -1,4 +1,5 @@
 import Ember from 'ember';
+const { assert } = Ember;
 
 /**
  *
@@ -430,16 +431,17 @@ export default Ember.Service.extend(Ember.Evented, {
     }
 
     // Lets make it using the SDK
+    this.get("yebo").trigger("checkoutStarted");
     YeboSDK.Store.fetch(path, options, 'POST').then((res) => {
+      this.trigger('orderCompleted', this.get('currentOrder.number'));
+
       // Clean the current order (that is completed)
       this.get('yebo').clearCurrentOrder(true);
 
       // Check if is necessary to redirect the page
       // @todo Check if it will work fine
-      if( res.source.redirect )
+      if( res.source !== undefined && res.source.redirect )
         window.location = res.source.url;
-      else
-        this.trigger('orderCompleted', this.get('currentOrder.number'));
     }).catch((error) => {
       // @todo Show the error messages
       console.log(error);
@@ -448,6 +450,8 @@ export default Ember.Service.extend(Ember.Evented, {
         this.trigger("orderCompleted", this.get("currentOrder.number"));
         this.get("yebo").clearCurrentOrder(true);
       }
+    }).finally(() => {
+      this.get("yebo").trigger("checkoutEnded");
     });
   }.on('checkout'),
 
@@ -468,8 +472,10 @@ export default Ember.Service.extend(Ember.Evented, {
    * @private
    */
   _checkoutURL(action) {
+    assert("Order cannot be null", this.get('yebo.currentOrder') !== null);
+
     // Current order number
-    let number = this.get('yebo').get('currentOrder').get('number');
+    let number = this.get('yebo.currentOrder.number');
 
     // The current user info that will be used on the path
     let userToken = this.get('session').get('session').get('authenticated').user.token;
