@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import Ember from 'ember';
+import _camelCase from 'lodash/string/camelCase';
 
 export default DS.Model.extend({
 
@@ -33,6 +34,11 @@ export default DS.Model.extend({
   productProperties: DS.hasMany('productProperty'),
   taxons: DS.hasMany('taxon'),
 
+  //
+  metaDescription: DS.attr('string'),
+  metaKeywords: DS.attr('string'),
+  metaTitle: DS.attr('string'),
+
   //Computed
   variants: Ember.computed('variantsIncludingMaster', function() {
     return this.get('variantsIncludingMaster').rejectBy('isMaster');
@@ -46,4 +52,20 @@ export default DS.Model.extend({
     let imgs = this.get('images');
     return imgs.findBy('position', 1) || imgs.findBy('position', 0);
   }),
+
+  myTaxons: Ember.computed(function() {
+    let taxons = {};
+
+    this.get("taxons").forEach((taxon) => {
+      let propertyName = _camelCase(taxon.get("taxonomy.name"));
+      let isParent = !taxon.get("parentId");
+
+      if(!propertyName && isParent)
+        return
+
+      taxons[propertyName] = taxon
+    });
+
+    return taxons;
+  })
 });

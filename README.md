@@ -1,6 +1,6 @@
 <p align="center">
   <a href="http://www.yebo-ember.com/">
-    <img alt="Yebo Ember" src="https://rawgit.com/azclick/yebo-ember/master/docs/theme/assets/img/logo.svg" width="360">
+    <img alt="Yebo Ember" src="" width="360">
   </a>
 </p>
 
