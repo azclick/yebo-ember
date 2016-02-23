@@ -21,7 +21,12 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
   redirect: function(model) {
     this.get('yebo').get('checkouts').on('orderCompleted', (order)=> {
       // TODO: Move to a config
-      this.transitionTo('yebo.thanks');
+      return this.transitionTo('yebo.thanks');
     });
+
+    // TODO: if order empty redirect to ? when route is checkout
+    if(this.get("yebo.orderId") === null){
+      this.transitionTo('yebo.index');
+    };
   },
 });

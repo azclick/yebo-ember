@@ -1,6 +1,7 @@
 // Dependencies
 import Ember from 'ember';
 import layout from '../templates/components/yebo-search';
+const { getOwner } = Ember;
 
 /**
   The search form
@@ -33,7 +34,7 @@ export default Ember.Component.extend({
         return;
 
       // Get the current controller
-      let controller = this.get('container').lookup('controller:application');
+      let controller = getOwner(this).lookup('controller:application');
 
       // Transition to the products page
       controller.transitionToRoute('yebo.products', { queryParams: { search: searchText } });

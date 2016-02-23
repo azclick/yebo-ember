@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+const { getOwner } = Ember;
 
 /**
   The Yebo Store is what connects the Yebo Serializer & Adapter.  It's injected
@@ -42,7 +43,7 @@ export default DS.Store.extend({
     @return {YeboEmber.Adapter} The Yebo Ember Adapater.
   */
   adapterFor: function() {
-    return this.container.lookup('adapter:-yebo');
+    return getOwner(this).lookup('adapter:-yebo');
   },
 
   /**

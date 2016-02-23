@@ -9,7 +9,10 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
   */
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   redirect: function(model) {
-    // TODO: redirect if order not completed
-    // this.transitionTo('yebo.index');
+    // TODO: if order empty redirect to ? when route is checkout
+    // if(this.get("yebo.orderId") === null){
+    //   // redirect if order not completed
+    //   this.transitionTo('yebo.signin');
+    // }
   },
 });

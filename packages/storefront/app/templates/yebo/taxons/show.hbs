@@ -1,9 +1,9 @@
-<div class="row breadcrumbs">
-  {{yebo-breadcrumbs breadcrumbs=model.taxon.breadcrumbs}}
-</div>
+<div class="row">
+  <div class="row breadcrumbs">
+    {{yebo-breadcrumbs breadcrumbs=model.taxon.breadcrumbs}}
+  </div>
 
-<div class='row'>
   <h1>Shop by {{model.taxon.name}} ({{model.search.meta.total_count}} products found)</h1>
-</div>
 
-{{yebo-grid currentSortParam=model.sortParam action='changePage' meta=model.search.meta products=model.search.products}}
+  {{yebo-grid selectedAggs=model.selectedAggs aggs=model.aggs currentSortParam=model.sortParam meta=model.search.meta products=model.search.products}}
+</div>

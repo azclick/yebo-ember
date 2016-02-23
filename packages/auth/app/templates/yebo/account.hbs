@@ -3,10 +3,17 @@
     <form {{action 'updateCurrentUser' on='submit'}}>
       <fieldset>
         <legend>Account</legend>
-        {{input placeholder="Email" value=session.currentUser.email}}
+        {{input placeholder="Email" value=model.currentUser.email}}
         <button class="expand" type="submit">Update</button>
         <button class="expand" {{action 'invalidate' target=session}}>Sign Out</button>
       </fieldset>
     </form>
+
+    <div class="row">
+      <fieldset>
+        <legend>Address</legend>
+        {{yebo-show-address address=model.currentAddress}}
+      </fieldset>
+    </div>
   </div>
 </div>

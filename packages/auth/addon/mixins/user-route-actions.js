@@ -128,29 +128,6 @@ export default Ember.Mixin.create({
       return newUser;
     },
     /**
-      The `updateCurrentUser` method attempts to save/update the current Yebo user.
-      It expects that changes to the `session.currentUser` model have been made
-      in place, and doesn't take any arguments.
-
-      @method updateCurrentUser
-      @return {Subclass of DS.Model} The updated `currentUser`.
-    */
-    updateCurrentUser: function() {
-      var _this = this;
-      return this.get('session.currentUser').save().then(
-        function(currentUser) {
-          _this.yebo.trigger('didUpdateCurrentUser', currentUser);
-          return currentUser;
-        },
-        function(error) {
-          _this.yebo.trigger('currentUserUpdateFailed', error);
-          _this.yebo.trigger('serverError', error);
-          return error;
-        }
-      );
-    },
-
-    /**
      * Redirect to the reset password route
      */
     resetPasswordRedirect: function() {
