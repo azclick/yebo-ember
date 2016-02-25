@@ -2,8 +2,8 @@
   <thead>
     <tr>
       <th class="text-center" colspan="2">Item</th>
-      <th class="text-center" width="100">Price</th>
-      <th class="text-center" width="100">Quantity</th>
+      <th class="text-center" width="100">Preço</th>
+      <th class="text-center" width="100">Quantidade</th>
       <th class="text-center" width="100">Total</th>
       {{#if canRemoveItems}}
         <th class="text-center" width="100"></th>
@@ -24,7 +24,7 @@
         <td class="text-center">{{lineItem.displayAmount}}</td>
         {{#if canRemoveItems}}
           <td class="text-center">
-            <a {{action 'deleteLineItem' lineItem}}>Remove</a>
+            <a {{action 'deleteLineItem' lineItem}}>Remover</a>
           </td>
         {{/if}}
       </tr>
